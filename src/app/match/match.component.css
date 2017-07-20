@@ -1,0 +1,15 @@
+md-icon {
+  width: 96px;
+  height: 96px;
+  font-size: 96px;
+}
+
+md-dialog-content {
+  display: flex;
+}
+md-dialog-actions {
+  justify-content: flex-end
+}
+ul {
+  margin: 0;
+}

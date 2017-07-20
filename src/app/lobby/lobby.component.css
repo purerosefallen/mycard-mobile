@@ -1,0 +1,95 @@
+#menu {
+  margin-left: -8px;
+  margin-right: 24px;
+}
+
+#avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+
+form {
+  flex: 1 1 auto;
+}
+
+input {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: white;
+  width: 100%;
+  padding-right: 8px;
+}
+
+input:focus {
+  outline: none;
+}
+
+input::placeholder {
+  color: lightgray;
+}
+
+/*not works*/
+/*input::-webkit-search-cancel-button {*/
+  /*color: lightgray;*/
+/*}*/
+
+md-input-container {
+  width: 100%;
+}
+
+[md-raised-button] {
+  border-radius: 0;
+  box-shadow: none;
+
+}
+
+[md-button], [md-raised-button] {
+  width: 100%;
+  height: 100%;
+}
+
+a[md-button], a[md-raised-button] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+md-card-content {
+  display: flex;
+  flex-direction: row;
+}
+
+[md-card-avatar] {
+  width: 128px;
+  height: 72px;
+  background-size: cover;
+  border-radius: initial;
+}
+
+#avatar {
+  background-size: cover;
+}
+
+[fontSet] {
+  font-size: 24px;
+}
+
+.icon {
+  font-size: 20px;
+}
+
+#avatar /deep/ .mat-button-wrapper {
+  background: red;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  line-height: 24px;
+}
+
+a {
+  color: inherit;
+  text-decoration: inherit;
+}

@@ -1,0 +1,20 @@
+form {
+  padding: 8px;
+}
+
+.full-width {
+  display: block;
+  width: 100%;
+}
+
+/*.example-margin {*/
+  /*margin: 0 10px;*/
+/*}*/
+
+md-select {
+  padding: 1.2734375em 0;
+}
+
+#actions {
+  text-align: right;
+}

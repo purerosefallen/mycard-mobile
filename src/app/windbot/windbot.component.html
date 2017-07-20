@@ -1,0 +1,7 @@
+<app-toolbar>单人模式</app-toolbar>
+
+<md-list>
+  <h3 md-subheader>选择对手</h3>
+  <md-list-item (click)="ygopro.join_windbot()">随机</md-list-item>
+  <md-list-item *ngFor="let windbot of ygopro.windbot" (click)="ygopro.join_windbot(windbot)">{{windbot}}</md-list-item>
+</md-list>
