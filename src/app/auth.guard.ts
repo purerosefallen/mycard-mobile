@@ -9,7 +9,6 @@ export class AuthGuard implements CanActivate {
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const token = state.root.queryParamMap.get('sso') || new URL(location.href).searchParams.get('sso') || localStorage.getItem('login');
-    console.log(token)
     if (!token) {
       alert('login required');
       return false;

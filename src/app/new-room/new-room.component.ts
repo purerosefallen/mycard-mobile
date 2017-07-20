@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { MdSnackBar } from '@angular/material';
 import { LoginService } from '../login.service';
-import { default_options, YGOProService } from '../ygopro.service';
+import { YGOProService } from '../ygopro.service';
 
 
 @Component({
@@ -19,7 +19,7 @@ export class NewRoomComponent {
   room = {
     title: this.login.user.username + '的房间',
     'private': false,
-    options: { ...default_options }
+    options: { ...this.ygopro.default_options }
   };
 
   constructor(public ygopro: YGOProService, private login: LoginService, private snackBar: MdSnackBar) {

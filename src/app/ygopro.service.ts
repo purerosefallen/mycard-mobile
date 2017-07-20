@@ -47,34 +47,6 @@ export interface Server {
   replay?: boolean;
 }
 
-export const servers: Server[] = [{
-  id: 'tiramisu',
-  url: 'wss://tiramisu.mycard.moe:7923',
-  address: '112.124.105.11',
-  port: 7911,
-  custom: true,
-  replay: true
-}, {
-  id: 'tiramisu-athletic',
-  url: 'wss://tiramisu.mycard.moe:8923',
-  address: '112.124.105.11',
-  port: 8911,
-  custom: false,
-  replay: true
-}];
-export const default_options: Options = {
-  mode: 1,
-  rule: 0,
-  start_lp: 8000,
-  start_hand: 5,
-  draw_count: 1,
-  enable_priority: false,
-  no_check_deck: false,
-  no_shuffle_deck: false,
-  lflist: 0,
-  time_limit: 180
-};
-
 class News {
   title: string;
   text: string;
@@ -99,6 +71,35 @@ export class YGOProService {
 
   news: News[];
   windbot: string[];
+
+  readonly default_options: Options = {
+    mode: 1,
+    rule: 0,
+    start_lp: 8000,
+    start_hand: 5,
+    draw_count: 1,
+    enable_priority: false,
+    no_check_deck: false,
+    no_shuffle_deck: false,
+    lflist: 0,
+    time_limit: 180
+  };
+
+  readonly servers: Server[] = [{
+    id: 'tiramisu',
+    url: 'wss://tiramisu.mycard.moe:7923',
+    address: '112.124.105.11',
+    port: 7911,
+    custom: true,
+    replay: true
+  }, {
+    id: 'tiramisu-athletic',
+    url: 'wss://tiramisu.mycard.moe:8923',
+    address: '112.124.105.11',
+    port: 8911,
+    custom: false,
+    replay: true
+  }];
 
   constructor(private login: LoginService, private http: Http) {
     this.load().catch(alert);
@@ -145,7 +146,7 @@ export class YGOProService {
     //     body: `房间密码是 ${this.host_password}, 您的对手可在自定义游戏界面输入密码与您对战。`
     //   });
     // }
-    this.join(password, servers[0]);
+    this.join(password, this.servers[0]);
   }
 
   join_room(room: Room) {
@@ -183,14 +184,14 @@ export class YGOProService {
 
     let name = options_buffer.toString('base64') + password.replace(/\s/, String.fromCharCode(0xFEFF));
 
-    this.join(name, servers[0]);
+    this.join(name, this.servers[0]);
   }
 
   join_windbot(name?: string) {
     if (!name) {
       name = this.windbot[Math.floor(Math.random() * this.windbot.length)];
     }
-    return this.join('AI#' + name, servers[0]);
+    return this.join('AI#' + name, this.servers[0]);
   }
 
   join(password, server) {
@@ -250,15 +251,13 @@ export class RoomListDataSource extends DataSource<any> {
   /** Connect function called by the table to retrieve one stream containing the data to render. */
   connect(): Observable<Room[]> {
 
-    return Observable.combineLatest(servers.map(server => {
+    return Observable.combineLatest(this.servers.map(server => {
         const url = new URL(server.url);
         url.searchParams.set('filter', this.filter);
         return Observable.webSocket({ url: url.toString() })
           .scan((rooms: Room[], message: Message) => {
-            console.log(message);
             switch (message.event) {
               case 'init':
-                console.log(message.data.map(room => ({ server: server, ...room })));
                 return message.data.map(room => ({ server: server, ...room }));
               case 'create':
                 return rooms.concat({ server: server, ...message.data });

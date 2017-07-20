@@ -40,13 +40,13 @@
   <ng-container cdkColumnDef="extra">
     <md-header-cell *cdkHeaderCellDef>额外选项</md-header-cell>
     <md-cell *cdkCellDef="let room">
-      <span *ngIf="room.options.rule != default_options.rule">{{{'0': 'OCG', '1': 'TCG', '2': 'O/T', '3': '专有卡禁止'}[room.options.rule]}}</span>
-      <span *ngIf="room.options.start_lp != default_options.start_lp">{{room.options.start_lp}} LP</span>
-      <span *ngIf="room.options.start_hand != default_options.start_hand">{{room.options.start_hand}} 初始</span>
-      <span *ngIf="room.options.draw_count != default_options.draw_count">{{room.options.draw_count}} 抽卡</span>
-      <span *ngIf="room.options.enable_priority != default_options.enable_priority">旧规则</span>
-      <span *ngIf="room.options.no_check_deck != default_options.no_check_deck">不检查</span>
-      <span *ngIf="room.options.no_shuffle_deck != default_options.no_shuffle_deck">不洗卡</span>
+      <span *ngIf="room.options.rule != ygopro.default_options.rule">{{{'0': 'OCG', '1': 'TCG', '2': 'O/T', '3': '专有卡禁止'}[room.options.rule]}}</span>
+      <span *ngIf="room.options.start_lp != ygopro.default_options.start_lp">{{room.options.start_lp}} LP</span>
+      <span *ngIf="room.options.start_hand != ygopro.default_options.start_hand">{{room.options.start_hand}} 初始</span>
+      <span *ngIf="room.options.draw_count != ygopro.default_options.draw_count">{{room.options.draw_count}} 抽卡</span>
+      <span *ngIf="room.options.enable_priority != ygopro.default_options.enable_priority">旧规则</span>
+      <span *ngIf="room.options.no_check_deck != ygopro.default_options.no_check_deck">不检查</span>
+      <span *ngIf="room.options.no_shuffle_deck != ygopro.default_options.no_shuffle_deck">不洗卡</span>
     </md-cell>
   </ng-container>
 

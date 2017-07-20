@@ -18,10 +18,8 @@ const routes: Routes = [
       { path: 'ygopro/rooms/new', component: NewRoomComponent },
       { path: 'ygopro/rooms', component: RoomListComponent },
       { path: 'ygopro/lobby', component: LobbyComponent },
-      { path: 'ygopro/match/:arena', component: MatchDialog },
       { path: 'ygopro/windbot', component: WindbotComponent },
       { path: 'ygopro/watch', component: WatchComponent },
-      // { path: 'ygopro/rooms/join', component: JoinComponent }
     ]
   },
 ];

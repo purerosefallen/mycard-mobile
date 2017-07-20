@@ -6,7 +6,7 @@
   <md-icon *ngIf="arena == 'entertain'" class="fa-spin">toys</md-icon>
   <ul>
     <dt>预计等待时间</dt>
-    <dd>{{expect_wait | date: 'mm:ss'}}</dd>
+    <dd>{{expect_wait | async | date: 'mm:ss'}}</dd>
     <dt>实际等待时间</dt>
     <dd>{{actual_wait | async | date: 'mm:ss'}}</dd>
   </ul>

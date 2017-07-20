@@ -3,7 +3,7 @@ import 'rxjs/add/observable/merge';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/Rx';
-import { default_options, RoomListDataSource, servers, YGOProService } from '../ygopro.service';
+import { RoomListDataSource, YGOProService } from '../ygopro.service';
 
 @Component({
   selector: 'app-room-list',
@@ -12,8 +12,7 @@ import { default_options, RoomListDataSource, servers, YGOProService } from '../
 })
 export class RoomListComponent {
   displayedColumns = ['title', 'users', 'mode', 'extra'];
-  dataSource = new RoomListDataSource(servers.filter(server => server.custom));
-  default_options = default_options;
+  dataSource = new RoomListDataSource(this.ygopro.servers.filter(server => server.custom));
 
   constructor(public ygopro: YGOProService, private changeDetector: ChangeDetectorRef) {
   }

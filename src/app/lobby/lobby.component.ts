@@ -17,33 +17,20 @@ import { YGOProService } from '../ygopro.service';
 })
 export class LobbyComponent {
 
-  searchCtrl: FormControl;
-  suggestion: any;
+  searchCtrl = new FormControl();
+  suggestion = this.searchCtrl.valueChanges.filter(name => name).flatMap(name => this.jsonp.get('http://www.ourocg.cn/Suggest.aspx', {
+    params: { callback: 'JSONP_CALLBACK', key: name }
+  }).map(response => response.json().result));
+
   key: string;
 
   arena_url: string;
 
   constructor(public login: LoginService, public ygopro: YGOProService, public dialog: MdDialog, private http: Http, private jsonp: Jsonp, private route: ActivatedRoute) {
 
-    this.searchCtrl = new FormControl();
-    this.suggestion = this.searchCtrl.valueChanges.flatMap(name => name ? this.jsonp.get('http://www.ourocg.cn/Suggest.aspx', {
-      params: { callback: 'JSONP_CALLBACK', key: name }
-    }).map(response => response.json().result) : []);
-
-    // this.jsonp.get('http://www.ourocg.cn/Suggest.aspx', {
-    //   params: {
-    //     callback: 'JSONP_CALLBACK',
-    //     key: 'xy'
-    //   }
-    // }).map(response => response.json().result).toPromise().then(data => console.log(data));
-
     const arena_url = new URL('https://mycard.moe/ygopro/arena');
     arena_url.searchParams.set('sso', login.token);
     this.arena_url = arena_url.toString();
-  }
-
-  async request_match(arena: string) {
-    this.dialog.open(MatchDialog, { data: arena, disableClose: true });
 
   }
 
@@ -51,6 +38,11 @@ export class LobbyComponent {
     const url = new URL('http://www.ourocg.cn/S.aspx');
     url.searchParams.set('key', key);
     open(url.toString());
+  }
+
+  async request_match(arena: string) {
+    this.dialog.open(MatchDialog, { data: arena, disableClose: true });
+
   }
 
 }
