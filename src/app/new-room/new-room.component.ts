@@ -19,7 +19,13 @@ export class NewRoomComponent {
   room = {
     title: this.login.user.username + '的房间',
     'private': false,
-    options: { ...this.ygopro.default_options }
+    options: {
+      ...this.ygopro.default_options,
+
+      // material select 只认 string
+      mode: this.ygopro.default_options.mode.toString(),
+      rule: this.ygopro.default_options.rule.toString(),
+    }
   };
 
   constructor(public ygopro: YGOProService, private login: LoginService, private snackBar: MdSnackBar) {
