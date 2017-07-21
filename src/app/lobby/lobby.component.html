@@ -53,10 +53,10 @@
     <md-icon>remove_red_eye</md-icon>
     <br>观战</a></md-grid-tile>
   <!--<md-grid-tile>-->
-    <!--<button md-raised-button (click)="ygopro.watch_replay()">-->
-      <!--<md-icon>history</md-icon>-->
-      <!--<br>观看录像-->
-    <!--</button>-->
+  <!--<button md-raised-button (click)="ygopro.watch_replay()">-->
+  <!--<md-icon>history</md-icon>-->
+  <!--<br>观看录像-->
+  <!--</button>-->
   <!--</md-grid-tile>-->
   <md-grid-tile>
     <button md-raised-button (click)="ygopro.edit_deck()">
@@ -78,14 +78,38 @@
 <md-card *ngFor="let item of ygopro.news" class="example-card">
   <a [href]="item.url" target="_blank">
     <md-card-header>
-      <div *ngIf="item.image" md-card-avatar [style.background-image]="'url(' + item.image + ')'"></div>
+      <img *ngIf="item.image" md-card-avatar [src]="item.image">
       <md-card-title>{{item.title}}</md-card-title>
       <md-card-subtitle>{{item.updated_at | date:"mediumDate"}}</md-card-subtitle>
     </md-card-header>
   </a>
-
-  <!--<md-card-content>-->
-  <!--<img src="https://material.angular.io/assets/img/examples/shiba2.jpg">-->
-  <!--<p>{{item.text}}</p>-->
-  <!--</md-card-content>-->
 </md-card>
+
+<!--<md-card *ngFor="let item of ygopro.topics | async">-->
+  <!--<a [href]="item.url" target="_blank">-->
+  <!--<md-card-header>-->
+    <!--<img *ngIf="item.image_url" md-card-avatar [src]="item.image_url">-->
+    <!--<md-card-title>{{item.title}}</md-card-title>-->
+    <!--<md-card-subtitle>by {{item.last_poster_username}} / {{item.last_posted_at | date:"mediumDate"}}</md-card-subtitle>-->
+  <!--</md-card-header>-->
+  <!--</a>-->
+
+  <!---->
+  <!--<md-card-header>-->
+    <!--<img [src]="item.created_by.avatar_url" md-card-avatar class="example-header-image">-->
+    <!--<md-card-title>{{item.title}}</md-card-title>-->
+    <!--&lt;!&ndash;<md-card-subtitle>Dog Breed</md-card-subtitle>&ndash;&gt;-->
+  <!--</md-card-header>-->
+  <!--<img md-card-image [src]="item.image_url">-->
+  <!--<md-card-content>-->
+    <!--&lt;!&ndash;<p [innerHTML]="item.description">&ndash;&gt;-->
+    <!--&lt;!&ndash;The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.&ndash;&gt;-->
+    <!--&lt;!&ndash;A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally&ndash;&gt;-->
+    <!--&lt;!&ndash;bred for hunting.&ndash;&gt;-->
+    <!--&lt;!&ndash;</p>&ndash;&gt;-->
+  <!--</md-card-content>-->
+  <!--<md-card-actions>-->
+    <!--<button md-button>LIKE</button>-->
+    <!--<button md-button>SHARE</button>-->
+  <!--</md-card-actions>-->
+<!--</md-card>-->

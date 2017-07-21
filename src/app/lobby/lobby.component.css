@@ -64,12 +64,8 @@ md-card-content {
 [md-card-avatar] {
   width: 128px;
   height: 72px;
-  background-size: cover;
+  object-fit: cover;
   border-radius: initial;
-}
-
-#avatar {
-  background-size: cover;
 }
 
 [fontSet] {

@@ -71,6 +71,7 @@ export class YGOProService {
 
   news: News[];
   windbot: string[];
+  topics: Observable<any>;
 
   readonly default_options: Options = {
     mode: 1,
@@ -110,6 +111,16 @@ export class YGOProService {
     const app = apps.find(app => app.id === 'ygopro');
     this.news = app.news['zh-CN'];
     this.windbot = (<YGOProData>app.data).windbot['zh-CN'];
+    // this.topics = this.http.get('https://ygobbs.com/top.json').flatMap(response => promisify(parseString)(response.text())).map(doc => {
+    //   console.log(doc['rss'].channel[0].item)
+    //   return doc['rss'].channel[0].item;
+    // });
+    this.topics = this.http.get('https://ygobbs.com/top/quarterly.json').map(response => response.json().topic_list.topics.map(topic => ({
+      ...topic,
+      url: new URL(`/t/${topic.slug}/${topic.id}`, 'https://ygobbs.com').toString(),
+      image_url: topic.image_url && new URL(topic.image_url, 'https://ygobbs.com').toString()
+    })));
+
   }
 
   create_room(room: Room, host_password: string) {

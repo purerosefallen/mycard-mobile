@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { fromPairs } from 'lodash';
-import { TextDecoder, TextEncoder } from 'text-encoding';
 import { User } from './ygopro.service';
 
 @Injectable()
