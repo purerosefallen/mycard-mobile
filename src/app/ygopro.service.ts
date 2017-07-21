@@ -115,7 +115,7 @@ export class YGOProService {
     //   console.log(doc['rss'].channel[0].item)
     //   return doc['rss'].channel[0].item;
     // });
-    this.topics = this.http.get('https://ygobbs.com/top/quarterly.json').map(response => response.json().topic_list.topics.map(topic => ({
+    this.topics = this.http.get('https://ygobbs.com/top/quarterly.json').map(response => response.json().topic_list.topics.slice(0, 5).map(topic => ({
       ...topic,
       url: new URL(`/t/${topic.slug}/${topic.id}`, 'https://ygobbs.com').toString(),
       image_url: topic.image_url && new URL(topic.image_url, 'https://ygobbs.com').toString()
