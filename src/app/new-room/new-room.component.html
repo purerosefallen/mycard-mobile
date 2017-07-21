@@ -13,15 +13,15 @@
     <md-hint align="end">把这个分享给你的朋友</md-hint>
   </md-input-container>
   <md-select class="full-width" placeholder="卡片允许" name="rule" [(ngModel)]="room.options.rule">
-    <md-option value="0">OCG</md-option>
-    <md-option value="1">TCG</md-option>
-    <md-option value="2">OCG & TCG</md-option>
-    <md-option value="3">专有卡禁止</md-option>
+    <md-option [value]="0">OCG</md-option>
+    <md-option [value]="1">TCG</md-option>
+    <md-option [value]="2">OCG & TCG</md-option>
+    <md-option [value]="3">专有卡禁止</md-option>
   </md-select>
   <md-select class="full-width" placeholder="决斗模式" name="mode" [(ngModel)]="room.options.mode">
-    <md-option value="0">单局模式</md-option>
-    <md-option value="1">比赛模式</md-option>
-    <md-option value="2">TAG</md-option>
+    <md-option [value]="0">单局模式</md-option>
+    <md-option [value]="1">比赛模式</md-option>
+    <md-option [value]="2">TAG</md-option>
   </md-select>
 
   <!--<h2>额外选项</h2>-->
