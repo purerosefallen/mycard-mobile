@@ -2,12 +2,15 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { MdSnackBar } from '@angular/material';
 import { LoginService } from '../login.service';
 import { YGOProService } from '../ygopro.service';
+import { routerTransition } from '../router.animations';
 
 
 @Component({
   selector: 'app-new-room',
   templateUrl: 'new-room.component.html',
-  styleUrls: ['new-room.component.css']
+  styleUrls: ['new-room.component.css'],
+  animations: [routerTransition],
+  host: {'[@routerTransition]': ''}
 })
 export class NewRoomComponent {
 

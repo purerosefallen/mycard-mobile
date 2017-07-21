@@ -8,12 +8,14 @@ import 'rxjs/add/operator/toPromise';
 import { LoginService } from '../login.service';
 import { MatchDialog } from '../match/match.component';
 import { YGOProService } from '../ygopro.service';
-
+import { routerTransition2 } from '../router.animations';
 
 @Component({
   selector: 'app-lobby',
   templateUrl: 'lobby.component.html',
-  styleUrls: ['lobby.component.css']
+  styleUrls: ['lobby.component.css'],
+  animations: [routerTransition2],
+  host: {'[@routerTransition2]': ''}
 })
 export class LobbyComponent {
 

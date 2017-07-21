@@ -6,10 +6,15 @@ import 'rxjs/Rx';
 import { LoginService } from '../login.service';
 import { RoomListDataSource, YGOProService } from '../ygopro.service';
 
+import { routerTransition } from '../router.animations';
+
+
 @Component({
   selector: 'app-room-list',
   styleUrls: ['room-list.component.css'],
   templateUrl: 'room-list.component.html',
+  animations: [routerTransition],
+  host: {'[@routerTransition]': ''}
 })
 export class RoomListComponent {
   displayedColumns = ['title', 'users', 'mode', 'extra'];
