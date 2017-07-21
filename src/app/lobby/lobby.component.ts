@@ -31,7 +31,7 @@ export class LobbyComponent {
   constructor(public login: LoginService, public ygopro: YGOProService, public dialog: MdDialog, private http: Http, private jsonp: Jsonp, private route: ActivatedRoute) {
 
     const arena_url = new URL('https://mycard.moe/ygopro/arena');
-    arena_url.searchParams.set('callback', login.token);
+    arena_url.searchParams.set('sso', login.token);
     this.arena_url = arena_url.toString();
 
   }
