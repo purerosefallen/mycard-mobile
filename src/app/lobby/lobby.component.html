@@ -1,5 +1,5 @@
 <md-toolbar color="primary">
-  <button id="menu" md-icon-button>
+  <button id="menu" md-icon-button (click)="ygopro.openDrawer()">
     <md-icon>menu</md-icon>
   </button>
   <form (submit)="search(key)">
@@ -71,7 +71,7 @@
     <md-icon fontSet="fa" fontIcon="fa-trophy"></md-icon>
     <br>决斗数据库</a></md-grid-tile>
   <md-grid-tile>
-    <button md-raised-button><span class="icon">233</span><br>直连</button>
+    <button md-raised-button (click)="ygopro.backHome()"><span class="icon">233</span><br>直连</button>
   </md-grid-tile>
 </md-grid-list>
 

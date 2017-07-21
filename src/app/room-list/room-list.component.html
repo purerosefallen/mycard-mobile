@@ -15,7 +15,7 @@
   <ng-container cdkColumnDef="users">
     <md-header-cell *cdkHeaderCellDef>玩家</md-header-cell>
     <md-cell *cdkCellDef="let room">
-      <img *ngFor="let user of room.users" class="avatar" [src]="'https://ygobbs.com/user_avatar/ygobbs.com/' + user.username + '/25/1.png'">
+      <img *ngFor="let user of room.users" class="avatar" [src]="login.avatar(user.username)">
     </md-cell>
   </ng-container>
 

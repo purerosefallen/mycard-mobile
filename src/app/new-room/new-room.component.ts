@@ -42,7 +42,7 @@ export class NewRoomComponent {
   }
 
   share(host_password: string) {
-
+    this.ygopro.share('房间密码是' + host_password);
   }
 
 }

@@ -1,6 +1,8 @@
 .avatar {
-  width: 1em;
-  height: 1em;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  vertical-align: middle;
 }
 
 .game-title {

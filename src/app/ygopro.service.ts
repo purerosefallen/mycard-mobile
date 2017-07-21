@@ -233,6 +233,33 @@ export class YGOProService {
     }
   }
 
+  openDrawer() {
+    try {
+      window.ygopro.openDrawer();
+    } catch (error) {
+      console.error(error);
+      alert(JSON.stringify({ method: 'openDrawer', params: [] }));
+    }
+  }
+
+  backHome() {
+    try {
+      window.ygopro.backHome();
+    } catch (error) {
+      console.error(error);
+      alert(JSON.stringify({ method: 'backHome', params: [] }));
+    }
+  }
+
+  share(text: string) {
+    try {
+      window.ygopro.share(text);
+    } catch (error) {
+      console.error(error);
+      alert(JSON.stringify({ method: 'share', params: [text] }));
+    }
+  }
+
 }
 
 
@@ -305,6 +332,9 @@ declare global {
       // 残局模式
       puzzle_mode(): void
 
+      openDrawer(): void
+      backHome(): void
+      share(text: string): void
     };
   }
 }

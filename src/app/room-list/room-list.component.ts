@@ -3,6 +3,7 @@ import 'rxjs/add/observable/merge';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/Rx';
+import { LoginService } from '../login.service';
 import { RoomListDataSource, YGOProService } from '../ygopro.service';
 
 @Component({
@@ -14,7 +15,7 @@ export class RoomListComponent {
   displayedColumns = ['title', 'users', 'mode', 'extra'];
   dataSource = new RoomListDataSource(this.ygopro.servers.filter(server => server.custom));
 
-  constructor(public ygopro: YGOProService, private changeDetector: ChangeDetectorRef) {
+  constructor(public login: LoginService, public ygopro: YGOProService, private changeDetector: ChangeDetectorRef) {
   }
 
   ngOnInit() {

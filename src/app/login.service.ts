@@ -14,4 +14,8 @@ export class LoginService {
     localStorage.setItem('login', token);
   }
 
+  avatar(username) {
+    return 'https://ygobbs.com/user_avatar/ygobbs.com/' + username + '/25/1.png';
+  }
+
 }

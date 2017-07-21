@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { LoginService } from '../login.service';
 import { YGOProService } from '../ygopro.service';
 
 @Component({
@@ -8,6 +9,6 @@ import { YGOProService } from '../ygopro.service';
 })
 export class WindbotComponent {
 
-  constructor(public ygopro: YGOProService) {
+  constructor(public login: LoginService, public ygopro: YGOProService) {
   }
 }

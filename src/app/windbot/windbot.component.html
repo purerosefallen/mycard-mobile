@@ -2,6 +2,12 @@
 
 <md-list>
   <h3 md-subheader>选择对手</h3>
-  <md-list-item (click)="ygopro.join_windbot()">随机</md-list-item>
-  <md-list-item *ngFor="let windbot of ygopro.windbot" (click)="ygopro.join_windbot(windbot)">{{windbot}}</md-list-item>
+  <md-list-item (click)="ygopro.join_windbot()">
+    <md-icon md-list-icon>airplanemode_active</md-icon>
+    <h4 md-line>随机</h4>
+  </md-list-item>
+  <md-list-item *ngFor="let windbot of ygopro.windbot" (click)="ygopro.join_windbot(windbot)">
+    <img md-list-icon [src]="login.avatar(windbot)">
+    <h4 md-line>{{windbot}}</h4>
+  </md-list-item>
 </md-list>

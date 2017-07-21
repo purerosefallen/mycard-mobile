@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { LoginService } from '../login.service';
 import { RoomListDataSource, YGOProService } from '../ygopro.service';
 
 @Component({
@@ -11,7 +12,7 @@ export class WatchComponent implements OnInit {
   displayedColumns = ['mode', 'title', 'users', 'extra'];
   dataSource = new RoomListDataSource(this.ygopro.servers, 'started');
 
-  constructor(public ygopro: YGOProService, private changeDetector: ChangeDetectorRef) {
+  constructor(public login: LoginService, public ygopro: YGOProService, private changeDetector: ChangeDetectorRef) {
   }
 
   ngOnInit() {
