@@ -12,7 +12,7 @@ import { WatchComponent } from './watch/watch.component';
 const routes: Routes = [
   {
     path: '',
-    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     children: [
       { path: '', redirectTo: '/ygopro/lobby', pathMatch: 'full' },
       { path: 'ygopro/rooms/new', component: NewRoomComponent },
