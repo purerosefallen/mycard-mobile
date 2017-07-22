@@ -3,7 +3,6 @@ import { Http } from '@angular/http';
 import { MD_DIALOG_DATA, MdDialog, MdDialogRef } from '@angular/material';
 import { LoginService } from '../login.service';
 import { MatchDialog } from '../match/match.component';
-import { Result } from '../ygopro.service';
 
 @Component({
   selector: 'app-result',
