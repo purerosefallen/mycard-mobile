@@ -176,10 +176,13 @@ export class YGOProService {
       params: { username: this.login.user.username, type: 0, page_num: 1 }
     }).map((response) => response.json().data[0]).toPromise();
 
+    // 从来没打过
+    if (!last) {
+      return;
+    }
     const last_game_at = localStorage.getItem('last_game_at');
     localStorage.setItem('last_game_at', last.end_time);
 
-    console.log(last);
     // 初次运行
     if (!last_game_at) {
       return;

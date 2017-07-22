@@ -1,6 +1,6 @@
 {
   "name": "mycard-mobile",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "license": "UNLISENCED",
   "scripts": {
     "ng": "ng",
@@ -10,7 +10,7 @@
     "build:dev": "ng build --base-href /mobile2/index.html --locale zh-CN --aot",
     "lint": "ng lint",
     "publish": "npm run build && ./ossutil cp -rf dist oss://mycard/mobile",
-    "publish:dev": "npm run build:2 && ./ossutil cp -rf dist oss://mycard/mobile2"
+    "publish:dev": "npm run build:dev && ./ossutil cp -rf dist oss://mycard/mobile2"
   },
   "private": true,
   "dependencies": {
