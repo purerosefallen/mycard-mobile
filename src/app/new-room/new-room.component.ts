@@ -1,8 +1,8 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { MdSnackBar } from '@angular/material';
 import { LoginService } from '../login.service';
-import { YGOProService } from '../ygopro.service';
 import { routerTransition } from '../router.animations';
+import { YGOProService } from '../ygopro.service';
 
 
 @Component({
@@ -10,7 +10,7 @@ import { routerTransition } from '../router.animations';
   templateUrl: 'new-room.component.html',
   styleUrls: ['new-room.component.css'],
   animations: [routerTransition],
-  host: {'[@routerTransition]': ''}
+  host: { '[@routerTransition]': '' }
 })
 export class NewRoomComponent {
 
@@ -34,7 +34,7 @@ export class NewRoomComponent {
       this.hostPasswordRef.nativeElement.select();
 
       if (document.execCommand('copy')) {
-        this.snackBar.open(`房间密码 ${host_password} 已复制到剪贴板`, null, { duration: 3000 });
+        this.snackBar.open(`房间密码 ${host_password} 已复制到剪贴板`, undefined, { duration: 3000 });
       } else {
         console.log('Oops, unable to copy');
       }

@@ -1,9 +1,11 @@
 import { DataSource } from '@angular/cdk';
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
+import { MdDialog } from '@angular/material';
 import { sortBy } from 'lodash';
 import { Observable } from 'rxjs/Observable';
 import { LoginService } from './login.service';
+import { ResultDialog } from './result/result.dialog';
 
 export interface User {
   admin: boolean;
@@ -66,12 +68,52 @@ interface App {
   data: any
 }
 
+export interface Result {
+  end_time: string
+  expa: number
+  expa_ex: number
+  expb: number
+  expb_ex: number
+  isfirstwin: boolean
+  pta: number
+  pta_ex: number
+  ptb: number
+  ptb_ex: number
+  start_time: string
+  type: 'athletic' | 'entertain'
+  usernamea: string
+  usernameb: string
+  userscorea: number
+  userscoreb: number
+  winner: string
+}
+
+export interface Points {
+  arena_rank: number
+  athletic_all: number
+  athletic_draw: number
+  athletic_lose: number
+  athletic_win: number
+  athletic_wl_ratio: number
+  entertain_all: number
+  entertain_draw: number
+  entertain_lose: number
+  entertain_win: number
+  entertain_wl_ratio: number
+  exp: number
+  exp_rank: number
+  pt: number
+}
+
 @Injectable()
 export class YGOProService {
 
   news: News[];
   windbot: string[];
   topics: Observable<any>;
+  points: Points;
+
+  last_game_at: Date;
 
   readonly default_options: Options = {
     mode: 1,
@@ -102,25 +144,93 @@ export class YGOProService {
     replay: true
   }];
 
-  constructor(private login: LoginService, private http: Http) {
+  constructor(private login: LoginService, private http: Http, private dialog: MdDialog) {
     this.load().catch(alert);
   }
 
   async load() {
     const apps: App[] = await this.http.get('https://api.mycard.moe/apps.json').map(response => response.json()).toPromise();
-    const app = apps.find(app => app.id === 'ygopro');
+    const app = apps.find(app => app.id === 'ygopro')!;
     this.news = app.news['zh-CN'];
     this.windbot = (<YGOProData>app.data).windbot['zh-CN'];
     // this.topics = this.http.get('https://ygobbs.com/top.json').flatMap(response => promisify(parseString)(response.text())).map(doc => {
     //   console.log(doc['rss'].channel[0].item)
     //   return doc['rss'].channel[0].item;
     // });
-    this.topics = this.http.get('https://ygobbs.com/top/quarterly.json').map(response => response.json().topic_list.topics.slice(0, 5).map(topic => ({
+    this.topics = this.http.get('https://ygobbs.com/top/quarterly.json').map(response => response.json().topic_list.topics.slice(0, 5).map((topic: any) => ({
       ...topic,
       url: new URL(`/t/${topic.slug}/${topic.id}`, 'https://ygobbs.com').toString(),
       image_url: topic.image_url && new URL(topic.image_url, 'https://ygobbs.com').toString()
     })));
 
+    this.load_points();
+
+    await this.load_result(false);
+    this.listen_result();
+
+  }
+
+  async load_result(load_points = true) {
+
+    const last = await this.http.get('https://mycard.moe/ygopro/api/history', {
+      params: { username: this.login.user.username, type: 0, page_num: 1 }
+    }).map((response) => response.json().data[0]).toPromise();
+
+    const last_game_at = localStorage.getItem('last_game_at');
+    localStorage.setItem('last_game_at', last.end_time);
+
+    console.log(last);
+    // 初次运行
+    if (!last_game_at) {
+      return;
+    }
+
+    // 无新对局
+    if (last_game_at === last.end_time) {
+      return;
+    }
+
+    // 10分钟内有新对局
+    if (Date.now() - Date.parse(last.end_time) < 10 * 60 * 1000) {
+      // console.log(last);
+      if (load_points) {
+        this.load_points();
+      }
+      this.dialog.open(ResultDialog, { data: last });
+    }
+  }
+
+  listen_result() {
+
+    // 那些兼容性的垃圾事儿
+    // https://www.html5rocks.com/en/tutorials/pagevisibility/intro/
+    function getHiddenProp() {
+      const prefixes = ['webkit', 'moz', 'ms', 'o'];
+
+      // if 'hidden' is natively supported just return it
+      if ('hidden' in document) return 'hidden';
+
+      // otherwise loop over all the known prefixes until we find one
+      for (let i = 0; i < prefixes.length; i++) {
+        if ((prefixes[i] + 'Hidden') in document)
+          return prefixes[i] + 'Hidden';
+      }
+
+      // otherwise it's not supported
+      return null;
+    }
+
+    const visProp = getHiddenProp();
+    if (visProp) {
+      const evtname = visProp.replace(/[H|h]idden/, '') + 'visibilitychange';
+      Observable.fromEvent(document, evtname).subscribe(async () => !document[visProp] && this.load_result());
+    } else {
+      alert('调试信息1，看到的话请联系zh99998@gmail.com');
+    }
+  }
+
+  async load_points() {
+    this.points = await this.http.get('https://api.mycard.moe/ygopro/arena/user', { params: { username: this.login.user.username } }).map(response => response.json()).toPromise();
   }
 
   create_room(room: Room, host_password: string) {
@@ -205,7 +315,7 @@ export class YGOProService {
     return this.join('AI#' + name, this.servers[0]);
   }
 
-  join(password, server) {
+  join(password: string, server: Server) {
     try {
       window.ygopro.join(server.address, server.port, this.login.user.username, password);
     } catch (error) {
@@ -290,7 +400,7 @@ export class RoomListDataSource extends DataSource<any> {
   connect(): Observable<Room[]> {
 
     return Observable.combineLatest(this.servers.map(server => {
-        const url = new URL(server.url);
+        const url = new URL(server.url!);
         url.searchParams.set('filter', this.filter);
         return Observable.webSocket({ url: url.toString() })
           .scan((rooms: Room[], message: Message) => {
@@ -307,7 +417,7 @@ export class RoomListDataSource extends DataSource<any> {
             }
           }, []);
       }
-    ), (...sources) => [].concat(...sources)).map(rooms => sortBy(rooms, (room) => {
+    ), (...sources: Room[][]) => (<Room[]>[]).concat(...sources)).map(rooms => sortBy(rooms, (room) => {
         if (room.arena === 'athletic') {
           return 0;
         } else if (room.arena === 'entertain') {

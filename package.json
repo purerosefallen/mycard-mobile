@@ -1,14 +1,12 @@
 {
   "name": "mycard-mobile",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --base-href /mobile/index.html --deploy-url /mobile --locale zh-CN --output-path mobile --open",
-    "build": "ng build --base-href /mobile/index.html --locale zh-CN --aot --prod",
-    "test": "echo \"Error: no test... minimal project\" && exit 1",
-    "lint": "echo \"Error: no lint... minimal project\" && exit 1",
-    "e2e": "echo \"Error: no e2e... minimal project\" && exit 1"
+    "build": "ng build --base-href /mobile2/index.html --locale zh-CN --aot --prod",
+    "lint": "ng lint"
   },
   "private": true,
   "dependencies": {
@@ -37,6 +35,7 @@
     "@angular/compiler-cli": "^4.0.0",
     "@angular/language-service": "^4.0.0",
     "@angular/service-worker": "^1.0.0-beta.16",
+    "@types/lodash": "^4.14.70",
     "@types/node": "^8.0.13",
     "codelyzer": "^3.1.2",
     "tslint": "^5.5.0",

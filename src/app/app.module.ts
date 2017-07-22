@@ -32,6 +32,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
 import { WatchComponent } from './watch/watch.component';
 import { WindbotComponent } from './windbot/windbot.component';
 import { YGOProService } from './ygopro.service';
+import { ResultDialog } from './result/result.dialog';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { YGOProService } from './ygopro.service';
     WindbotComponent,
     WatchComponent,
     ToolbarComponent,
+    ResultDialog,
   ],
   imports: [
     BrowserModule,
@@ -71,7 +73,7 @@ import { YGOProService } from './ygopro.service';
   ],
   providers: [YGOProService],
   bootstrap: [AppComponent],
-  entryComponents: [MatchDialog],
+  entryComponents: [MatchDialog, ResultDialog],
 })
 export class AppModule {
 }

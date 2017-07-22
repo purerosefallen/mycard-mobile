@@ -1,0 +1,34 @@
+md-list-item /deep/ .mat-list-item-content {
+  justify-content: space-between;
+  height: 28px !important;
+  padding: 0
+}
+
+md-grid-list {
+  font-size: 14px;
+}
+
+md-grid-tile dt, md-grid-tile dd {
+  width: 100%;
+}
+
+md-grid-tile {
+  text-align: left;
+}
+
+md-grid-tile dd {
+  margin: 0;
+  text-align: left;
+}
+
+.win dd {
+  color: green;
+}
+
+.lose dd {
+  color: red;
+}
+
+h2 {
+  text-align: center;
+}

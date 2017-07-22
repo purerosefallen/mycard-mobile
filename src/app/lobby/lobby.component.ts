@@ -3,21 +3,23 @@ import { FormControl } from '@angular/forms';
 import { Http, Jsonp } from '@angular/http';
 import { MdDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
-import 'rxjs/add/operator/map';
+// import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
+import { environment } from '../../environments/environment';
 import { LoginService } from '../login.service';
 import { MatchDialog } from '../match/match.component';
-import { YGOProService } from '../ygopro.service';
 import { routerTransition2 } from '../router.animations';
-
+import { YGOProService } from '../ygopro.service';
 @Component({
   selector: 'app-lobby',
   templateUrl: 'lobby.component.html',
   styleUrls: ['lobby.component.css'],
   animations: [routerTransition2],
-  host: {'[@routerTransition2]': ''}
+  host: { '[@routerTransition2]': '' }
 })
 export class LobbyComponent {
+
+  version = environment.version;
 
   searchCtrl = new FormControl();
   suggestion = this.searchCtrl.valueChanges.filter(name => name).flatMap(name => this.jsonp.get('http://www.ourocg.cn/Suggest.aspx', {
@@ -36,15 +38,14 @@ export class LobbyComponent {
 
   }
 
-  search(key) {
+  search(key: string) {
     const url = new URL('http://www.ourocg.cn/S.aspx');
     url.searchParams.set('key', key);
     open(url.toString());
   }
 
-  async request_match(arena: string) {
+  request_match(arena: string) {
     this.dialog.open(MatchDialog, { data: arena, disableClose: true });
-
   }
 
 }

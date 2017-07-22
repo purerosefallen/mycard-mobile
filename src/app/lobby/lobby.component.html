@@ -19,7 +19,7 @@
     <md-icon>add</md-icon>
   </button>
   <md-menu #menu="mdMenu">
-    <button md-menu-item>Version 1.0.0</button>
+    <button md-menu-item>大厅版本 {{version}}</button>
   </md-menu>
 </md-toolbar>
 
@@ -74,6 +74,82 @@
   </md-grid-tile>
 </md-grid-list>
 
+<md-card  *ngIf="ygopro.points">
+  <md-grid-list id="points" cols="4" rowHeight="20px">
+    <md-grid-tile>
+      <dt>竞技排名</dt>
+    </md-grid-tile>
+    <md-grid-tile>
+      <dd>{{ygopro.points.arena_rank}}</dd>
+    </md-grid-tile>
+    <md-grid-tile>
+      <dt>娱乐排名</dt>
+    </md-grid-tile>
+    <md-grid-tile>
+      <dd>{{ygopro.points.exp_rank}}</dd>
+    </md-grid-tile>
+    <md-grid-tile>
+      <dt>竞技胜率</dt>
+    </md-grid-tile>
+    <md-grid-tile>
+      <dd>{{ygopro.points.athletic_wl_ratio}}%</dd>
+    </md-grid-tile>
+    <md-grid-tile>
+      <dt>经验</dt>
+    </md-grid-tile>
+    <md-grid-tile>
+      <dd>{{ygopro.points.exp}}</dd>
+    </md-grid-tile>
+    <md-grid-tile>
+      <dt>胜场</dt>
+    </md-grid-tile>
+    <md-grid-tile>
+      <dd>{{ygopro.points.athletic_win}}</dd>
+    </md-grid-tile>
+    <md-grid-tile>
+      <dt>胜场</dt>
+    </md-grid-tile>
+    <md-grid-tile>
+      <dd>{{ygopro.points.entertain_win}}</dd>
+    </md-grid-tile>
+    <md-grid-tile>
+      <dt>负场</dt>
+    </md-grid-tile>
+    <md-grid-tile>
+      <dd>{{ygopro.points.athletic_lose}}</dd>
+    </md-grid-tile>
+    <md-grid-tile>
+      <dt>负场</dt>
+    </md-grid-tile>
+    <md-grid-tile>
+      <dd>{{ygopro.points.entertain_lose}}</dd>
+    </md-grid-tile>
+    <md-grid-tile>
+      <dt>平局</dt>
+    </md-grid-tile>
+    <md-grid-tile>
+      <dd>{{ygopro.points.athletic_draw}}</dd>
+    </md-grid-tile>
+    <md-grid-tile>
+      <dt>平局</dt>
+    </md-grid-tile>
+    <md-grid-tile>
+      <dd>{{ygopro.points.entertain_draw}}</dd>
+    </md-grid-tile>
+    <md-grid-tile>
+      <dt>总场</dt>
+    </md-grid-tile>
+    <md-grid-tile>
+      <dd>{{ygopro.points.athletic_all}}</dd>
+    </md-grid-tile>
+    <md-grid-tile>
+      <dt>总场</dt>
+    </md-grid-tile>
+    <md-grid-tile>
+      <dd>{{ygopro.points.entertain_all}}</dd>
+    </md-grid-tile>
+  </md-grid-list>
+</md-card>
 <md-card *ngFor="let item of ygopro.news" class="example-card">
   <a [href]="item.url" target="_blank">
     <md-card-header>
@@ -86,10 +162,11 @@
 
 <md-card *ngFor="let item of ygopro.topics | async">
   <a [href]="item.url" target="_blank">
-  <md-card-header>
-    <img *ngIf="item.image_url" md-card-avatar [src]="item.image_url">
-    <md-card-title>{{item.title}}</md-card-title>
-    <md-card-subtitle>by {{item.last_poster_username}} / {{item.last_posted_at | date:"mediumDate"}}</md-card-subtitle>
-  </md-card-header>
+    <md-card-header>
+      <img *ngIf="item.image_url" md-card-avatar [src]="item.image_url">
+      <md-card-title>{{item.title}}</md-card-title>
+      <md-card-subtitle>by {{item.last_poster_username}} / {{item.last_posted_at | date:"mediumDate"}}
+      </md-card-subtitle>
+    </md-card-header>
   </a>
 </md-card>

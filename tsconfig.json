@@ -9,6 +9,8 @@
     "experimentalDecorators": true,
     "downlevelIteration": true,
     "target": "es5",
+    "strict": true,
+    "suppressImplicitAnyIndexErrors": true,
     "typeRoots": [
       "node_modules/@types"
     ],

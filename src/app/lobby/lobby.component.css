@@ -32,7 +32,7 @@ input::placeholder {
 
 /*not works*/
 /*input::-webkit-search-cancel-button {*/
-  /*color: lightgray;*/
+/*color: lightgray;*/
 /*}*/
 
 md-input-container {
@@ -88,4 +88,14 @@ md-card-content {
 a {
   color: inherit;
   text-decoration: inherit;
+}
+
+#points dt, #points dd {
+  width: 56px;
+  font-size: 14px;
+}
+
+#points dd {
+  text-align: right;
+  margin: 0
 }

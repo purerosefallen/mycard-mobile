@@ -46,11 +46,11 @@ export class LoginService {
 
   callback(token: string) {
     this.token = token;
-    this.user = fromPairs(Array.from(new URLSearchParams(Buffer.from(token, 'base64').toString())));
+    this.user = <any>fromPairs(Array.from(new URLSearchParams(Buffer.from(token, 'base64').toString())));
     localStorage.setItem('login', token);
   }
 
-  avatar(username) {
+  avatar(username: string) {
     return 'https://ygobbs.com/user_avatar/ygobbs.com/' + username + '/25/1.png';
   }
 
