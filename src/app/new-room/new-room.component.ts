@@ -14,8 +14,8 @@ import { YGOProService } from '../ygopro.service';
 })
 export class NewRoomComponent {
 
-  @ViewChild('hostPasswordRef')
-  hostPasswordRef: ElementRef;
+  @ViewChild('hostPasswordInput')
+  hostPasswordInput: ElementRef;
 
   host_password = (this.login.user.external_id ^ 0x54321).toString();
 
@@ -31,7 +31,7 @@ export class NewRoomComponent {
   copy(host_password: string) {
 
     try {
-      this.hostPasswordRef.nativeElement.select();
+      this.hostPasswordInput.nativeElement.select();
 
       if (document.execCommand('copy')) {
         this.snackBar.open(`房间密码 ${host_password} 已复制到剪贴板`, undefined, { duration: 3000 });
