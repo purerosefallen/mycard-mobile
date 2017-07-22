@@ -1,24 +1,31 @@
 <app-toolbar>创建房间</app-toolbar>
 
-<form (submit)="ygopro.create_room(room, host_password)">
+<form (submit)="ygopro.create_room(room, host_password)" ngNativeValidate>
   <md-input-container *ngIf="!room.private" class="full-width">
-    <input mdInput placeholder="游戏标题" name="title" [(ngModel)]="room.title">
+    <input mdInput placeholder="游戏标题" name="title" [(ngModel)]="room.title" minlength="1" maxlength="12" required>
     <md-hint align="end">{{room.title?.length || 0}} / 12</md-hint>
   </md-input-container>
   <md-input-container *ngIf="room.private" class="full-width">
-    <md-placeholder><md-icon>vpn_key</md-icon><span>房间密码</span></md-placeholder>
+    <md-placeholder>
+      <md-icon>vpn_key</md-icon>
+      <span>房间密码</span>
+    </md-placeholder>
     <input #hostPasswordRef mdInput name="title" [(ngModel)]="host_password" readonly>
-    <button type="button" md-icon-button mdSuffix (click)="copy(host_password)"><md-icon>content_copy</md-icon></button>
-    <button type="button" md-icon-button mdSuffix (click)="share(host_password)"><md-icon>share</md-icon></button>
+    <button type="button" md-icon-button mdSuffix (click)="copy(host_password)">
+      <md-icon>content_copy</md-icon>
+    </button>
+    <button type="button" md-icon-button mdSuffix (click)="share(host_password)">
+      <md-icon>share</md-icon>
+    </button>
     <md-hint align="end">把这个分享给你的朋友</md-hint>
   </md-input-container>
-  <md-select class="full-width" placeholder="卡片允许" name="rule" [(ngModel)]="room.options.rule">
+  <md-select class="full-width" placeholder="卡片允许" name="rule" [(ngModel)]="room.options.rule" required>
     <md-option [value]="0">OCG</md-option>
     <md-option [value]="1">TCG</md-option>
     <md-option [value]="2">OCG & TCG</md-option>
     <md-option [value]="3">专有卡禁止</md-option>
   </md-select>
-  <md-select class="full-width" placeholder="决斗模式" name="mode" [(ngModel)]="room.options.mode">
+  <md-select class="full-width" placeholder="决斗模式" name="mode" [(ngModel)]="room.options.mode" required>
     <md-option [value]="0">单局模式</md-option>
     <md-option [value]="1">比赛模式</md-option>
     <md-option [value]="2">TAG</md-option>
@@ -29,13 +36,13 @@
 
 
   <md-input-container class="full-width">
-    <input name="start_lp" [(ngModel)]="room.options.start_lp" mdInput type="number" min="1" max="65536" placeholder="初始 LP">
+    <input name="start_lp" [(ngModel)]="room.options.start_lp" mdInput type="number" min="1" max="65536" placeholder="初始 LP" required>
   </md-input-container>
   <md-input-container class="full-width">
-    <input name="start_hand" [(ngModel)]="room.options.start_hand" mdInput type="number" min="0" max="16" placeholder="初始手牌数">
+    <input name="start_hand" [(ngModel)]="room.options.start_hand" mdInput type="number" min="0" max="16" placeholder="初始手牌数" required>
   </md-input-container>
   <md-input-container class="full-width">
-    <input name="draw_count" [(ngModel)]="room.options.draw_count" mdInput type="number" min="0" max="16" placeholder="每回合抽卡">
+    <input name="draw_count" [(ngModel)]="room.options.draw_count" mdInput type="number" min="0" max="16" placeholder="每回合抽卡" required>
   </md-input-container>
 
   <md-checkbox class="full-width" name="room.private" [(ngModel)]="room.private">私密房间</md-checkbox>
