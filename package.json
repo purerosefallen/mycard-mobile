@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --base-href /mobile/index.html --deploy-url /mobile --locale zh-CN --output-path mobile --open",
-    "build": "ng build --base-href /mobile2/index.html --locale zh-CN --aot --prod",
+    "build": "ng build --base-href /mobile/index.html --locale zh-CN --aot --prod",
     "lint": "ng lint"
   },
   "private": true,
