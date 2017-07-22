@@ -1,7 +1,7 @@
 {
   "name": "mycard-mobile",
-  "version": "1.0.3",
-  "license": "MIT",
+  "version": "1.0.4",
+  "license": "UNLISENCED",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --base-href /mobile/index.html --deploy-url /mobile --locale zh-CN --output-path mobile --open",
