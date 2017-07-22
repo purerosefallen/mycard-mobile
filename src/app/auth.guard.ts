@@ -19,7 +19,7 @@ export class AuthGuard implements CanActivateChild {
       this.login.callback(token);
       return true;
     } else {
-      this.login.login();
+      location.replace(this.login.login());
       return false;
     }
 

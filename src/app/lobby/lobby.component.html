@@ -19,6 +19,7 @@
     <md-icon>add</md-icon>
   </button>
   <md-menu #menu="mdMenu">
+    <a [href]="login.logout()" md-menu-item>切换用户</a>
     <button md-menu-item>大厅版本 {{version}}</button>
   </md-menu>
 </md-toolbar>
