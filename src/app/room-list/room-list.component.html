@@ -47,7 +47,7 @@
   <md-row *cdkRowDef="let room; columns: displayedColumns;" (click)="ygopro.join_room(room)"></md-row>
 </md-table>
 
-<form class="example-form">
-  <input placeholder="在这输入你朋友的私密房间密码就可以进去了哦!">
+<form (submit)="ygopro.join_private(joinPassword.value)" ngNativeValidate>
+  <input #joinPassword placeholder="在这输入你朋友的私密房间密码就可以进去了哦!" required>
   <button md-raised-button color="primary">加入私密房间</button>
 </form>
