@@ -1,3 +1,5 @@
+<!--https://github.com/google/material-design-icons/blob/master/iconfont/codepoints-->
+
 <md-toolbar color="primary">
   <button id="menu" md-icon-button (click)="ygopro.openDrawer()">
     <md-icon>menu</md-icon>
@@ -44,13 +46,13 @@
     <md-icon>games</md-icon>
     <br>房间列表</a></md-grid-tile>
   <md-grid-tile><a md-raised-button color="primary" routerLink="/ygopro/rooms/new">
-    <md-icon>add_box</md-icon>
+    <md-icon>&#xe146;</md-icon><!--add_box-->
     <br>创建房间</a></md-grid-tile>
   <md-grid-tile><a md-raised-button routerLink="/ygopro/windbot">
-    <md-icon>airplanemode_active</md-icon>
+    <md-icon>&#xe195;</md-icon><!-- airplanemode_active -->
     <br>单人模式</a></md-grid-tile>
   <md-grid-tile><a md-raised-button routerLink="/ygopro/watch">
-    <md-icon>remove_red_eye</md-icon>
+    <md-icon>&#xe417;</md-icon><!--remove_red_eye-->
     <br>观战</a></md-grid-tile>
   <!--<md-grid-tile>-->
   <!--<button md-raised-button (click)="ygopro.watch_replay()">-->
@@ -75,7 +77,7 @@
   </md-grid-tile>
 </md-grid-list>
 
-<md-card  *ngIf="ygopro.points">
+<md-card *ngIf="ygopro.points">
   <md-grid-list id="points" cols="4" rowHeight="20px">
     <md-grid-tile>
       <dt>竞技排名</dt>

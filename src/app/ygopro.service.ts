@@ -207,28 +207,19 @@ export class YGOProService {
 
     // 那些兼容性的垃圾事儿
     // https://www.html5rocks.com/en/tutorials/pagevisibility/intro/
-    function getHiddenProp() {
-      const prefixes = ['webkit', 'moz', 'ms', 'o'];
 
-      // if 'hidden' is natively supported just return it
-      if ('hidden' in document) return 'hidden';
-
-      // otherwise loop over all the known prefixes until we find one
-      for (let i = 0; i < prefixes.length; i++) {
-        if ((prefixes[i] + 'Hidden') in document)
-          return prefixes[i] + 'Hidden';
-      }
-
-      // otherwise it's not supported
-      return null;
-    }
-
-    const visProp = getHiddenProp();
-    if (visProp) {
-      const evtname = visProp.replace(/[H|h]idden/, '') + 'visibilitychange';
-      Observable.fromEvent(document, evtname).subscribe(async () => !document[visProp] && this.load_result());
+    const hidden = ['hidden', 'webkitHidden', 'mozHidden', 'msHidden', 'oHidden'].find((prop) => prop in document);
+    if (hidden) {
+      const evtname = hidden.replace(/[H|h]idden/, '') + 'visibilitychange';
+      Observable.fromEvent(document, evtname).subscribe(() => {
+        if (!document[hidden]) {
+          this.load_result();
+        }
+      });
     } else {
-      alert('调试信息1，看到的话请联系zh99998@gmail.com');
+      Observable.fromEvent(window, 'focus').subscribe(() => {
+        this.load_result();
+      });
     }
   }
 

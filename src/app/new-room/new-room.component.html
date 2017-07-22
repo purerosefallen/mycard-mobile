@@ -7,12 +7,12 @@
   </md-input-container>
   <md-input-container *ngIf="room.private" class="full-width">
     <md-placeholder>
-      <md-icon>vpn_key</md-icon>
+      <md-icon>&#xe0da;</md-icon><!-- vpn_key -->
       <span>房间密码</span>
     </md-placeholder>
     <input #hostPasswordInput mdInput name="title" [(ngModel)]="host_password" readonly>
     <button type="button" md-icon-button mdSuffix (click)="copy(host_password)">
-      <md-icon>content_copy</md-icon>
+      <md-icon>&#xe14d;</md-icon><!-- content_copy -->
     </button>
     <button type="button" md-icon-button mdSuffix (click)="share(host_password)">
       <md-icon>share</md-icon>
