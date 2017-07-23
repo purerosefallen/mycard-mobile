@@ -1,5 +1,9 @@
 <app-toolbar>观战</app-toolbar>
 
+<div class="hint" *ngIf="dataSource.loading"><md-spinner></md-spinner></div>
+<div class="hint" *ngIf="dataSource.empty">现在没有进行中的游戏</div>
+<div class="hint" *ngIf="dataSource.error">网络错误</div>
+
 <md-table #table [dataSource]="dataSource">
 
   <!--- Note that these columns can be defined in any order.

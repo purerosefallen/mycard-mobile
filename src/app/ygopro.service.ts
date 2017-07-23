@@ -386,6 +386,10 @@ type Message =
 
 export class RoomListDataSource extends DataSource<any> {
 
+  loading = true;
+  empty = false;
+  error: any;
+
   constructor(private servers: Server[], private filter = 'waiting') {
     super();
   }
@@ -394,35 +398,47 @@ export class RoomListDataSource extends DataSource<any> {
   connect(): Observable<Room[]> {
 
     return Observable.combineLatest(this.servers.map(server => {
-        const url = new URL(server.url!);
-        url.searchParams.set('filter', this.filter);
-        return Observable.webSocket({ url: url.toString() })
-          .scan((rooms: Room[], message: Message) => {
-            switch (message.event) {
-              case 'init':
-                return message.data.map(room => ({ server: server, ...room }));
-              case 'create':
-                return rooms.concat({ server: server, ...message.data });
-              case 'update':
-                Object.assign(rooms.find(room => room.id === message.data.id), message.data);
-                return rooms;
-              case 'delete':
-                return rooms.filter(room => room.id != message.data);
-            }
-          }, []);
-      }
-    ), (...sources: Room[][]) => (<Room[]>[]).concat(...sources)).map(rooms => sortBy(rooms, (room) => {
-        if (room.arena === 'athletic') {
-          return 0;
-        } else if (room.arena === 'entertain') {
-          return 1;
-        } else if (room.id!.startsWith('AI#')) {
-          return 5;
-        } else {
-          return room.options.mode + 2;
-        }
-      })
-    );
+      const url = new URL(server.url!);
+      url.searchParams.set('filter', this.filter);
+      // 协议处理
+      return Observable.webSocket({ url: url.toString() })
+        .scan((rooms: Room[], message: Message) => {
+          switch (message.event) {
+            case 'init':
+              return message.data.map(room => ({ server: server, ...room }));
+            case 'create':
+              return rooms.concat({ server: server, ...message.data });
+            case 'update':
+              Object.assign(rooms.find(room => room.id === message.data.id), message.data);
+              return rooms;
+            case 'delete':
+              return rooms.filter(room => room.id != message.data);
+          }
+        }, []);
+    // 把多个服务器的数据拼接起来，这里是 combineLatest 的第二个参数
+    }), (...sources: Room[][]) => (<Room[]>[]).concat(...sources))
+      // 房间排序
+      .map(rooms => sortBy(rooms, (room) => {
+          if (room.arena === 'athletic') {
+            return 0;
+          } else if (room.arena === 'entertain') {
+            return 1;
+          } else if (room.id!.startsWith('AI#')) {
+            return 5;
+          } else {
+            return room.options.mode + 2;
+          }
+        })
+      // loading、empty、error
+      ).filter((rooms) => {
+        this.loading = false;
+        this.empty = rooms.length == 0;
+        return true;
+      }).catch((error) => {
+        this.loading = false;
+        this.error = error;
+        return [];
+      });
   }
 
   disconnect() {

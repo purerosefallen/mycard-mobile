@@ -1,8 +1,4 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
-import 'rxjs/add/observable/merge';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/startWith';
-import 'rxjs/Rx';
 import { LoginService } from '../login.service';
 import { RoomListDataSource, YGOProService } from '../ygopro.service';
 

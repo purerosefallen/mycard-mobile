@@ -23,6 +23,7 @@
   <md-menu #menu="mdMenu">
     <a [href]="login.logout()" md-menu-item>切换用户</a>
     <button md-menu-item>大厅版本 {{version}}</button>
+    <button md-menu-item *ngIf="build">应用版本 {{build.version_name}}</button>
   </md-menu>
 </md-toolbar>
 
@@ -158,7 +159,7 @@
     <md-card-header>
       <img *ngIf="item.image" md-card-avatar [src]="item.image">
       <md-card-title>{{item.title}}</md-card-title>
-      <md-card-subtitle>{{item.updated_at | date:"mediumDate"}}</md-card-subtitle>
+      <md-card-subtitle>{{item.updated_at | date}}</md-card-subtitle>
     </md-card-header>
   </a>
 </md-card>
@@ -168,7 +169,7 @@
     <md-card-header>
       <img *ngIf="item.image_url" md-card-avatar [src]="item.image_url">
       <md-card-title>{{item.title}}</md-card-title>
-      <md-card-subtitle>by {{item.last_poster_username}} / {{item.last_posted_at | date:"mediumDate"}}
+      <md-card-subtitle>by {{item.last_poster_username}} / {{item.last_posted_at | date}}
       </md-card-subtitle>
     </md-card-header>
   </a>

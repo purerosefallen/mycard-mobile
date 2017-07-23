@@ -11,7 +11,8 @@ import {
   MdGridListModule,
   MdIconModule,
   MdInputModule,
-  MdListModule, MdMenuModule,
+  MdListModule,
+  MdMenuModule, MdProgressSpinnerModule,
   MdSelectModule,
   MdSlideToggleModule,
   MdSnackBarModule,
@@ -21,18 +22,19 @@ import {
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import 'hammerjs';
+import 'rxjs/Rx';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LobbyComponent } from './lobby/lobby.component';
 import { MatchDialog } from './match/match.component';
 import { NewRoomComponent } from './new-room/new-room.component';
+import { ResultDialog } from './result/result.dialog';
 import { RoomListComponent } from './room-list/room-list.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { WatchComponent } from './watch/watch.component';
 import { WindbotComponent } from './windbot/windbot.component';
 import { YGOProService } from './ygopro.service';
-import { ResultDialog } from './result/result.dialog';
 
 @NgModule({
   declarations: [
@@ -69,7 +71,8 @@ import { ResultDialog } from './result/result.dialog';
     MdAutocompleteModule,
     ReactiveFormsModule,
     JsonpModule,
-    MdMenuModule
+    MdMenuModule,
+    MdProgressSpinnerModule
   ],
   providers: [YGOProService],
   bootstrap: [AppComponent],

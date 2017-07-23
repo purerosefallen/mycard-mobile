@@ -1,3 +1,21 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.hint {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 56px;
+  right: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .avatar {
   width: 20px;
   height: 20px;
@@ -6,11 +24,6 @@
 
 .game-title {
   flex: 2
-}
-:host {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
 }
 
 md-table {
