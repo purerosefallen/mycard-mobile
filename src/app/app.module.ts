@@ -35,6 +35,9 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
 import { WatchComponent } from './watch/watch.component';
 import { WindbotComponent } from './windbot/windbot.component';
 import { YGOProService } from './ygopro.service';
+import { DecksComponent } from './decks/decks.component';
+import { DragulaModule } from 'ng2-dragula';
+import { SaveService } from './save.service';
 
 @NgModule({
   declarations: [
@@ -47,6 +50,7 @@ import { YGOProService } from './ygopro.service';
     WatchComponent,
     ToolbarComponent,
     ResultDialog,
+    DecksComponent,
   ],
   imports: [
     BrowserModule,
@@ -72,9 +76,10 @@ import { YGOProService } from './ygopro.service';
     ReactiveFormsModule,
     JsonpModule,
     MdMenuModule,
-    MdProgressSpinnerModule
+    MdProgressSpinnerModule,
+    DragulaModule
   ],
-  providers: [YGOProService],
+  providers: [YGOProService, SaveService],
   bootstrap: [AppComponent],
   entryComponents: [MatchDialog, ResultDialog],
 })
