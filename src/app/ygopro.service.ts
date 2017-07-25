@@ -6,6 +6,7 @@ import { sortBy } from 'lodash';
 import { Observable } from 'rxjs/Observable';
 import { LoginService } from './login.service';
 import { ResultDialog } from './result/result.dialog';
+import { StorageService } from './storage.service';
 
 export interface User {
   admin: boolean;
@@ -144,11 +145,12 @@ export class YGOProService {
     replay: true
   }];
 
-  constructor(private login: LoginService, private http: Http, private dialog: MdDialog) {
+  constructor(private login: LoginService, private http: Http, private dialog: MdDialog, private storage: StorageService) {
     this.load().catch(alert);
   }
 
   async load() {
+
     const apps: App[] = await this.http.get('https://api.mycard.moe/apps.json').map(response => response.json()).toPromise();
     const app = apps.find(app => app.id === 'ygopro')!;
     this.news = app.news['zh-CN'];
@@ -163,6 +165,7 @@ export class YGOProService {
       image_url: topic.image_url && new URL(topic.image_url, 'https://ygobbs.com').toString()
     })));
 
+    this.storage.sync('ygopro');
     this.load_points();
 
     await this.load_result(false);
@@ -214,11 +217,13 @@ export class YGOProService {
       Observable.fromEvent(document, evtname).subscribe(() => {
         if (!document[hidden]) {
           this.load_result();
+          this.storage.sync('ygopro');
         }
       });
     } else {
       Observable.fromEvent(window, 'focus').subscribe(() => {
         this.load_result();
+        this.storage.sync('ygopro');
       });
     }
   }
@@ -415,9 +420,9 @@ export class RoomListDataSource extends DataSource<any> {
               return rooms.filter(room => room.id != message.data);
           }
         }, []);
-    // 把多个服务器的数据拼接起来，这里是 combineLatest 的第二个参数
+      // 把多个服务器的数据拼接起来，这里是 combineLatest 的第二个参数
     }), (...sources: Room[][]) => (<Room[]>[]).concat(...sources))
-      // 房间排序
+    // 房间排序
       .map(rooms => sortBy(rooms, (room) => {
           if (room.arena === 'athletic') {
             return 0;
@@ -429,7 +434,7 @@ export class RoomListDataSource extends DataSource<any> {
             return room.options.mode + 2;
           }
         })
-      // loading、empty、error
+        // loading、empty、error
       ).filter((rooms) => {
         this.loading = false;
         this.empty = rooms.length == 0;
@@ -466,6 +471,14 @@ declare global {
       openDrawer(): void
       backHome(): void
       share(text: string): void
+
+      readFile(path: string): string
+      writeFile(path: string, data: string): string
+      readdir(path: string): string
+      unlink(path: string): boolean
+      getFileLastModified(path: string): number
+      setFileLastModified(path: string, time: number): void
+
     };
   }
 }

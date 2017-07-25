@@ -12,7 +12,8 @@ import {
   MdIconModule,
   MdInputModule,
   MdListModule,
-  MdMenuModule, MdProgressSpinnerModule,
+  MdMenuModule,
+  MdProgressSpinnerModule,
   MdSelectModule,
   MdSlideToggleModule,
   MdSnackBarModule,
@@ -31,13 +32,11 @@ import { MatchDialog } from './match/match.component';
 import { NewRoomComponent } from './new-room/new-room.component';
 import { ResultDialog } from './result/result.dialog';
 import { RoomListComponent } from './room-list/room-list.component';
+import { StorageService } from './storage.service';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { WatchComponent } from './watch/watch.component';
 import { WindbotComponent } from './windbot/windbot.component';
 import { YGOProService } from './ygopro.service';
-import { DecksComponent } from './decks/decks.component';
-import { DragulaModule } from 'ng2-dragula';
-import { SaveService } from './save.service';
 
 @NgModule({
   declarations: [
@@ -50,7 +49,6 @@ import { SaveService } from './save.service';
     WatchComponent,
     ToolbarComponent,
     ResultDialog,
-    DecksComponent,
   ],
   imports: [
     BrowserModule,
@@ -77,9 +75,8 @@ import { SaveService } from './save.service';
     JsonpModule,
     MdMenuModule,
     MdProgressSpinnerModule,
-    DragulaModule
   ],
-  providers: [YGOProService, SaveService],
+  providers: [YGOProService, StorageService],
   bootstrap: [AppComponent],
   entryComponents: [MatchDialog, ResultDialog],
 })

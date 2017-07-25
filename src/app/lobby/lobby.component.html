@@ -13,6 +13,9 @@
       </md-option>
     </md-autocomplete>
   </form>
+  <button md-icon-button *ngIf="storage.working">
+    <md-icon class="fa-spin">sync</md-icon>
+  </button>
   <a href="https://accounts.moecube.com/profiles" target="_blank" md-icon-button>
     <img id="avatar" [src]="login.user.avatar_url">
   </a>

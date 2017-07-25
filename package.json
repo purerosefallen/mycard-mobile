@@ -5,6 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --base-href /mobile/index.html --deploy-url /mobile --locale zh-CN --output-path mobile --open",
+    "start:wild": "npm run start -- --host 0.0.0.0 --public-host 192.168.1.131:4200",
     "build": "ng build --base-href /mobile/index.html --locale zh-CN --aot --prod",
     "postinstall": "./fuck.sh",
     "build:dev": "ng build --base-href /mobile2/index.html --locale zh-CN --aot",
@@ -12,7 +13,6 @@
     "publish": "npm run build && ./ossutil cp -rf dist oss://mycard/mobile",
     "publish:dev": "npm run build:dev && ./ossutil cp -rf dist oss://mycard/mobile2"
   },
-  "private": true,
   "dependencies": {
     "@angular/animations": "^4.3.0",
     "@angular/cdk": "^2.0.0-beta.8",

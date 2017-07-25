@@ -8,7 +8,7 @@ import { LoginService } from '../login.service';
 import { MatchDialog } from '../match/match.component';
 import { routerTransition2 } from '../router.animations';
 import { YGOProService } from '../ygopro.service';
-import { SaveService } from '../save.service';
+import { StorageService } from '../storage.service';
 @Component({
   selector: 'app-lobby',
   templateUrl: 'lobby.component.html',
@@ -30,7 +30,7 @@ export class LobbyComponent {
 
   arena_url: string;
 
-  constructor(public login: LoginService, public ygopro: YGOProService, public dialog: MdDialog, private http: Http, private jsonp: Jsonp, private route: ActivatedRoute, public save: SaveService) {
+  constructor(public login: LoginService, public ygopro: YGOProService, public dialog: MdDialog, private http: Http, private jsonp: Jsonp, private route: ActivatedRoute, public storage: StorageService) {
 
     const arena_url = new URL('https://mycard.moe/ygopro/arena');
     arena_url.searchParams.set('sso', login.token);
