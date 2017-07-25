@@ -35,8 +35,8 @@ export class StorageService {
   }
 
   async sync(app_id: string) {
-    if (!window.ygopro.getFileLastModified) {
-      throw 'storage sync not supported';
+    if (!window.ygopro || !window.ygopro.getFileLastModified) {
+      return;
     }
 
     console.log('sync', 'start');
