@@ -51,10 +51,6 @@ export class LobbyComponent {
     url.searchParams.set('key', key);
     open(url.toString());
   }
-
-  request_match(arena: string) {
-    this.dialog.open(MatchDialog, { data: arena, disableClose: true });
-  }
 }
 
 interface BuildConfig {

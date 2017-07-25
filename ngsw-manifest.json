@@ -1,0 +1,16 @@
+{
+  "routing": {
+    "index": "/mobile2/index.html",
+    "routes": {
+      "/mobile2/": {
+        "match": "exact"
+      },
+      "/mobile2/?": {
+        "match": "prefix"
+      },
+      "/mobile2/ygopro/": {
+        "match": "prefix"
+      }
+    }
+  }
+}

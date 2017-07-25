@@ -41,7 +41,6 @@ export class ResultDialog {
   }
 
   again() {
-    this.dialogRef.close();
-    this.dialog.open(MatchDialog, { data: this.last.type, disableClose: true });
+    this.dialogRef.close(true);
   }
 }

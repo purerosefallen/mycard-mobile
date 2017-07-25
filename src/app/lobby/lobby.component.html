@@ -35,13 +35,13 @@
   <!--<a href="https://accounts.moecube.com/profiles" id="avatar" md-raised-button [style.background-image]="'url(' + login.user.avatar_url + ')'">{{login.user.username}}</a>-->
   <!--</md-grid-tile>-->
   <md-grid-tile>
-    <button md-raised-button color="primary" (click)="request_match('athletic')">
+    <button md-raised-button color="primary" (click)="ygopro.request_match('athletic')">
       <md-icon fontSet="fa" fontIcon="fa-futbol-o"></md-icon>
       <br>竞技匹配
     </button>
   </md-grid-tile>
   <md-grid-tile>
-    <button md-raised-button color="primary" (click)="request_match('entertain')">
+    <button md-raised-button color="primary" (click)="ygopro.request_match('entertain')">
       <md-icon>toys</md-icon>
       <br>娱乐匹配
     </button>

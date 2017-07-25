@@ -5,6 +5,7 @@ import { MdDialog } from '@angular/material';
 import { sortBy } from 'lodash';
 import { Observable } from 'rxjs/Observable';
 import { LoginService } from './login.service';
+import { MatchDialog } from './match/match.component';
 import { ResultDialog } from './result/result.dialog';
 import { StorageService } from './storage.service';
 
@@ -202,7 +203,17 @@ export class YGOProService {
       if (load_points) {
         this.load_points();
       }
-      this.dialog.open(ResultDialog, { data: last });
+      const again = await this.dialog.open(ResultDialog, { data: last }).afterClosed();
+      if (again) {
+        this.request_match(last.type);
+      }
+    }
+  }
+
+  async request_match(arena: string) {
+    const data = await this.dialog.open(MatchDialog, { data: arena, disableClose: true });
+    if (data) {
+      this.join(data['password'], { address: data['address'], port: data['port'] });
     }
   }
 
