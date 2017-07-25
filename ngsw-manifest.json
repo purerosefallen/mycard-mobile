@@ -1,14 +1,14 @@
 {
   "routing": {
-    "index": "/mobile2/index.html",
+    "index": "/mobile/index.html",
     "routes": {
-      "/mobile2/": {
+      "/mobile/": {
         "match": "exact"
       },
-      "/mobile2/?": {
+      "/mobile/?": {
         "match": "prefix"
       },
-      "/mobile2/ygopro/": {
+      "/mobile/ygopro/": {
         "match": "prefix"
       }
     }
