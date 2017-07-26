@@ -4,9 +4,9 @@ import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { LoginService } from '../login.service';
-import { YGOProService } from '../ygopro.service';
 
 const second = 1000;
+const offset = new Date().getTimezoneOffset() * 60 * second;
 
 @Component({
   selector: 'app-match',
@@ -15,8 +15,8 @@ const second = 1000;
 })
 export class MatchDialog implements OnInit, OnDestroy {
 
-  expect_wait = this.http.get('https://api.mycard.moe/ygopro/match/stats/' + this.arena).map(response => response.json() * second);
-  actual_wait = Observable.timer(0, second).map(timestamp => timestamp * second);
+  expect_wait = this.http.get('https://api.mycard.moe/ygopro/match/stats/' + this.arena).map(response => response.json() * second + offset);
+  actual_wait = Observable.timer(0, second).map(timestamp => timestamp * second + offset);
 
   matching: Subscription;
 
