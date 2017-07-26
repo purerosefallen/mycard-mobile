@@ -1,6 +1,6 @@
 {
   "name": "mycard-mobile",
-  "version": "1.0.10",
+  "version": "1.0.12",
   "license": "UNLISENCED",
   "scripts": {
     "ng": "ng",

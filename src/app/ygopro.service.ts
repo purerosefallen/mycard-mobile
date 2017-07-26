@@ -28,6 +28,7 @@ export interface Room {
   arena?: string;
   users?: { username: string, position: number }[];
 }
+
 export interface Options {
   mode: number;
   rule: number;
@@ -203,7 +204,7 @@ export class YGOProService {
       if (load_points) {
         this.load_points();
       }
-      const again = await this.dialog.open(ResultDialog, { data: last }).afterClosed();
+      const again = await this.dialog.open(ResultDialog, { data: last }).afterClosed().toPromise();
       if (again) {
         this.request_match(last.type);
       }
@@ -211,7 +212,7 @@ export class YGOProService {
   }
 
   async request_match(arena: string) {
-    const data = await this.dialog.open(MatchDialog, { data: arena, disableClose: true });
+    const data = await this.dialog.open(MatchDialog, { data: arena, disableClose: true }).afterClosed().toPromise();
     if (data) {
       this.join(data['password'], { address: data['address'], port: data['port'] });
     }
@@ -268,7 +269,7 @@ export class YGOProService {
     }
 
     let password = options_buffer.toString('base64') + (room.private ? host_password :
-        room.title!.replace(/\s/, String.fromCharCode(0xFEFF)));
+      room.title!.replace(/\s/, String.fromCharCode(0xFEFF)));
     // let room_id = crypto.createHash('md5').update(password + this.loginService.user.username).digest('base64')
     //     .slice(0, 10).replace('+', '-').replace('/', '_');
 
