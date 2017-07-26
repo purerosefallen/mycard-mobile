@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import * as path from 'path';
 import * as webdav from 'webdav';
 import { LoginService } from './login.service';
-import './o';
 
 interface DirectoryStats {
   'filename': string,
@@ -39,9 +38,7 @@ export class StorageService {
       return;
     }
 
-    console.log('sync', 'start');
-    this.working = true;
-
+    // console.log('sync', 'start');
 
     const root = path.join('/', app_id);
 
@@ -64,32 +61,31 @@ export class StorageService {
 
       remote_files.set(local_path, true);
       const local_time = window.ygopro.getFileLastModified(local_path);
+      // console.log('本地时间', local_path, local_time);
 
       if (local_time) {
         // 远端有，本地有
 
         if (local_time > remote_time) {
           // 远端有，本地有，远端>本地，下载
-          await
-            this.download(local_path, remote_path, index_path, remote_time);
+          await this.download(local_path, remote_path, index_path, remote_time);
         } else if (local_time < remote_time) {
           // 远端有，本地有，远端<本地，上传
-          await
-            this.upload(local_path, remote_path, index_path);
+          await this.upload(local_path, remote_path, index_path);
         }
       } else {
         // 远端有，本地无
         if (localStorage.getItem(index_path)) {
           // 远端有，本地无，记录有，删除远端
-          await
-            this.client.deleteFile(remote_path);
+          await this.remove_remote(local_path, remote_path, index_path);
         } else {
           // 远端有，本地无，记录无，下载
-          await
-            this.download(local_path, remote_path, index_path, remote_time);
+          await this.download(local_path, remote_path, index_path, remote_time);
         }
       }
     }
+
+    // console.log('远端文件扫描完毕', this.local_files());
 
     for (const local_path of this.local_files()) {
       const remote_path = path.join(root, local_path);
@@ -99,35 +95,51 @@ export class StorageService {
         // 远端无，本地有
         if (localStorage.getItem(index_path)) {
           // 远端无，本地有，记录有，删除本地
-          window.ygopro.unlink(local_path);
+          await this.remove_local(local_path, remote_path, index_path);
         } else {
           // 远端无，本地有，记录无，上传
-          await
-            this.upload(local_path, remote_path, index_path);
+          await this.upload(local_path, remote_path, index_path);
         }
       }
     }
 
-    console.log('sync', 'done');
+    // console.log('sync', 'done');
     this.working = false;
   }
 
   async download(local_path: string, remote_path: string, index_path: string, time: number) {
-    console.log('download', local_path, remote_path, index_path, time);
+    this.working = true;
+    // console.log('download', local_path, remote_path, index_path, time);
     const data: Uint8Array = await this.client.getFileContents(remote_path);
     window.ygopro.writeFile(local_path, Buffer.from(data.buffer).toString('base64'));
     window.ygopro.setFileLastModified(local_path, time);
-    localStorage.setItem(local_path, time.toString());
+    // console.log(local_path, time);
+    localStorage.setItem(index_path, time.toString());
   }
 
   async upload(local_path: string, remote_path: string, index_path: string) {
-    console.log('upload', local_path, remote_path, index_path);
+    this.working = true;
+    // console.log('upload', local_path, remote_path, index_path);
     const data = Buffer.from(window.ygopro.readFile(local_path), 'base64');
     await this.client.putFileContents(remote_path, data);
     const item: FileStats = await this.client.stat(remote_path);
     const time = Date.parse(item.lastmod);
     window.ygopro.setFileLastModified(local_path, time);
-    localStorage.setItem(local_path, time.toString());
+    // console.log(local_path, time);
+    localStorage.setItem(index_path, time.toString());
+  }
+
+  // 其实没必要 async，只是看着整齐一点
+  async remove_local(local_path: string, remote_path: string, index_path: string) {
+    this.working = true;
+    window.ygopro.unlink(local_path);
+    localStorage.removeItem(index_path);
+  }
+
+  async remove_remote(local_path: string, remote_path: string, index_path: string) {
+    this.working = true;
+    await this.client.deleteFile(remote_path);
+    localStorage.removeItem(index_path);
   }
 
   local_files() {
@@ -144,8 +156,9 @@ export class StorageService {
       .map(file => path.join(directory, file));
   }
 
-  async *walk(dir: string): AsyncIterable<Stats> {
+  async * walk(dir: string): AsyncIterable<Stats> {
     const items: Stats[] = await this.client.getDirectoryContents(dir);
+    // console.log('取远端目录', dir, items);
     for (let item of items) {
       if (item.type === 'directory') {
         yield* this.walk(item.filename);
@@ -154,14 +167,4 @@ export class StorageService {
       }
     }
   }
-
 }
-
-
-// const local = window.ygopro.getFileStats(item.filename);
-// const remote_mtime = Date.parse(item.lastmod);
-// if (local.mtime >= remote_mtime) {
-//   // 本地的较新，上传0
-//   await client.putFileContents();
-//
-// }

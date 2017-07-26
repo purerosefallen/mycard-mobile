@@ -1,14 +1,14 @@
 {
   "name": "mycard-mobile",
-  "version": "1.0.12",
+  "version": "1.0.14",
   "license": "UNLISENCED",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --base-href /mobile/ --deploy-url /mobile --locale zh-CN --output-path mobile --open",
     "start:wild": "npm run start -- --host 0.0.0.0 --public-host 192.168.1.131:4200",
-    "build": "ng build --base-href /mobile/ --locale zh-CN --aot --build-optimizer --extract-css --sourcemaps  --prod",
+    "build": "ng build --base-href /mobile/ --locale zh-CN --aot --build-optimizer --extract-css --prod",
     "postinstall": "./fuck.sh",
-    "build:dev": "ng build --base-href /mobile2/ --locale zh-CN --aot --build-optimizer --extract-css --sourcemaps",
+    "build:dev": "ng build --base-href /mobile2/ --locale zh-CN --aot --build-optimizer --extract-css",
     "lint": "ng lint",
     "publish": "npm run build && ./ossutil cp -rf dist oss://mycard/mobile",
     "publish:dev": "npm run build:dev && ./ossutil cp -rf dist oss://mycard/mobile2"
