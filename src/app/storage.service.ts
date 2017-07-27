@@ -66,12 +66,19 @@ export class StorageService {
       if (local_time) {
         // 远端有，本地有
 
-        if (local_time > remote_time) {
+        if (remote_time > local_time) {
           // 远端有，本地有，远端>本地，下载
           await this.download(local_path, remote_path, index_path, remote_time);
-        } else if (local_time < remote_time) {
+        } else if (remote_time < local_time) {
           // 远端有，本地有，远端<本地，上传
           await this.upload(local_path, remote_path, index_path);
+        } else {
+          // 远端有，本地有，远端=本地，更新记录
+          const time = local_time.toString();
+          if (localStorage.getItem(index_path) !== time) {
+            console.log('更新记录', index_path, time);
+            localStorage.setItem(index_path, time);
+          }
         }
       } else {
         // 远端有，本地无
@@ -102,6 +109,8 @@ export class StorageService {
         }
       }
     }
+
+    // fixme: 如果远端和本地同时没有，但是 localStorage 里有，要删除
 
     // console.log('sync', 'done');
     this.working = false;
