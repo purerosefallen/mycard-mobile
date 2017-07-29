@@ -48,4 +48,12 @@ export class NewRoomComponent {
     this.ygopro.share('房间密码是' + host_password);
   }
 
+  set_start_lp() {
+    if (this.room.options.mode == 2) {
+      this.room.options.start_lp = 16000;
+    } else {
+      this.room.options.start_lp = 8000;
+    }
+  }
+
 }

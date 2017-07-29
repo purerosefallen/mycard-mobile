@@ -25,7 +25,7 @@
     <md-option [value]="2">OCG & TCG</md-option>
     <md-option [value]="3">专有卡禁止</md-option>
   </md-select>
-  <md-select class="full-width" placeholder="决斗模式" name="mode" [(ngModel)]="room.options.mode" required>
+  <md-select class="full-width" placeholder="决斗模式" name="mode" [(ngModel)]="room.options.mode" (ngModelChange)="set_start_lp()" required>
     <md-option [value]="0">单局模式</md-option>
     <md-option [value]="1">比赛模式</md-option>
     <md-option [value]="2">TAG</md-option>
