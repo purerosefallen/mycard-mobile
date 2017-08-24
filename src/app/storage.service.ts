@@ -4,24 +4,24 @@ import * as webdav from 'webdav';
 import { LoginService } from './login.service';
 
 interface DirectoryStats {
-  'filename': string,
-  'basename': string,
-  'lastmod': string,
-  'size': 0,
-  'type': 'directory'
+  'filename': string;
+  'basename': string;
+  'lastmod': string;
+  'size': 0;
+  'type': 'directory';
 }
 
 
 interface FileStats {
-  'filename': string,
-  'basename': string,
-  'lastmod': string,
-  'size': number,
-  'type': 'file',
-  'mime': string
+  'filename': string;
+  'basename': string;
+  'lastmod': string;
+  'size': number;
+  'type': 'file';
+  'mime': string;
 }
 
-type Stats = DirectoryStats | FileStats
+type Stats = DirectoryStats | FileStats;
 
 @Injectable()
 export class StorageService {
@@ -168,7 +168,7 @@ export class StorageService {
   async * walk(dir: string): AsyncIterable<Stats> {
     const items: Stats[] = await this.client.getDirectoryContents(dir);
     // console.log('取远端目录', dir, items);
-    for (let item of items) {
+    for (const item of items) {
       if (item.type === 'directory') {
         yield* this.walk(item.filename);
       } else {

@@ -11,9 +11,9 @@ export class LoginService {
   login() {
     let params = new URLSearchParams();
     params.set('return_sso_url', location.href);
-    let payload = Buffer.from(params.toString()).toString('base64');
+    const payload = Buffer.from(params.toString()).toString('base64');
 
-    let url = new URL('https://accounts.moecube.com');
+    const url = new URL('https://accounts.moecube.com');
     params = url['searchParams'];
     params.set('sso', payload);
 
@@ -48,9 +48,9 @@ export class LoginService {
   logout() {
     let params = new URLSearchParams();
     params.set('return_sso_url', location.href);
-    let payload = Buffer.from(params.toString()).toString('base64');
+    const payload = Buffer.from(params.toString()).toString('base64');
 
-    let url = new URL('https://accounts.moecube.com/signin');
+    const url = new URL('https://accounts.moecube.com/signin');
     params = url['searchParams'];
     params.set('sso', payload);
     return url.toString();

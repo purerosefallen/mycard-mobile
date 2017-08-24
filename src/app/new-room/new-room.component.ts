@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostBinding, ViewChild } from '@angular/core';
 import { MdSnackBar } from '@angular/material';
 import { LoginService } from '../login.service';
 import { routerTransition } from '../router.animations';
@@ -9,10 +9,12 @@ import { YGOProService } from '../ygopro.service';
   selector: 'app-new-room',
   templateUrl: 'new-room.component.html',
   styleUrls: ['new-room.component.css'],
-  animations: [routerTransition],
-  host: { '[@routerTransition]': '' }
+  animations: [routerTransition]
 })
 export class NewRoomComponent {
+
+  @HostBinding('@routerTransition')
+  animation = '';
 
   @ViewChild('hostPasswordInput')
   hostPasswordInput: ElementRef;
@@ -22,7 +24,7 @@ export class NewRoomComponent {
   room = {
     title: this.login.user.username + '的房间',
     'private': false,
-    options: { ...this.ygopro.default_options }
+    options: {...this.ygopro.default_options}
   };
 
   constructor(public ygopro: YGOProService, private login: LoginService, private snackBar: MdSnackBar) {
@@ -34,7 +36,7 @@ export class NewRoomComponent {
       this.hostPasswordInput.nativeElement.select();
 
       if (document.execCommand('copy')) {
-        this.snackBar.open(`房间密码 ${host_password} 已复制到剪贴板`, undefined, { duration: 3000 });
+        this.snackBar.open(`房间密码 ${host_password} 已复制到剪贴板`, undefined, {duration: 3000});
       } else {
         console.log('Oops, unable to copy');
       }
@@ -49,7 +51,7 @@ export class NewRoomComponent {
   }
 
   set_start_lp() {
-    if (this.room.options.mode == 2) {
+    if (this.room.options.mode === 2) {
       this.room.options.start_lp = 16000;
     } else {
       this.room.options.start_lp = 8000;

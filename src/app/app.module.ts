@@ -28,9 +28,9 @@ import 'rxjs/Rx';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LobbyComponent } from './lobby/lobby.component';
-import { MatchDialog } from './match/match.component';
+import { MatchDialogComponent } from './match/match.component';
 import { NewRoomComponent } from './new-room/new-room.component';
-import { ResultDialog } from './result/result.dialog';
+import { ResultDialogComponent } from './result/result.dialog';
 import { RoomListComponent } from './room-list/room-list.component';
 import { StorageService } from './storage.service';
 import { ToolbarComponent } from './toolbar/toolbar.component';
@@ -44,11 +44,11 @@ import { YGOProService } from './ygopro.service';
     LobbyComponent,
     NewRoomComponent,
     RoomListComponent,
-    MatchDialog,
+    MatchDialogComponent,
     WindbotComponent,
     WatchComponent,
     ToolbarComponent,
-    ResultDialog,
+    ResultDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -78,7 +78,7 @@ import { YGOProService } from './ygopro.service';
   ],
   providers: [YGOProService, StorageService],
   bootstrap: [AppComponent],
-  entryComponents: [MatchDialog, ResultDialog],
+  entryComponents: [MatchDialogComponent, ResultDialogComponent],
 })
 export class AppModule {
 }

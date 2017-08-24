@@ -5,8 +5,8 @@ import { MdDialog } from '@angular/material';
 import { sortBy } from 'lodash';
 import { Observable } from 'rxjs/Observable';
 import { LoginService } from './login.service';
-import { MatchDialog } from './match/match.component';
-import { ResultDialog } from './result/result.dialog';
+import { MatchDialogComponent } from './match/match.component';
+import { ResultDialogComponent } from './result/result.dialog';
 import { StorageService } from './storage.service';
 
 export interface User {
@@ -65,47 +65,47 @@ interface YGOProData {
 }
 
 interface App {
-  id: string,
-  news: { [locale: string]: News[] },
-  windbot: { [locale: string]: string[] },
-  data: any
+  id: string;
+  news: { [locale: string]: News[] };
+  windbot: { [locale: string]: string[] };
+  data: any;
 }
 
 export interface Result {
-  end_time: string
-  expa: number
-  expa_ex: number
-  expb: number
-  expb_ex: number
-  isfirstwin: boolean
-  pta: number
-  pta_ex: number
-  ptb: number
-  ptb_ex: number
-  start_time: string
-  type: 'athletic' | 'entertain'
-  usernamea: string
-  usernameb: string
-  userscorea: number
-  userscoreb: number
-  winner: string
+  end_time: string;
+  expa: number;
+  expa_ex: number;
+  expb: number;
+  expb_ex: number;
+  isfirstwin: boolean;
+  pta: number;
+  pta_ex: number;
+  ptb: number;
+  ptb_ex: number;
+  start_time: string;
+  type: 'athletic' | 'entertain';
+  usernamea: string;
+  usernameb: string;
+  userscorea: number;
+  userscoreb: number;
+  winner: string;
 }
 
 export interface Points {
-  arena_rank: number
-  athletic_all: number
-  athletic_draw: number
-  athletic_lose: number
-  athletic_win: number
-  athletic_wl_ratio: number
-  entertain_all: number
-  entertain_draw: number
-  entertain_lose: number
-  entertain_win: number
-  entertain_wl_ratio: number
-  exp: number
-  exp_rank: number
-  pt: number
+  arena_rank: number;
+  athletic_all: number;
+  athletic_draw: number;
+  athletic_lose: number;
+  athletic_win: number;
+  athletic_wl_ratio: number;
+  entertain_all: number;
+  entertain_draw: number;
+  entertain_lose: number;
+  entertain_win: number;
+  entertain_wl_ratio: number;
+  exp: number;
+  exp_rank: number;
+  pt: number;
 }
 
 @Injectable()
@@ -154,18 +154,15 @@ export class YGOProService {
   async load() {
 
     const apps: App[] = await this.http.get('https://api.mycard.moe/apps.json').map(response => response.json()).toPromise();
-    const app = apps.find(app => app.id === 'ygopro')!;
+    const app = apps.find(_app => _app.id === 'ygopro')!;
     this.news = app.news['zh-CN'];
     this.windbot = (<YGOProData>app.data).windbot['zh-CN'];
-    // this.topics = this.http.get('https://ygobbs.com/top.json').flatMap(response => promisify(parseString)(response.text())).map(doc => {
-    //   console.log(doc['rss'].channel[0].item)
-    //   return doc['rss'].channel[0].item;
-    // });
-    this.topics = this.http.get('https://ygobbs.com/top/quarterly.json').map(response => response.json().topic_list.topics.slice(0, 5).map((topic: any) => ({
-      ...topic,
-      url: new URL(`/t/${topic.slug}/${topic.id}`, 'https://ygobbs.com').toString(),
-      image_url: topic.image_url && new URL(topic.image_url, 'https://ygobbs.com').toString()
-    })));
+    this.topics = this.http.get('https://ygobbs.com/top/quarterly.json').map(
+      response => response.json().topic_list.topics.slice(0, 5).map((topic: any) => ({
+        ...topic,
+        url: new URL(`/t/${topic.slug}/${topic.id}`, 'https://ygobbs.com').toString(),
+        image_url: topic.image_url && new URL(topic.image_url, 'https://ygobbs.com').toString()
+      })));
 
     this.storage.sync('ygopro');
     this.load_points();
@@ -178,7 +175,7 @@ export class YGOProService {
   async load_result(load_points = true) {
 
     const last = await this.http.get('https://mycard.moe/ygopro/api/history', {
-      params: { username: this.login.user.username, type: 0, page_num: 1 }
+      params: {username: this.login.user.username, type: 0, page_num: 1}
     }).map((response) => response.json().data[0]).toPromise();
 
     // 从来没打过
@@ -204,7 +201,7 @@ export class YGOProService {
       if (load_points) {
         this.load_points();
       }
-      const again = await this.dialog.open(ResultDialog, { data: last }).afterClosed().toPromise();
+      const again = await this.dialog.open(ResultDialogComponent, {data: last}).afterClosed().toPromise();
       if (again) {
         this.request_match(last.type);
       }
@@ -212,9 +209,9 @@ export class YGOProService {
   }
 
   async request_match(arena: string) {
-    const data = await this.dialog.open(MatchDialog, { data: arena, disableClose: true }).afterClosed().toPromise();
+    const data = await this.dialog.open(MatchDialogComponent, {data: arena, disableClose: true}).afterClosed().toPromise();
     if (data) {
-      this.join(data['password'], { address: data['address'], port: data['port'] });
+      this.join(data['password'], {address: data['address'], port: data['port']});
     }
   }
 
@@ -241,11 +238,12 @@ export class YGOProService {
   }
 
   async load_points() {
-    this.points = await this.http.get('https://api.mycard.moe/ygopro/arena/user', { params: { username: this.login.user.username } }).map(response => response.json()).toPromise();
+    this.points = await this.http.get('https://api.mycard.moe/ygopro/arena/user', {params: {username: this.login.user.username}}).map(
+      response => response.json()).toPromise();
   }
 
   create_room(room: Room, host_password: string) {
-    let options_buffer = Buffer.alloc(6);
+    const options_buffer = Buffer.alloc(6);
     // 建主密码 https://docs.google.com/document/d/1rvrCGIONua2KeRaYNjKBLqyG9uybs9ZI-AmzZKNftOI/edit
     options_buffer.writeUInt8((room.private ? 2 : 1) << 4, 1);
     options_buffer.writeUInt8(
@@ -263,12 +261,12 @@ export class YGOProService {
     }
     options_buffer.writeUInt8(checksum & 0xFF, 0);
 
-    let secret = this.login.user.external_id % 65535 + 1;
+    const secret = this.login.user.external_id % 65535 + 1;
     for (let i = 0; i < options_buffer.length; i += 2) {
       options_buffer.writeUInt16LE(options_buffer.readUInt16LE(i) ^ secret, i);
     }
 
-    let password = options_buffer.toString('base64') + (room.private ? host_password :
+    const password = options_buffer.toString('base64') + (room.private ? host_password :
       room.title!.replace(/\s/, String.fromCharCode(0xFEFF)));
     // let room_id = crypto.createHash('md5').update(password + this.loginService.user.username).digest('base64')
     //     .slice(0, 10).replace('+', '-').replace('/', '_');
@@ -282,7 +280,7 @@ export class YGOProService {
   }
 
   join_room(room: Room) {
-    let options_buffer = new Buffer(6);
+    const options_buffer = new Buffer(6);
     options_buffer.writeUInt8(3 << 4, 1);
     let checksum = 0;
     for (let i = 1; i < options_buffer.length; i++) {
@@ -290,18 +288,18 @@ export class YGOProService {
     }
     options_buffer.writeUInt8(checksum & 0xFF, 0);
 
-    let secret = this.login.user.external_id % 65535 + 1;
+    const secret = this.login.user.external_id % 65535 + 1;
     for (let i = 0; i < options_buffer.length; i += 2) {
       options_buffer.writeUInt16LE(options_buffer.readUInt16LE(i) ^ secret, i);
     }
 
-    let name = options_buffer.toString('base64') + room.id;
+    const name = options_buffer.toString('base64') + room.id;
 
     this.join(name, room.server!);
   }
 
   join_private(password: string) {
-    let options_buffer = new Buffer(6);
+    const options_buffer = new Buffer(6);
     options_buffer.writeUInt8(5 << 4, 1);
     let checksum = 0;
     for (let i = 1; i < options_buffer.length; i++) {
@@ -309,12 +307,12 @@ export class YGOProService {
     }
     options_buffer.writeUInt8(checksum & 0xFF, 0);
 
-    let secret = this.login.user.external_id % 65535 + 1;
+    const secret = this.login.user.external_id % 65535 + 1;
     for (let i = 0; i < options_buffer.length; i += 2) {
       options_buffer.writeUInt16LE(options_buffer.readUInt16LE(i) ^ secret, i);
     }
 
-    let name = options_buffer.toString('base64') + password.replace(/\s/, String.fromCharCode(0xFEFF));
+    const name = options_buffer.toString('base64') + password.replace(/\s/, String.fromCharCode(0xFEFF));
 
     this.join(name, this.servers[0]);
   }
@@ -343,7 +341,7 @@ export class YGOProService {
       window.ygopro.edit_deck();
     } catch (error) {
       console.error(error);
-      alert(JSON.stringify({ method: 'edit_deck', params: [] }));
+      alert(JSON.stringify({method: 'edit_deck', params: []}));
     }
   }
 
@@ -352,7 +350,7 @@ export class YGOProService {
       window.ygopro.watch_replay();
     } catch (error) {
       console.error(error);
-      alert(JSON.stringify({ method: 'watch_replay', params: [] }));
+      alert(JSON.stringify({method: 'watch_replay', params: []}));
     }
   }
 
@@ -361,7 +359,7 @@ export class YGOProService {
       window.ygopro.puzzle_mode();
     } catch (error) {
       console.error(error);
-      alert(JSON.stringify({ method: 'puzzle_mode', params: [] }));
+      alert(JSON.stringify({method: 'puzzle_mode', params: []}));
     }
   }
 
@@ -370,7 +368,7 @@ export class YGOProService {
       window.ygopro.openDrawer();
     } catch (error) {
       console.error(error);
-      alert(JSON.stringify({ method: 'openDrawer', params: [] }));
+      alert(JSON.stringify({method: 'openDrawer', params: []}));
     }
   }
 
@@ -379,7 +377,7 @@ export class YGOProService {
       window.ygopro.backHome();
     } catch (error) {
       console.error(error);
-      alert(JSON.stringify({ method: 'backHome', params: [] }));
+      alert(JSON.stringify({method: 'backHome', params: []}));
     }
   }
 
@@ -388,7 +386,7 @@ export class YGOProService {
       window.ygopro.share(text);
     } catch (error) {
       console.error(error);
-      alert(JSON.stringify({ method: 'share', params: [text] }));
+      alert(JSON.stringify({method: 'share', params: [text]}));
     }
   }
 
@@ -399,7 +397,7 @@ type Message =
   { event: 'init', data: Room[] }
   | { event: 'update', data: Room }
   | { event: 'create', data: Room }
-  | { event: 'delete', data: string }
+  | { event: 'delete', data: string };
 
 export class RoomListDataSource extends DataSource<any> {
 
@@ -418,18 +416,18 @@ export class RoomListDataSource extends DataSource<any> {
       const url = new URL(server.url!);
       url.searchParams.set('filter', this.filter);
       // 协议处理
-      return Observable.webSocket({ url: url.toString() })
+      return Observable.webSocket({url: url.toString()})
         .scan((rooms: Room[], message: Message) => {
           switch (message.event) {
             case 'init':
-              return message.data.map(room => ({ server: server, ...room }));
+              return message.data.map(room => ({server: server, ...room}));
             case 'create':
-              return rooms.concat({ server: server, ...message.data });
+              return rooms.concat({server: server, ...message.data});
             case 'update':
               Object.assign(rooms.find(room => room.id === message.data.id), message.data);
               return rooms;
             case 'delete':
-              return rooms.filter(room => room.id != message.data);
+              return rooms.filter(room => room.id !== message.data);
           }
         }, []);
       // 把多个服务器的数据拼接起来，这里是 combineLatest 的第二个参数
@@ -449,7 +447,7 @@ export class RoomListDataSource extends DataSource<any> {
         // loading、empty、error
       ).filter((rooms) => {
         this.loading = false;
-        this.empty = rooms.length == 0;
+        this.empty = rooms.length === 0;
         return true;
       }).catch((error) => {
         this.loading = false;

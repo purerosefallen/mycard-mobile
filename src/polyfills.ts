@@ -41,7 +41,7 @@
 // import 'core-js/es6/reflect';
 // import 'core-js/es7/reflect';
 
-import 'core-js/shim'
+import 'core-js/shim';
 
 /**
  * Required to support Web Animations `@angular/animation`.

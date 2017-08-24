@@ -5,7 +5,7 @@
     <md-icon>menu</md-icon>
   </button>
   <form (submit)="search(key)">
-    <input type=search placeholder="卡片搜索" name="key" [(ngModel)]="key" [mdAutocomplete]="auto" [formControl]="searchCtrl">
+    <input type=search placeholder="卡片搜索" name="key" [(ngModel)]="key" mdAutocomplete="auto" [formControl]="searchCtrl">
 
     <md-autocomplete #auto="mdAutocomplete">
       <md-option *ngFor="let card of suggestion | async" [value]="card" (onSelectionChange)="search(card)">
