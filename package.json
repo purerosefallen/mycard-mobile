@@ -5,7 +5,6 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --base-href /mobile/ --deploy-url /mobile --locale zh-CN --output-path mobile --open",
-    "start:wild": "npm run start -- --host 0.0.0.0 --public-host 192.168.1.131:4200",
     "build": "ng build --base-href /mobile/ --locale zh-CN --aot --build-optimizer --extract-css --prod",
     "build:dev": "ng build --base-href /mobile2/ --locale zh-CN --aot --build-optimizer --extract-css",
     "lint": "ng lint --type-check --fix",
@@ -30,16 +29,16 @@
     "lodash": "^4.17.4",
     "material-design-icons": "^3.0.1",
     "rxjs": "^5.4.3",
-    "webdav": "^1.0.1",
+    "webdav": "github:moecube/webdav-client",
     "zone.js": "^0.8.17"
   },
   "devDependencies": {
-    "@angular/cli": "1.3.0-rc.1",
+    "@angular/cli": "^1.3.2",
     "@angular/compiler-cli": "^4.3.6",
     "@angular/language-service": "^4.3.6",
     "@angular/service-worker": "^1.0.0-beta.16",
     "@types/lodash": "^4.14.74",
-    "@types/node": "^8.0.24",
+    "@types/node": "^8.0.25",
     "codelyzer": "~3.1.1",
     "tslint": "^5.6.0",
     "typescript": "~2.3.3"
