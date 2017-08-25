@@ -29,7 +29,7 @@
     "lodash": "^4.17.4",
     "material-design-icons": "^3.0.1",
     "rxjs": "^5.4.3",
-    "webdav": "github:moecube/webdav-client",
+    "webdav": "https://github.com/moecube/webdav-client/releases/download/v1.0.1/webdav-1.0.1.tgz",
     "zone.js": "^0.8.17"
   },
   "devDependencies": {
