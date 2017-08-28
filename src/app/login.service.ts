@@ -60,6 +60,13 @@ export class LoginService {
     this.token = token;
     this.user = <any>fromPairs(Array.from(new URLSearchParams(Buffer.from(token, 'base64').toString())));
     localStorage.setItem('login', token);
+    if (window.ygopro) {
+      try {
+        window.ygopro.updateUser(this.user.username, this.user.avatar_url, this.user.email);
+      } catch (error) {
+        console.error(error);
+      }
+    }
   }
 
   avatar(username: string) {
