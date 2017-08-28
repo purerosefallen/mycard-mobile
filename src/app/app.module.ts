@@ -36,7 +36,6 @@ import { StorageService } from './storage.service';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { WatchComponent } from './watch/watch.component';
 import { WindbotComponent } from './windbot/windbot.component';
-import './ygopro.d';
 import { YGOProService } from './ygopro.service';
 
 @NgModule({

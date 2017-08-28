@@ -7,9 +7,7 @@
     "start": "ng serve --base-href /mobile/ --deploy-url /mobile --locale zh-CN --output-path mobile --open",
     "build": "ng build --base-href /mobile/ --locale zh-CN --aot --build-optimizer --extract-css --prod",
     "build:dev": "ng build --base-href /mobile2/ --locale zh-CN --aot --build-optimizer --extract-css",
-    "lint": "ng lint --type-check --fix",
-    "publish": "npm run build && ./ossutil cp -rf dist oss://mycard/mobile",
-    "publish:dev": "npm run build:dev && ./ossutil cp -rf dist oss://mycard/mobile2"
+    "lint": "ng lint --type-check --fix"
   },
   "dependencies": {
     "@angular/animations": "^4.3.6",
