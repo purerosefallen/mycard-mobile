@@ -14,7 +14,7 @@ before_deploy:
   --access-key-secret $ALIYUN_SECRET
 deploy:
   provider: script
-  script: ./ossutil cp -rf dist oss://mycard/mobile2
+  script: ./ossutil cp -rf dist oss://mycard/mobile
   skip_cleanup: true
   on:
     branch: master
