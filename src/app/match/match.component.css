@@ -1,13 +1,13 @@
-md-icon {
+mat-icon {
   width: 96px;
   height: 96px;
   font-size: 96px;
 }
 
-md-dialog-content {
+mat-dialog-content {
   display: flex;
 }
-md-dialog-actions {
+mat-dialog-actions {
   justify-content: flex-end
 }
 ul {

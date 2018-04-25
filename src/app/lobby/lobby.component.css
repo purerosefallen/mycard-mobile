@@ -35,33 +35,33 @@ input::placeholder {
 /*color: lightgray;*/
 /*}*/
 
-md-input-container {
+mat-input-container {
   width: 100%;
 }
 
-[md-raised-button] {
+[mat-raised-button] {
   border-radius: 0;
   box-shadow: none;
 
 }
 
-[md-button], [md-raised-button] {
+[mat-button], [mat-raised-button] {
   width: 100%;
   height: 100%;
 }
 
-a[md-button], a[md-raised-button] {
+a[mat-button], a[mat-raised-button] {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-md-card-content {
+mat-card-content {
   display: flex;
   flex-direction: row;
 }
 
-[md-card-avatar] {
+[mat-card-avatar] {
   width: 128px;
   height: 72px;
   object-fit: cover;

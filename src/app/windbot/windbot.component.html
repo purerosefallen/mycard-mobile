@@ -1,13 +1,13 @@
 <app-toolbar>单人模式</app-toolbar>
 
-<md-list>
-  <h3 md-subheader>选择对手</h3>
-  <md-list-item (click)="ygopro.join_windbot()">
-    <md-icon md-list-icon>&#xe195;</md-icon><!-- airplanemode_active -->
-    <h4 md-line>随机</h4>
-  </md-list-item>
-  <md-list-item *ngFor="let windbot of ygopro.windbot" (click)="ygopro.join_windbot(windbot)">
-    <img md-list-icon [src]="login.avatar(windbot)">
-    <h4 md-line>{{windbot}}</h4>
-  </md-list-item>
-</md-list>
+<mat-list>
+  <h3 mat-subheader>选择对手</h3>
+  <mat-list-item (click)="ygopro.join_windbot()">
+    <mat-icon mat-list-icon>&#xe195;</mat-icon><!-- airplanemode_active -->
+    <h4 mat-line>随机</h4>
+  </mat-list-item>
+  <mat-list-item *ngFor="let windbot of ygopro.windbot" (click)="ygopro.join_windbot(windbot)">
+    <img mat-list-icon [src]="login.avatar(windbot)">
+    <h4 mat-line>{{windbot}}</h4>
+  </mat-list-item>
+</mat-list>

@@ -1,24 +1,23 @@
-import { CdkTableModule } from '@angular/cdk';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, JsonpModule } from '@angular/http';
 import {
-  MdAutocompleteModule,
-  MdButtonModule,
-  MdCardModule,
-  MdCheckboxModule,
-  MdDialogModule,
-  MdGridListModule,
-  MdIconModule,
-  MdInputModule,
-  MdListModule,
-  MdMenuModule,
-  MdProgressSpinnerModule,
-  MdSelectModule,
-  MdSlideToggleModule,
-  MdSnackBarModule,
-  MdTableModule,
-  MdToolbarModule
+  MatAutocompleteModule,
+  MatButtonModule,
+  MatCardModule,
+  MatCheckboxModule,
+  MatDialogModule,
+  MatGridListModule,
+  MatIconModule,
+  MatInputModule,
+  MatListModule,
+  MatMenuModule,
+  MatProgressSpinnerModule,
+  MatSelectModule,
+  MatSlideToggleModule,
+  MatSnackBarModule,
+  MatTableModule,
+  MatToolbarModule
 } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -56,29 +55,27 @@ import { YGOProService } from './ygopro.service';
     HttpModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MdInputModule,
-    MdSelectModule,
-    MdCheckboxModule,
-    MdButtonModule,
-    MdSlideToggleModule,
-    MdCardModule,
-    MdGridListModule,
-    MdIconModule,
-    MdTableModule,
-    CdkTableModule,
-    MdListModule,
-    MdDialogModule,
-    MdToolbarModule,
-    MdSnackBarModule,
-    MdAutocompleteModule,
+    MatInputModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatButtonModule,
+    MatSlideToggleModule,
+    MatCardModule,
+    MatGridListModule,
+    MatIconModule,
+    MatTableModule,
+    MatListModule,
+    MatDialogModule,
+    MatToolbarModule,
+    MatSnackBarModule,
+    MatAutocompleteModule,
     ReactiveFormsModule,
     JsonpModule,
-    MdMenuModule,
-    MdProgressSpinnerModule
+    MatMenuModule,
+    MatProgressSpinnerModule
   ],
   providers: [YGOProService, StorageService],
   bootstrap: [AppComponent],
   entryComponents: [MatchDialogComponent, ResultDialogComponent]
 })
-export class AppModule {
-}
+export class AppModule {}
