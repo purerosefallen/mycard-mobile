@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { LoginService } from '../login.service';
+import 'rxjs/add/observable/timer';
 
 const second = 1000;
 const offset = new Date().getTimezoneOffset() * 60 * second;

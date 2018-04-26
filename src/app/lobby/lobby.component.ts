@@ -7,6 +7,13 @@ import { routerTransition2 } from '../router.animations';
 import { StorageService } from '../storage.service';
 import { YGOProService } from '../ygopro.service';
 
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/mergeMap';
+
+
+
+
+
 @Component({
   selector: 'app-lobby',
   templateUrl: 'lobby.component.html',
@@ -22,7 +29,7 @@ export class LobbyComponent {
   build: BuildConfig;
 
   searchCtrl = new FormControl();
-  suggestion = this.searchCtrl.valueChanges.filter(name => name).flatMap(name => this.jsonp.get('http://www.ourocg.cn/Suggest.aspx', {
+  suggestion = this.searchCtrl.valueChanges.filter(name => name).mergeMap(name => this.jsonp.get('http://www.ourocg.cn/Suggest.aspx', {
     params: {callback: 'JSONP_CALLBACK', key: name}
   }).map(response => response.json().result));
 

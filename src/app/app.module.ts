@@ -21,9 +21,10 @@ import {
 } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import 'hammerjs';
-import 'rxjs/Rx';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
+import 'hammerjs';
+import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LobbyComponent } from './lobby/lobby.component';
@@ -51,6 +52,7 @@ import { YGOProService } from './ygopro.service';
   ],
   imports: [
     BrowserModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     FormsModule,
     HttpModule,
     AppRoutingModule,

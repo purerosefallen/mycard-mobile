@@ -1,13 +1,19 @@
+import { DataSource } from '@angular/cdk/collections';
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
+import { MatDialog } from '@angular/material';
 import { sortBy } from 'lodash';
+import 'rxjs/add/observable/combineLatest';
+import 'rxjs/add/observable/dom/webSocket';
+import 'rxjs/add/observable/fromEvent';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/scan';
 import { Observable } from 'rxjs/Observable';
 import { LoginService } from './login.service';
 import { MatchDialogComponent } from './match/match.component';
 import { ResultDialogComponent } from './result/result.dialog';
 import { StorageService } from './storage.service';
-import { MatDialog } from '@angular/material';
-import { DataSource } from '@angular/cdk/collections';
 
 export interface User {
   admin: boolean;

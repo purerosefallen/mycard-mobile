@@ -26,3 +26,6 @@
   flex: 2
 }
 
+#container {
+  position: relative;
+}

@@ -1,0 +1,4 @@
+2112c2112
+<         if (clientId !== null) {
+---
+>         if (clientId) {
