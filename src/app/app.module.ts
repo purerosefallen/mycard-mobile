@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule, JsonpModule } from '@angular/http';
 import {
   MatAutocompleteModule,
   MatButtonModule,
@@ -37,6 +36,8 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
 import { WatchComponent } from './watch/watch.component';
 import { WindbotComponent } from './windbot/windbot.component';
 import { YGOProService } from './ygopro.service';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpModule } from '@angular/http';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { YGOProService } from './ygopro.service';
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     FormsModule,
     HttpModule,
+    HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatInputModule,
@@ -72,7 +74,6 @@ import { YGOProService } from './ygopro.service';
     MatSnackBarModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
-    JsonpModule,
     MatMenuModule,
     MatProgressSpinnerModule
   ],
