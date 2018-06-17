@@ -1,11 +1,13 @@
 import { Component, HostBinding } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Http, Jsonp } from '@angular/http';
 import { environment } from '../../environments/environment';
 import { LoginService } from '../login.service';
 import { routerTransition2 } from '../router.animations';
 import { StorageService } from '../storage.service';
 import { YGOProService } from '../ygopro.service';
+
+import { HttpClient } from '@angular/common/http';
+import { filter, mergeMap } from 'rxjs/internal/operators';
 
 @Component({
   selector: 'app-lobby',
@@ -14,28 +16,22 @@ import { YGOProService } from '../ygopro.service';
   animations: [routerTransition2]
 })
 export class LobbyComponent {
-
-  @HostBinding('@routerTransition2')
-  animation: '';
+  @HostBinding('@routerTransition2') animation: '';
 
   version = environment.version;
   build: BuildConfig;
 
   searchCtrl = new FormControl();
-  suggestion = this.searchCtrl.valueChanges.filter(name => name).flatMap(name => this.jsonp.get('http://www.ourocg.cn/Suggest.aspx', {
-    params: {callback: 'JSONP_CALLBACK', key: name}
-  }).map(response => response.json().result));
+  suggestion = this.searchCtrl.valueChanges.pipe(
+    filter(name => name),
+    mergeMap(name => this.http.get(`https://www.ourocg.cn/search/suggest/${name}`))
+  );
 
   key: string;
 
   arena_url: string;
 
-  constructor(public login: LoginService,
-              public ygopro: YGOProService,
-              private http: Http,
-              private jsonp: Jsonp,
-              public storage: StorageService) {
-
+  constructor(public login: LoginService, public ygopro: YGOProService, private http: HttpClient, public storage: StorageService) {
     const arena_url = new URL('https://mycard.moe/ygopro/arena');
     arena_url.searchParams.set('sso', login.token);
     this.arena_url = arena_url.toString();

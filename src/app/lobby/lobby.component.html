@@ -1,179 +1,179 @@
 <!--https://github.com/google/material-design-icons/blob/master/iconfont/codepoints-->
 
-<md-toolbar color="primary">
-  <button id="menu" md-icon-button (click)="ygopro.openDrawer()">
-    <md-icon>menu</md-icon>
+<mat-toolbar color="primary">
+  <button id="menu" mat-icon-button (click)="ygopro.openDrawer()">
+    <mat-icon>menu</mat-icon>
   </button>
   <form (submit)="search(key)">
-    <input type=search placeholder="卡片搜索" name="key" [(ngModel)]="key" mdAutocomplete="auto" [formControl]="searchCtrl">
+    <input type="search" placeholder="卡片搜索" name="key" [(ngModel)]="key" [matAutocomplete]="auto" [formControl]="searchCtrl">
 
-    <md-autocomplete #auto="mdAutocomplete">
-      <md-option *ngFor="let card of suggestion | async" [value]="card" (onSelectionChange)="search(card)">
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let card of suggestion | async" [value]="card" (onSelectionChange)="search(card)">
         {{ card }}
-      </md-option>
-    </md-autocomplete>
+      </mat-option>
+    </mat-autocomplete>
   </form>
-  <button md-icon-button *ngIf="storage.working">
-    <md-icon class="fa-spin">sync</md-icon>
+  <button mat-icon-button *ngIf="storage.working">
+    <mat-icon class="fa-spin">sync</mat-icon>
   </button>
-  <a href="https://accounts.moecube.com/profiles" target="_blank" md-icon-button>
+  <a href="https://accounts.moecube.com/profiles" target="_blank" mat-icon-button>
     <img id="avatar" [src]="login.user.avatar_url">
   </a>
 
-  <button md-icon-button [mdMenuTriggerFor]="menu">
-    <md-icon>add</md-icon>
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>add</mat-icon>
   </button>
-  <md-menu #menu="mdMenu">
-    <a [href]="login.logout()" md-menu-item>切换用户</a>
-    <button md-menu-item>大厅版本 {{version}}</button>
-    <button md-menu-item *ngIf="build">应用版本 {{build.version_name}}</button>
-  </md-menu>
-</md-toolbar>
+  <mat-menu #menu="matMenu">
+    <a [href]="login.logout()" mat-menu-item>切换用户</a>
+    <button mat-menu-item>大厅版本 {{version}}</button>
+    <button mat-menu-item *ngIf="build">应用版本 {{build.version_name}}</button>
+  </mat-menu>
+</mat-toolbar>
 
-<md-grid-list cols="4" rowHeight="100px" gutterSize="0">
-  <!--<md-grid-tile>-->
-  <!--<a href="https://accounts.moecube.com/profiles" id="avatar" md-raised-button [style.background-image]="'url(' + login.user.avatar_url + ')'">{{login.user.username}}</a>-->
-  <!--</md-grid-tile>-->
-  <md-grid-tile>
-    <button md-raised-button color="primary" (click)="ygopro.request_match('athletic')">
-      <md-icon fontSet="fa" fontIcon="fa-futbol-o"></md-icon>
+<mat-grid-list cols="4" rowHeight="100px" gutterSize="0">
+  <!--<mat-grid-tile>-->
+  <!--<a href="https://accounts.moecube.com/profiles" id="avatar" mat-raised-button [style.background-image]="'url(' + login.user.avatar_url + ')'">{{login.user.username}}</a>-->
+  <!--</mat-grid-tile>-->
+  <mat-grid-tile>
+    <button mat-raised-button color="primary" (click)="ygopro.request_match('athletic')">
+      <mat-icon fontSet="fa" fontIcon="fa-futbol-o"></mat-icon>
       <br>竞技匹配
     </button>
-  </md-grid-tile>
-  <md-grid-tile>
-    <button md-raised-button color="primary" (click)="ygopro.request_match('entertain')">
-      <md-icon>toys</md-icon>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <button mat-raised-button color="primary" (click)="ygopro.request_match('entertain')">
+      <mat-icon>toys</mat-icon>
       <br>娱乐匹配
     </button>
-  </md-grid-tile>
-  <md-grid-tile><a md-raised-button color="primary" routerLink="/ygopro/rooms">
-    <md-icon>games</md-icon>
-    <br>房间列表</a></md-grid-tile>
-  <md-grid-tile><a md-raised-button color="primary" routerLink="/ygopro/rooms/new">
-    <md-icon>&#xe146;</md-icon><!--add_box-->
-    <br>创建房间</a></md-grid-tile>
-  <md-grid-tile><a md-raised-button routerLink="/ygopro/windbot">
-    <md-icon>&#xe195;</md-icon><!-- airplanemode_active -->
-    <br>单人模式</a></md-grid-tile>
-  <md-grid-tile><a md-raised-button routerLink="/ygopro/watch">
-    <md-icon>&#xe417;</md-icon><!--remove_red_eye-->
-    <br>观战</a></md-grid-tile>
-  <!--<md-grid-tile>-->
-  <!--<button md-raised-button (click)="ygopro.watch_replay()">-->
-  <!--<md-icon>history</md-icon>-->
+  </mat-grid-tile>
+  <mat-grid-tile><a mat-raised-button color="primary" routerLink="/ygopro/rooms">
+    <mat-icon>games</mat-icon>
+    <br>房间列表</a></mat-grid-tile>
+  <mat-grid-tile><a mat-raised-button color="primary" routerLink="/ygopro/rooms/new">
+    <mat-icon>&#xe146;</mat-icon><!--add_box-->
+    <br>创建房间</a></mat-grid-tile>
+  <mat-grid-tile><a mat-raised-button routerLink="/ygopro/windbot">
+    <mat-icon>&#xe195;</mat-icon><!-- airplanemode_active -->
+    <br>单人模式</a></mat-grid-tile>
+  <mat-grid-tile><a mat-raised-button routerLink="/ygopro/watch">
+    <mat-icon>&#xe417;</mat-icon><!--remove_red_eye-->
+    <br>观战</a></mat-grid-tile>
+  <!--<mat-grid-tile>-->
+  <!--<button mat-raised-button (click)="ygopro.watch_replay()">-->
+  <!--<mat-icon>history</mat-icon>-->
   <!--<br>观看录像-->
   <!--</button>-->
-  <!--</md-grid-tile>-->
-  <md-grid-tile>
-    <button md-raised-button (click)="ygopro.edit_deck()">
-      <md-icon>edit</md-icon>
+  <!--</mat-grid-tile>-->
+  <mat-grid-tile>
+    <button mat-raised-button (click)="ygopro.edit_deck()">
+      <mat-icon>edit</mat-icon>
       <br>编辑卡组
     </button>
-  </md-grid-tile>
-  <md-grid-tile><a md-raised-button href="https://ygobbs.com" target="_blank">
-    <md-icon>forum</md-icon>
-    <br>社区</a></md-grid-tile>
-  <md-grid-tile><a md-raised-button [href]="arena_url" target="_blank">
-    <md-icon fontSet="fa" fontIcon="fa-trophy"></md-icon>
-    <br>决斗数据库</a></md-grid-tile>
-  <md-grid-tile>
-    <button md-raised-button (click)="ygopro.backHome()"><span class="icon">233</span><br>直连</button>
-  </md-grid-tile>
-</md-grid-list>
+  </mat-grid-tile>
+  <mat-grid-tile><a mat-raised-button href="https://ygobbs.com" target="_blank">
+    <mat-icon>forum</mat-icon>
+    <br>社区</a></mat-grid-tile>
+  <mat-grid-tile><a mat-raised-button [href]="arena_url" target="_blank">
+    <mat-icon fontSet="fa" fontIcon="fa-trophy"></mat-icon>
+    <br>决斗数据库</a></mat-grid-tile>
+  <mat-grid-tile>
+    <button mat-raised-button (click)="ygopro.backHome()"><span class="icon">233</span><br>直连</button>
+  </mat-grid-tile>
+</mat-grid-list>
 
-<md-card *ngIf="ygopro.points">
-  <md-grid-list id="points" cols="4" rowHeight="20px">
-    <md-grid-tile>
+<mat-card *ngIf="ygopro.points">
+  <mat-grid-list id="points" cols="4" rowHeight="20px">
+    <mat-grid-tile>
       <dt>竞技排名</dt>
-    </md-grid-tile>
-    <md-grid-tile>
+    </mat-grid-tile>
+    <mat-grid-tile>
       <dd>{{ygopro.points.arena_rank}}</dd>
-    </md-grid-tile>
-    <md-grid-tile>
+    </mat-grid-tile>
+    <mat-grid-tile>
       <dt>娱乐排名</dt>
-    </md-grid-tile>
-    <md-grid-tile>
+    </mat-grid-tile>
+    <mat-grid-tile>
       <dd>{{ygopro.points.exp_rank}}</dd>
-    </md-grid-tile>
-    <md-grid-tile>
+    </mat-grid-tile>
+    <mat-grid-tile>
       <dt>竞技胜率</dt>
-    </md-grid-tile>
-    <md-grid-tile>
+    </mat-grid-tile>
+    <mat-grid-tile>
       <dd>{{ygopro.points.athletic_wl_ratio}}%</dd>
-    </md-grid-tile>
-    <md-grid-tile>
+    </mat-grid-tile>
+    <mat-grid-tile>
       <dt>经验</dt>
-    </md-grid-tile>
-    <md-grid-tile>
+    </mat-grid-tile>
+    <mat-grid-tile>
       <dd>{{ygopro.points.exp}}</dd>
-    </md-grid-tile>
-    <md-grid-tile>
+    </mat-grid-tile>
+    <mat-grid-tile>
       <dt>胜场</dt>
-    </md-grid-tile>
-    <md-grid-tile>
+    </mat-grid-tile>
+    <mat-grid-tile>
       <dd>{{ygopro.points.athletic_win}}</dd>
-    </md-grid-tile>
-    <md-grid-tile>
+    </mat-grid-tile>
+    <mat-grid-tile>
       <dt>胜场</dt>
-    </md-grid-tile>
-    <md-grid-tile>
+    </mat-grid-tile>
+    <mat-grid-tile>
       <dd>{{ygopro.points.entertain_win}}</dd>
-    </md-grid-tile>
-    <md-grid-tile>
+    </mat-grid-tile>
+    <mat-grid-tile>
       <dt>负场</dt>
-    </md-grid-tile>
-    <md-grid-tile>
+    </mat-grid-tile>
+    <mat-grid-tile>
       <dd>{{ygopro.points.athletic_lose}}</dd>
-    </md-grid-tile>
-    <md-grid-tile>
+    </mat-grid-tile>
+    <mat-grid-tile>
       <dt>负场</dt>
-    </md-grid-tile>
-    <md-grid-tile>
+    </mat-grid-tile>
+    <mat-grid-tile>
       <dd>{{ygopro.points.entertain_lose}}</dd>
-    </md-grid-tile>
-    <md-grid-tile>
+    </mat-grid-tile>
+    <mat-grid-tile>
       <dt>平局</dt>
-    </md-grid-tile>
-    <md-grid-tile>
+    </mat-grid-tile>
+    <mat-grid-tile>
       <dd>{{ygopro.points.athletic_draw}}</dd>
-    </md-grid-tile>
-    <md-grid-tile>
+    </mat-grid-tile>
+    <mat-grid-tile>
       <dt>平局</dt>
-    </md-grid-tile>
-    <md-grid-tile>
+    </mat-grid-tile>
+    <mat-grid-tile>
       <dd>{{ygopro.points.entertain_draw}}</dd>
-    </md-grid-tile>
-    <md-grid-tile>
+    </mat-grid-tile>
+    <mat-grid-tile>
       <dt>总场</dt>
-    </md-grid-tile>
-    <md-grid-tile>
+    </mat-grid-tile>
+    <mat-grid-tile>
       <dd>{{ygopro.points.athletic_all}}</dd>
-    </md-grid-tile>
-    <md-grid-tile>
+    </mat-grid-tile>
+    <mat-grid-tile>
       <dt>总场</dt>
-    </md-grid-tile>
-    <md-grid-tile>
+    </mat-grid-tile>
+    <mat-grid-tile>
       <dd>{{ygopro.points.entertain_all}}</dd>
-    </md-grid-tile>
-  </md-grid-list>
-</md-card>
-<md-card *ngFor="let item of ygopro.news" class="example-card">
+    </mat-grid-tile>
+  </mat-grid-list>
+</mat-card>
+<mat-card *ngFor="let item of ygopro.news" class="example-card">
   <a [href]="item.url" target="_blank">
-    <md-card-header>
-      <img *ngIf="item.image" md-card-avatar [src]="item.image">
-      <md-card-title>{{item.title}}</md-card-title>
-      <md-card-subtitle>{{item.updated_at | date}}</md-card-subtitle>
-    </md-card-header>
+    <mat-card-header>
+      <img *ngIf="item.image" mat-card-avatar [src]="item.image">
+      <mat-card-title>{{item.title}}</mat-card-title>
+      <mat-card-subtitle>{{item.updated_at | date}}</mat-card-subtitle>
+    </mat-card-header>
   </a>
-</md-card>
+</mat-card>
 
-<md-card *ngFor="let item of ygopro.topics | async">
+<mat-card *ngFor="let item of ygopro.topics | async">
   <a [href]="item.url" target="_blank">
-    <md-card-header>
-      <img *ngIf="item.image_url" md-card-avatar [src]="item.image_url">
-      <md-card-title>{{item.title}}</md-card-title>
-      <md-card-subtitle>by {{item.last_poster_username}} / {{item.last_posted_at | date}}
-      </md-card-subtitle>
-    </md-card-header>
+    <mat-card-header>
+      <img *ngIf="item.image_url" mat-card-avatar [src]="item.image_url">
+      <mat-card-title>{{item.title}}</mat-card-title>
+      <mat-card-subtitle>by {{item.last_poster_username}} / {{item.last_posted_at | date}}
+      </mat-card-subtitle>
+    </mat-card-header>
   </a>
-</md-card>
+</mat-card>

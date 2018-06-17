@@ -1,9 +1,10 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { Headers, Http } from '@angular/http';
-import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { Subscription, timer } from 'rxjs';
 import { LoginService } from '../login.service';
+import { map } from 'rxjs/internal/operators';
+import { HttpClient } from '@angular/common/http';
+import { MatchResponse } from '../ygopro.service';
 
 const second = 1000;
 const offset = new Date().getTimezoneOffset() * 60 * second;
@@ -14,34 +15,40 @@ const offset = new Date().getTimezoneOffset() * 60 * second;
   styleUrls: ['./match.component.css']
 })
 export class MatchDialogComponent implements OnInit, OnDestroy {
-
-  expect_wait = this.http.get('https://api.mycard.moe/ygopro/match/stats/' + this.arena).map(response => response.json() * second + offset);
-  actual_wait = Observable.timer(0, second).map(timestamp => timestamp * second + offset);
+  expect_wait = this.http
+    .get('https://api.mycard.moe/ygopro/match/stats/' + this.arena)
+    .pipe(map((data: number) => data * second + offset));
+  actual_wait = timer(0, second).pipe(map(timestamp => timestamp * second + offset));
 
   matching: Subscription;
 
-  constructor(@Inject(MD_DIALOG_DATA) public arena: string,
-                      private dialogRef: MdDialogRef<MatchDialogComponent>,
-                      private http: Http,
-                      private login: LoginService) {
-  }
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public arena: string,
+    private dialogRef: MatDialogRef<MatchDialogComponent>,
+    private http: HttpClient,
+    private login: LoginService
+  ) {}
 
   ngOnInit() {
-    this.matching = this.http.post('https://api.mycard.moe/ygopro/match', null, {
-      headers: new Headers({
-        Authorization: 'Basic ' + Buffer.from(this.login.user.username + ':' + this.login.user.external_id).toString('base64')
-      }),
-      params: {arena: this.arena, locale: 'zh-CN'}
-    }).map(response => response.json()).subscribe((data) => {
-      this.dialogRef.close(data);
-    }, (error) => {
-      alert(`匹配失败`);
-      this.dialogRef.close();
-    });
+    this.matching = this.http
+      .post<MatchResponse>('https://api.mycard.moe/ygopro/match', null, {
+        headers: {
+          Authorization: 'Basic ' + Buffer.from(this.login.user.username + ':' + this.login.user.external_id).toString('base64')
+        },
+        params: { arena: this.arena, locale: 'zh-CN' }
+      })
+      .subscribe(
+        data => {
+          this.dialogRef.close(data);
+        },
+        error => {
+          alert(`匹配失败`);
+          this.dialogRef.close();
+        }
+      );
   }
 
   ngOnDestroy() {
     this.matching.unsubscribe();
   }
-
 }

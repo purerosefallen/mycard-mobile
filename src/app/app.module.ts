@@ -1,30 +1,29 @@
-import { CdkTableModule } from '@angular/cdk';
-import {ErrorHandler, isDevMode, NgModule} from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule, JsonpModule } from '@angular/http';
 import {
-  MdAutocompleteModule,
-  MdButtonModule,
-  MdCardModule,
-  MdCheckboxModule,
-  MdDialogModule,
-  MdGridListModule,
-  MdIconModule,
-  MdInputModule,
-  MdListModule,
-  MdMenuModule,
-  MdProgressSpinnerModule,
-  MdSelectModule,
-  MdSlideToggleModule,
-  MdSnackBarModule,
-  MdTableModule,
-  MdToolbarModule
+  MatAutocompleteModule,
+  MatButtonModule,
+  MatCardModule,
+  MatCheckboxModule,
+  MatDialogModule,
+  MatGridListModule,
+  MatIconModule,
+  MatInputModule,
+  MatListModule,
+  MatMenuModule,
+  MatProgressSpinnerModule,
+  MatSelectModule,
+  MatSlideToggleModule,
+  MatSnackBarModule,
+  MatTableModule,
+  MatToolbarModule
 } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import 'hammerjs';
-import 'rxjs/Rx';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
+import 'hammerjs';
+import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LobbyComponent } from './lobby/lobby.component';
@@ -37,17 +36,8 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
 import { WatchComponent } from './watch/watch.component';
 import { WindbotComponent } from './windbot/windbot.component';
 import { YGOProService } from './ygopro.service';
-import * as Raven from 'raven-js';
-
-Raven
-  .config('https://a43997ca0d3a4aee8640ab90af35144b@sentry.io/1227659')
-  .install();
-
-export class RavenErrorHandler implements ErrorHandler {
-  handleError(err: any): void {
-    Raven.captureException(err.originalError || err);
-  }
-}
+import { HttpClientModule } from '@angular/common/http';
+import { HttpModule } from '@angular/http';
 
 @NgModule({
   declarations: [
@@ -63,33 +53,31 @@ export class RavenErrorHandler implements ErrorHandler {
   ],
   imports: [
     BrowserModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     FormsModule,
-    HttpModule,
+    HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MdInputModule,
-    MdSelectModule,
-    MdCheckboxModule,
-    MdButtonModule,
-    MdSlideToggleModule,
-    MdCardModule,
-    MdGridListModule,
-    MdIconModule,
-    MdTableModule,
-    CdkTableModule,
-    MdListModule,
-    MdDialogModule,
-    MdToolbarModule,
-    MdSnackBarModule,
-    MdAutocompleteModule,
+    MatInputModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatButtonModule,
+    MatSlideToggleModule,
+    MatCardModule,
+    MatGridListModule,
+    MatIconModule,
+    MatTableModule,
+    MatListModule,
+    MatDialogModule,
+    MatToolbarModule,
+    MatSnackBarModule,
+    MatAutocompleteModule,
     ReactiveFormsModule,
-    JsonpModule,
-    MdMenuModule,
-    MdProgressSpinnerModule
+    MatMenuModule,
+    MatProgressSpinnerModule
   ],
-  providers: [YGOProService, StorageService, { provide: ErrorHandler, useClass: RavenErrorHandler }],
+  providers: [YGOProService, StorageService],
   bootstrap: [AppComponent],
   entryComponents: [MatchDialogComponent, ResultDialogComponent]
 })
-export class AppModule {
-}
+export class AppModule {}

@@ -18,15 +18,14 @@ const routes: Routes = [
       { path: 'ygopro/rooms', component: RoomListComponent },
       { path: 'ygopro/lobby', component: LobbyComponent },
       { path: 'ygopro/windbot', component: WindbotComponent },
-      { path: 'ygopro/watch', component: WatchComponent },
+      { path: 'ygopro/watch', component: WatchComponent }
     ]
-  },
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers: [AuthGuard, LoginService],
+  providers: [AuthGuard, LoginService]
 })
-export class AppRoutingModule {
-}
+export class AppRoutingModule {}

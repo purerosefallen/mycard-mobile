@@ -26,9 +26,10 @@
   flex: 2
 }
 
-md-table {
+#container {
   flex: 1;
   padding-bottom: 36px;
+  position: relative;
 }
 
 form {

@@ -1,17 +1,14 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "downlevelIteration": true,
-    "target": "es5",
-    "strict": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "noImplicitAny": false,
+    "target": "es2017",
     "typeRoots": [
       "node_modules/@types"
     ],
