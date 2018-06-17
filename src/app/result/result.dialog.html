@@ -1,24 +1,24 @@
-<h2 md-dialog-title *ngIf="result === 'win'">胜利</h2>
-<h2 md-dialog-title *ngIf="result === 'lose'">败北</h2>
-<h2 md-dialog-title *ngIf="result === 'draw'">平局</h2>
-<md-dialog-content>
-  <md-list [ngClass]="result" *ngIf="dp || exp || firstWin">
-    <md-list-item *ngIf="dp">
+<h2 mat-dialog-title *ngIf="result === 'win'">胜利</h2>
+<h2 mat-dialog-title *ngIf="result === 'lose'">败北</h2>
+<h2 mat-dialog-title *ngIf="result === 'draw'">平局</h2>
+<mat-dialog-content>
+  <mat-list [ngClass]="result" *ngIf="dp || exp || firstWin">
+    <mat-list-item *ngIf="dp">
       <dt>D.P</dt>
       <dd>{{dp}}</dd>
-    </md-list-item>
-    <md-list-item *ngIf="exp">
+    </mat-list-item>
+    <mat-list-item *ngIf="exp">
       <dt>EXP</dt>
       <dd>{{exp}}</dd>
-    </md-list-item>
-    <md-list-item *ngIf="firstWin">
+    </mat-list-item>
+    <mat-list-item *ngIf="firstWin">
       <dt>D.P (首胜)</dt>
       <dd>{{firstWin}}</dd>
-    </md-list-item>
-  </md-list>
-</md-dialog-content>
-<md-dialog-actions>
-  <button md-button md-dialog-close>关闭</button>
+    </mat-list-item>
+  </mat-list>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>关闭</button>
   <!-- Can optionally provide a result for the closing dialog. -->
-  <button md-button (click)="again()">再来一局</button>
-</md-dialog-actions>
+  <button mat-button (click)="again()">再来一局</button>
+</mat-dialog-actions>

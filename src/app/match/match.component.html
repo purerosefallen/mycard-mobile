@@ -1,16 +1,16 @@
-<h2 md-dialog-title *ngIf="arena == 'athletic'">竞技匹配</h2>
-<h2 md-dialog-title *ngIf="arena == 'entertain'">娱乐匹配</h2>
+<h2 mat-dialog-title *ngIf="arena == 'athletic'">竞技匹配</h2>
+<h2 mat-dialog-title *ngIf="arena == 'entertain'">娱乐匹配</h2>
 
-<md-dialog-content>
-  <md-icon *ngIf="arena == 'athletic'" fontSet="fa" fontIcon="fa-futbol-o" class="fa-spin"></md-icon>
-  <md-icon *ngIf="arena == 'entertain'" class="fa-spin">toys</md-icon>
+<mat-dialog-content>
+  <mat-icon *ngIf="arena == 'athletic'" fontSet="fa" fontIcon="fa-futbol-o" class="fa-spin"></mat-icon>
+  <mat-icon *ngIf="arena == 'entertain'" class="fa-spin">toys</mat-icon>
   <ul>
     <dt>预计等待时间</dt>
     <dd>{{expect_wait | async | date: 'mm:ss'}}</dd>
     <dt>实际等待时间</dt>
     <dd>{{actual_wait | async | date: 'mm:ss'}}</dd>
   </ul>
-</md-dialog-content>
-<md-dialog-actions>
-  <button md-button md-dialog-close>取消</button>
-</md-dialog-actions>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>取消</button>
+</mat-dialog-actions>
