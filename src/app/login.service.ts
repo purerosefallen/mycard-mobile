@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { fromPairs } from 'lodash';
 import { User } from './ygopro.service';
+import * as Raven from 'raven-js';
 
 @Injectable()
 export class LoginService {
-
   user: User;
   token: string;
 
@@ -59,6 +59,11 @@ export class LoginService {
   callback(token: string) {
     this.token = token;
     this.user = <any>fromPairs(Array.from(new URLSearchParams(Buffer.from(token, 'base64').toString())));
+    Raven.setUserContext({
+      email: this.user.email,
+      id: this.user.external_id,
+      username: this.user.username
+    });
     localStorage.setItem('login', token);
     if (window.ygopro) {
       try {
@@ -72,5 +77,4 @@ export class LoginService {
   avatar(username: string) {
     return 'https://ygobbs.com/user_avatar/ygobbs.com/' + username + '/25/1.png';
   }
-
 }
