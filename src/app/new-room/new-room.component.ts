@@ -41,9 +41,7 @@ export class NewRoomComponent {
   }
 
   share(host_password: string) {
-    return navigator.share({
-      text: '房间密码是' + host_password
-    });
+    this.ygopro.share('房间密码是' + host_password);
   }
 
   set_start_lp() {

@@ -6,6 +6,7 @@
     "ng": "ng",
     "start": "ng serve --aot",
     "build": "ng build --i18n-locale zh-CN --base-href /mobile/ --prod",
+    "build:dev": "ng build --i18n-locale zh-CN --base-href /mobile2/ --prod",
     "postinstall": "patch -i webpack.patch -p0 -t",
     "lint": "ng lint"
   },

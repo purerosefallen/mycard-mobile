@@ -14,6 +14,7 @@ interface Window {
 
     openDrawer(): void;
     backHome(): void;
+    share(text: string): void
     updateUser(name: string, avatar: string, status: string): void;
 
     readFile(path: string): string;
@@ -25,6 +26,6 @@ interface Window {
   };
 }
 
-interface Navigator {
-  share: (options: { title?: string; text?: string; url?: string }) => Promise<{}>;
-}
+// interface Navigator {
+//   share: (options: { title?: string; text?: string; url?: string }) => Promise<{}>;
+// }
