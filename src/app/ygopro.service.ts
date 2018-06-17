@@ -396,15 +396,6 @@ export class YGOProService {
       alert(JSON.stringify({ method: 'backHome', params: [] }));
     }
   }
-
-  share(text: string) {
-    try {
-      window.ygopro.share(text);
-    } catch (error) {
-      console.error(error);
-      alert(JSON.stringify({ method: 'share', params: [text] }));
-    }
-  }
 }
 
 type Message =
