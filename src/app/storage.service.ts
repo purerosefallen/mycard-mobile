@@ -4,21 +4,20 @@ import * as webdav from 'webdav';
 import { LoginService } from './login.service';
 
 interface DirectoryStats {
-  'filename': string;
-  'basename': string;
-  'lastmod': string;
-  'size': 0;
-  'type': 'directory';
+  filename: string;
+  basename: string;
+  lastmod: string;
+  size: 0;
+  type: 'directory';
 }
 
-
 interface FileStats {
-  'filename': string;
-  'basename': string;
-  'lastmod': string;
-  'size': number;
-  'type': 'file';
-  'mime': string;
+  filename: string;
+  basename: string;
+  lastmod: string;
+  size: number;
+  type: 'file';
+  mime: string;
 }
 
 type Stats = DirectoryStats | FileStats;
@@ -27,11 +26,9 @@ type Stats = DirectoryStats | FileStats;
 export class StorageService {
   client = webdav('https://api.mycard.moe/storage/', this.login.user.username, this.login.user.external_id.toString());
 
-
   working: boolean;
 
-  constructor(private login: LoginService) {
-  }
+  constructor(private login: LoginService) {}
 
   async sync(app_id: string) {
     if (!window.ygopro || !window.ygopro.getFileLastModified) {
@@ -119,8 +116,8 @@ export class StorageService {
   async download(local_path: string, remote_path: string, index_path: string, time: number) {
     this.working = true;
     // console.log('download', local_path, remote_path, index_path, time);
-    const data: Uint8Array = await this.client.getFileContents(remote_path);
-    window.ygopro.writeFile(local_path, Buffer.from(<ArrayBuffer>data.buffer).toString('base64'));
+    const data: ArrayBuffer = await this.client.getFileContents(remote_path);
+    window.ygopro.writeFile(local_path, Buffer.from(data).toString('base64'));
     window.ygopro.setFileLastModified(local_path, time);
     // console.log(local_path, time);
     localStorage.setItem(index_path, time.toString());
@@ -165,7 +162,7 @@ export class StorageService {
       .map(file => path.join(directory, file));
   }
 
-  async * walk(dir: string): AsyncIterable<Stats> {
+  async *walk(dir: string): AsyncIterable<Stats> {
     const items: Stats[] = await this.client.getDirectoryContents(dir);
     // console.log('取远端目录', dir, items);
     for (const item of items) {
