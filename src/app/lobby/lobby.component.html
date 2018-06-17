@@ -25,7 +25,7 @@
   </button>
   <mat-menu #menu="matMenu">
     <a [href]="login.logout()" mat-menu-item>切换用户</a>
-    <button mat-menu-item (click)="error()">大厅版本 {{version}}</button>
+    <button mat-menu-item>大厅版本 {{version}}</button>
     <button mat-menu-item *ngIf="build">应用版本 {{build.version_name}}</button>
   </mat-menu>
 </mat-toolbar>

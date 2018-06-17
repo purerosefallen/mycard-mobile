@@ -14,31 +14,28 @@ import { YGOProService } from '../ygopro.service';
   animations: [routerTransition2]
 })
 export class LobbyComponent {
-  @HostBinding('@routerTransition2') animation: '';
+
+  @HostBinding('@routerTransition2')
+  animation: '';
 
   version = environment.version;
   build: BuildConfig;
 
   searchCtrl = new FormControl();
-  suggestion = this.searchCtrl.valueChanges.filter(name => name).flatMap(name =>
-    this.jsonp
-      .get('http://www.ourocg.cn/Suggest.aspx', {
-        params: { callback: 'JSONP_CALLBACK', key: name }
-      })
-      .map(response => response.json().result)
-  );
+  suggestion = this.searchCtrl.valueChanges.filter(name => name).flatMap(name => this.jsonp.get('http://www.ourocg.cn/Suggest.aspx', {
+    params: {callback: 'JSONP_CALLBACK', key: name}
+  }).map(response => response.json().result));
 
   key: string;
 
   arena_url: string;
 
-  constructor(
-    public login: LoginService,
-    public ygopro: YGOProService,
-    private http: Http,
-    private jsonp: Jsonp,
-    public storage: StorageService
-  ) {
+  constructor(public login: LoginService,
+              public ygopro: YGOProService,
+              private http: Http,
+              private jsonp: Jsonp,
+              public storage: StorageService) {
+
     const arena_url = new URL('https://mycard.moe/ygopro/arena');
     arena_url.searchParams.set('sso', login.token);
     this.arena_url = arena_url.toString();
@@ -57,10 +54,6 @@ export class LobbyComponent {
     const url = new URL('http://www.ourocg.cn/S.aspx');
     url.searchParams.set('key', key);
     open(url.toString());
-  }
-
-  error() {
-    throw new Error('Sentry test');
   }
 }
 

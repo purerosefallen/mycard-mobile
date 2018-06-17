@@ -1,4 +1,4 @@
-import { ErrorHandler, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, JsonpModule } from '@angular/http';
 import {
@@ -23,7 +23,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import 'hammerjs';
 import 'rxjs/Rx';
-import * as Raven from 'raven-js';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -37,14 +36,6 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
 import { WatchComponent } from './watch/watch.component';
 import { WindbotComponent } from './windbot/windbot.component';
 import { YGOProService } from './ygopro.service';
-
-Raven.config('https://a43997ca0d3a4aee8640ab90af35144b@sentry.io/1227659').install();
-
-export class RavenErrorHandler implements ErrorHandler {
-  handleError(err: any): void {
-    Raven.captureException(err);
-  }
-}
 
 @NgModule({
   declarations: [
@@ -83,7 +74,7 @@ export class RavenErrorHandler implements ErrorHandler {
     MatMenuModule,
     MatProgressSpinnerModule
   ],
-  providers: [YGOProService, StorageService, { provide: ErrorHandler, useClass: RavenErrorHandler }],
+  providers: [YGOProService, StorageService],
   bootstrap: [AppComponent],
   entryComponents: [MatchDialogComponent, ResultDialogComponent]
 })
