@@ -55,7 +55,6 @@ import { HttpModule } from '@angular/http';
     BrowserModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     FormsModule,
-    HttpModule,
     HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,

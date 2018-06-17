@@ -5,8 +5,7 @@
       "name": "app",
       "installMode": "prefetch",
       "resources": {
-        "files": ["/favicon.ico", "/index.html"],
-        "versionedFiles": ["/*.bundle.css", "/*.bundle.js", "/*.chunk.js"]
+        "files": ["/favicon.ico", "/index.html", "/*.css", "/*.js"]
       }
     },
     {
@@ -14,15 +13,18 @@
       "installMode": "lazy",
       "updateMode": "prefetch",
       "resources": {
-        "files": ["/assets/**"],
-        "versionedFiles": ["/fontawesome-webfont.*", "/MaterialIcons-Regular.*"]
+        "files": ["/assets/**", "/fontawesome-webfont.*", "/MaterialIcons-Regular.*"]
       }
     }
   ],
   "dataGroups": [
     {
       "name": "api-freshness",
-      "urls": ["https://ygobbs.com/top/quarterly.json", "https://mycard.moe/ygopro/api/history", "https://api.mycard.moe/ygopro/arena/user"],
+      "urls": [
+        "https://ygobbs.com/top/quarterly.json",
+        "https://mycard.moe/ygopro/api/history",
+        "https://api.mycard.moe/ygopro/arena/user"
+      ],
       "cacheConfig": {
         "maxSize": 100,
         "maxAge": "3d",
@@ -32,7 +34,12 @@
     },
     {
       "name": "api-performance",
-      "urls": ["https://api.mycard.moe/apps.json", "https://cdn01.moecube.com/avatars/*", "https://ygobbs.com/user_avatar/*", "https://ygobbs.com/uploads/**"],
+      "urls": [
+        "https://api.mycard.moe/apps.json",
+        "https://cdn01.moecube.com/avatars/*",
+        "https://ygobbs.com/user_avatar/*",
+        "https://ygobbs.com/uploads/**"
+      ],
       "cacheConfig": {
         "maxSize": 100,
         "maxAge": "3d",

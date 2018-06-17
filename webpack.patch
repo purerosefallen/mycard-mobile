@@ -1,0 +1,21 @@
+Index: node_modules/@angular-devkit/build-angular/src/browser/index.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- node_modules/@angular-devkit/build-angular/src/browser/index.js	(date 1529225778000)
++++ node_modules/@angular-devkit/build-angular/src/browser/index.js	(date 1529225778000)
+@@ -115,6 +115,13 @@
+             webpack_configs_1.getCommonConfig(wco),
+             webpack_configs_1.getBrowserConfig(wco),
+             webpack_configs_1.getStylesConfig(wco),
++            {
++              node: {
++                Buffer: true,
++                path: true,
++                stream: true
++              }
++            }
+         ];
+         if (wco.buildOptions.main || wco.buildOptions.polyfills) {
+             const typescriptConfigPartial = wco.buildOptions.aot

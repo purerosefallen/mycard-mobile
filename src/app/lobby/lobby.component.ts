@@ -6,9 +6,8 @@ import { routerTransition2 } from '../router.animations';
 import { StorageService } from '../storage.service';
 import { YGOProService } from '../ygopro.service';
 
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/mergeMap';
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import { filter, mergeMap } from 'rxjs/internal/operators';
 
 @Component({
   selector: 'app-lobby',
@@ -23,20 +22,16 @@ export class LobbyComponent {
   build: BuildConfig;
 
   searchCtrl = new FormControl();
-  suggestion = this.searchCtrl.valueChanges
-    .filter(name => name)
-    .mergeMap(name => this.http.get(`https://www.ourocg.cn/search/suggest/${name}`));
+  suggestion = this.searchCtrl.valueChanges.pipe(
+    filter(name => name),
+    mergeMap(name => this.http.get(`https://www.ourocg.cn/search/suggest/${name}`))
+  );
 
   key: string;
 
   arena_url: string;
 
-  constructor(
-    public login: LoginService,
-    public ygopro: YGOProService,
-    private http: HttpClient,
-    public storage: StorageService
-  ) {
+  constructor(public login: LoginService, public ygopro: YGOProService, private http: HttpClient, public storage: StorageService) {
     const arena_url = new URL('https://mycard.moe/ygopro/arena');
     arena_url.searchParams.set('sso', login.token);
     this.arena_url = arena_url.toString();

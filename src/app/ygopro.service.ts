@@ -1,19 +1,16 @@
 import { DataSource } from '@angular/cdk/collections';
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 import { MatDialog } from '@angular/material';
 import { sortBy } from 'lodash';
-import 'rxjs/add/observable/combineLatest';
-import 'rxjs/add/observable/dom/webSocket';
-import 'rxjs/add/observable/fromEvent';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/scan';
-import { Observable } from 'rxjs/Observable';
+
+import { combineLatest, fromEvent, Observable, of } from 'rxjs';
 import { LoginService } from './login.service';
 import { MatchDialogComponent } from './match/match.component';
 import { ResultDialogComponent } from './result/result.dialog';
 import { StorageService } from './storage.service';
+import { HttpClient } from '@angular/common/http';
+import { catchError, filter, map, scan } from 'rxjs/internal/operators';
+import { webSocket } from 'rxjs/webSocket';
 
 export interface User {
   admin: boolean;
@@ -154,27 +151,23 @@ export class YGOProService {
     }
   ];
 
-  constructor(private login: LoginService, private http: Http, private dialog: MatDialog, private storage: StorageService) {
+  constructor(private login: LoginService, private http: HttpClient, private dialog: MatDialog, private storage: StorageService) {
     this.load().catch(alert);
   }
 
   async load() {
-    const apps: App[] = await this.http
-      .get('https://api.mycard.moe/apps.json')
-      .map(response => response.json())
-      .toPromise();
+    const apps = await this.http.get<App[]>('https://api.mycard.moe/apps.json').toPromise();
     const app = apps.find(_app => _app.id === 'ygopro')!;
     this.news = app.news['zh-CN'];
     this.windbot = (<YGOProData>app.data).windbot['zh-CN'];
-    this.topics = this.http.get('https://ygobbs.com/top/quarterly.json').map(response =>
-      response
-        .json()
-        .topic_list.topics.slice(0, 5)
-        .map((topic: any) => ({
+    this.topics = this.http.get<TopResponse>('https://ygobbs.com/top/quarterly.json').pipe(
+      map(data =>
+        data.topic_list.topics.slice(0, 5).map((topic: any) => ({
           ...topic,
           url: new URL(`/t/${topic.slug}/${topic.id}`, 'https://ygobbs.com').toString(),
           image_url: topic.image_url && new URL(topic.image_url, 'https://ygobbs.com').toString()
         }))
+      )
     );
 
     this.storage.sync('ygopro');
@@ -186,10 +179,10 @@ export class YGOProService {
 
   async load_result(load_points = true) {
     const last = await this.http
-      .get('https://mycard.moe/ygopro/api/history', {
-        params: { username: this.login.user.username, type: 0, page_num: 1 }
+      .get<{ data: any[] }>('https://mycard.moe/ygopro/api/history', {
+        params: { username: this.login.user.username, type: '0', page_num: '1' }
       })
-      .map(response => response.json().data[0])
+      .pipe(map(data => data.data[0]))
       .toPromise();
 
     // 从来没打过
@@ -242,14 +235,14 @@ export class YGOProService {
     const hidden = ['hidden', 'webkitHidden', 'mozHidden', 'msHidden', 'oHidden'].find(prop => prop in document);
     if (hidden) {
       const evtname = hidden.replace(/[H|h]idden/, '') + 'visibilitychange';
-      Observable.fromEvent(document, evtname).subscribe(() => {
+      fromEvent(document, evtname).subscribe(() => {
         if (!document[hidden]) {
           this.load_result();
           this.storage.sync('ygopro');
         }
       });
     } else {
-      Observable.fromEvent(window, 'focus').subscribe(() => {
+      fromEvent(window, 'focus').subscribe(() => {
         this.load_result();
         this.storage.sync('ygopro');
       });
@@ -258,8 +251,7 @@ export class YGOProService {
 
   async load_points() {
     this.points = await this.http
-      .get('https://api.mycard.moe/ygopro/arena/user', { params: { username: this.login.user.username } })
-      .map(response => response.json())
+      .get<Points>('https://api.mycard.moe/ygopro/arena/user', { params: { username: this.login.user.username } })
       .toPromise();
   }
 
@@ -426,19 +418,19 @@ export class RoomListDataSource extends DataSource<Room> {
   empty = false;
   error: any;
 
-  constructor(private servers: Server[], private filter = 'waiting') {
+  constructor(private servers: Server[], private type = 'waiting') {
     super();
   }
 
   /** Connect function called by the table to retrieve one stream containing the data to render. */
   connect(): Observable<Room[]> {
-    return (
-      Observable.combineLatest(
-        this.servers.map(server => {
-          const url = new URL(server.url!);
-          url.searchParams.set('filter', this.filter);
-          // 协议处理
-          return Observable.webSocket<Message>(url.toString()).scan((rooms: Room[], message: Message, index: number) => {
+    return combineLatest(
+      this.servers.map(server => {
+        const url = new URL(server.url!);
+        url.searchParams.set('filter', this.type);
+        // 协议处理
+        return webSocket<Message>(url.toString()).pipe(
+          scan((rooms: Room[], message: Message, index: number) => {
             switch (message.event) {
               case 'init':
                 return message.data.map(room => ({ server: server, ...room }));
@@ -450,39 +442,50 @@ export class RoomListDataSource extends DataSource<Room> {
               case 'delete':
                 return rooms.filter(room => room.id !== message.data);
             }
-          }, []);
-          // 把多个服务器的数据拼接起来，这里是 combineLatest 的第二个参数
-        }),
-        (...sources: Room[][]) => (<Room[]>[]).concat(...sources)
-      )
-        // 房间排序
-        .map(
-          rooms =>
-            sortBy(rooms, room => {
-              if (room.arena === 'athletic') {
-                return 0;
-              } else if (room.arena === 'entertain') {
-                return 1;
-              } else if (room.id!.startsWith('AI#')) {
-                return 5;
-              } else {
-                return room.options.mode + 2;
-              }
-            })
-          // loading、empty、error
-        )
-        .filter(rooms => {
-          this.loading = false;
-          this.empty = rooms.length === 0;
-          return true;
+          }, [])
+        );
+      })
+    ).pipe(
+      // 把多个服务器的数据拼接起来
+      map((sources: Room[][]) => (<Room[]>[]).concat(...sources)),
+
+      // 房间排序
+      map(rooms =>
+        sortBy(rooms, room => {
+          if (room.arena === 'athletic') {
+            return 0;
+          } else if (room.arena === 'entertain') {
+            return 1;
+          } else if (room.id!.startsWith('AI#')) {
+            return 5;
+          } else {
+            return room.options.mode + 2;
+          }
         })
-        .catch(error => {
-          this.loading = false;
-          this.error = error;
-          return [];
-        })
+      ),
+      // loading、empty、error
+      filter(rooms => {
+        this.loading = false;
+        this.empty = rooms.length === 0;
+        return true;
+      }),
+      catchError(error => {
+        this.loading = false;
+        this.error = error;
+        return of([]);
+      })
     );
   }
 
   disconnect() {}
+}
+
+export interface MatchResponse {
+  password: string;
+  address: string;
+  port: number;
+}
+
+export interface TopResponse {
+  topic_list: { topics: { slug: string; id: string }[] };
 }

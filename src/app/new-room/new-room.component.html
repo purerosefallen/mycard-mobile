@@ -1,11 +1,11 @@
 <app-toolbar>创建房间</app-toolbar>
 
 <form (submit)="ygopro.create_room(room, host_password)" ngNativeValidate>
-  <mat-input-container *ngIf="!room.private" class="full-width">
+  <mat-form-field *ngIf="!room.private" class="full-width">
     <input matInput placeholder="游戏标题" name="title" [(ngModel)]="room.title" minlength="1" maxlength="12" required>
     <mat-hint align="end">{{room.title?.length || 0}} / 12</mat-hint>
-  </mat-input-container>
-  <mat-input-container *ngIf="room.private" class="full-width">
+  </mat-form-field>
+  <mat-form-field *ngIf="room.private" class="full-width">
     <mat-placeholder>
       <mat-icon>&#xe0da;</mat-icon><!-- vpn_key -->
       <span>房间密码</span>
@@ -18,7 +18,7 @@
       <mat-icon>share</mat-icon>
     </button>
     <mat-hint align="end">把这个分享给你的朋友</mat-hint>
-  </mat-input-container>
+  </mat-form-field>
   <mat-select class="full-width" placeholder="卡片允许" name="rule" [(ngModel)]="room.options.rule" required>
     <mat-option [value]="0">OCG</mat-option>
     <mat-option [value]="1">TCG</mat-option>
@@ -35,15 +35,15 @@
   <!--<mat-slide-toggle #extra class="example-margin" color="primary">额外选项</mat-slide-toggle>-->
 
 
-  <mat-input-container class="full-width">
+  <mat-form-field class="full-width">
     <input name="start_lp" [(ngModel)]="room.options.start_lp" matInput type="number" min="1" max="65536" placeholder="初始 LP" required>
-  </mat-input-container>
-  <mat-input-container class="full-width">
+  </mat-form-field>
+  <mat-form-field class="full-width">
     <input name="start_hand" [(ngModel)]="room.options.start_hand" matInput type="number" min="0" max="16" placeholder="初始手牌数" required>
-  </mat-input-container>
-  <mat-input-container class="full-width">
+  </mat-form-field>
+  <mat-form-field class="full-width">
     <input name="draw_count" [(ngModel)]="room.options.draw_count" matInput type="number" min="0" max="16" placeholder="每回合抽卡" required>
-  </mat-input-container>
+  </mat-form-field>
 
   <mat-checkbox class="full-width" name="room.private" [(ngModel)]="room.private">私密房间</mat-checkbox>
   <mat-checkbox class="full-width" name="room.enable_priority" [(ngModel)]="room.options.enable_priority">旧规则
