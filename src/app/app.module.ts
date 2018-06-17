@@ -46,9 +46,6 @@ Raven
 export class RavenErrorHandler implements ErrorHandler {
   handleError(err: any): void {
     Raven.captureException(err.originalError || err);
-    if (isDevMode()) {
-      super.handleError(err);
-    }
   }
 }
 
