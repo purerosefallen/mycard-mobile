@@ -1,12 +1,13 @@
 {
   "name": "mycard-mobile",
-  "version": "1.0.24",
+  "version": "1.0.25",
   "license": "UNLISENCED",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --aot",
-    "build": "ng build --i18n-locale zh-CN --base-href /mobile/ --prod",
-    "build:dev": "ng build --i18n-locale zh-CN --base-href /mobile2/ --prod",
+    "build": "ng build --i18n-locale zh-CN --base-href /mobile/ --prod && npm run fuck",
+    "build:dev": "ng build --i18n-locale zh-CN --base-href /mobile2/ --prod && npm run fuck",
+    "fuck": "patch -i service-worker.patch dist/ngsw-worker.js",
     "postinstall": "patch -i webpack.patch -p0 -t",
     "lint": "ng lint"
   },
