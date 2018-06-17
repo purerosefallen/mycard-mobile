@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatAutocompleteModule,
@@ -37,7 +37,17 @@ import { WatchComponent } from './watch/watch.component';
 import { WindbotComponent } from './windbot/windbot.component';
 import { YGOProService } from './ygopro.service';
 import { HttpClientModule } from '@angular/common/http';
-import { HttpModule } from '@angular/http';
+import * as Raven from 'raven-js';
+
+Raven.config('https://a43997ca0d3a4aee8640ab90af35144b@sentry.io/1227659', {
+  release: environment.version
+}).install();
+
+export class RavenErrorHandler implements ErrorHandler {
+  handleError(err: any): void {
+    Raven.captureException(err);
+  }
+}
 
 @NgModule({
   declarations: [
@@ -76,7 +86,7 @@ import { HttpModule } from '@angular/http';
     MatMenuModule,
     MatProgressSpinnerModule
   ],
-  providers: [YGOProService, StorageService],
+  providers: [YGOProService, StorageService, { provide: ErrorHandler, useClass: RavenErrorHandler }],
   bootstrap: [AppComponent],
   entryComponents: [MatchDialogComponent, ResultDialogComponent]
 })
