@@ -1,5 +1,5 @@
 import { CdkTableModule } from '@angular/cdk';
-import { NgModule } from '@angular/core';
+import {ErrorHandler, isDevMode, NgModule} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, JsonpModule } from '@angular/http';
 import {
@@ -37,6 +37,20 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
 import { WatchComponent } from './watch/watch.component';
 import { WindbotComponent } from './windbot/windbot.component';
 import { YGOProService } from './ygopro.service';
+import * as Raven from 'raven-js';
+
+Raven
+  .config('https://a43997ca0d3a4aee8640ab90af35144b@sentry.io/1227659')
+  .install();
+
+export class RavenErrorHandler implements ErrorHandler {
+  handleError(err: any): void {
+    Raven.captureException(err.originalError || err);
+    if (isDevMode()) {
+      super.handleError(err);
+    }
+  }
+}
 
 @NgModule({
   declarations: [
@@ -76,7 +90,7 @@ import { YGOProService } from './ygopro.service';
     MdMenuModule,
     MdProgressSpinnerModule
   ],
-  providers: [YGOProService, StorageService],
+  providers: [YGOProService, StorageService, { provide: ErrorHandler, useClass: RavenErrorHandler }],
   bootstrap: [AppComponent],
   entryComponents: [MatchDialogComponent, ResultDialogComponent]
 })
