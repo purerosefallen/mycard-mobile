@@ -1,42 +1,42 @@
 <app-toolbar>房间列表</app-toolbar>
 
-<div class="hint" *ngIf="dataSource.loading"><mat-spinner></mat-spinner></div>
+<div class="hint" *ngIf="dataSource.loading"><md-spinner></md-spinner></div>
 <div class="hint" *ngIf="dataSource.empty">现在没有等待中的游戏，可以自行创建一个房间或者去匹配</div>
 <div class="hint" *ngIf="dataSource.error">网络错误</div>
 
-<mat-table #table [dataSource]="dataSource">
+<md-table #table [dataSource]="dataSource">
 
   <!--- Note that these columns can be defined in any order.
         The actual rendered columns are set as a property on room row definition" -->
 
   <!-- ID Column -->
-  <ng-container matColumnDef="title">
-    <mat-header-cell class="game-title" *matHeaderCellDef>游戏标题</mat-header-cell>
-    <mat-cell class="game-title" *matCellDef="let room">{{room.title}}</mat-cell>
+  <ng-container cdkColumnDef="title">
+    <md-header-cell class="game-title" *cdkHeaderCellDef>游戏标题</md-header-cell>
+    <md-cell class="game-title" *cdkCellDef="let room">{{room.title}}</md-cell>
   </ng-container>
 
   <!-- Progress Column -->
-  <ng-container matColumnDef="users">
-    <mat-header-cell *matHeaderCellDef>玩家</mat-header-cell>
-    <mat-cell *matCellDef="let room">
+  <ng-container cdkColumnDef="users">
+    <md-header-cell *cdkHeaderCellDef>玩家</md-header-cell>
+    <md-cell *cdkCellDef="let room">
       <img *ngFor="let user of room.users" class="avatar" [src]="login.avatar(user.username)">
-    </mat-cell>
+    </md-cell>
   </ng-container>
 
   <!-- Name Column -->
-  <ng-container matColumnDef="mode">
-    <mat-header-cell *matHeaderCellDef>决斗模式</mat-header-cell>
-    <mat-cell *matCellDef="let room">
+  <ng-container cdkColumnDef="mode">
+    <md-header-cell *cdkHeaderCellDef>决斗模式</md-header-cell>
+    <md-cell *cdkCellDef="let room">
       <span *ngIf="room.options.mode === 0">单局模式</span>
       <span *ngIf="room.options.mode === 1">比赛模式</span>
       <span *ngIf="room.options.mode === 2">TAG</span>
-    </mat-cell>
+    </md-cell>
   </ng-container>
 
   <!-- Color Column -->
-  <ng-container matColumnDef="extra">
-    <mat-header-cell *matHeaderCellDef>额外选项</mat-header-cell>
-    <mat-cell *matCellDef="let room">
+  <ng-container cdkColumnDef="extra">
+    <md-header-cell *cdkHeaderCellDef>额外选项</md-header-cell>
+    <md-cell *cdkCellDef="let room">
       <span *ngIf="room.options.rule != ygopro.default_options.rule">{{{'0': 'OCG', '1': 'TCG', '2': 'O/T', '3': '专有卡禁止'}[room.options.rule]}}</span>
       <span *ngIf="room.options.start_lp != ygopro.default_options.start_lp">{{room.options.start_lp}} LP</span>
       <span *ngIf="room.options.start_hand != ygopro.default_options.start_hand">{{room.options.start_hand}} 初始</span>
@@ -44,14 +44,14 @@
       <span *ngIf="room.options.enable_priority != ygopro.default_options.enable_priority">旧规则</span>
       <span *ngIf="room.options.no_check_deck != ygopro.default_options.no_check_deck">不检查</span>
       <span *ngIf="room.options.no_shuffle_deck != ygopro.default_options.no_shuffle_deck">不洗卡</span>
-    </mat-cell>
+    </md-cell>
   </ng-container>
 
-  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-  <mat-row *matRowDef="let room; columns: displayedColumns;" (click)="ygopro.join_room(room)"></mat-row>
-</mat-table>
+  <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
+  <md-row *cdkRowDef="let room; columns: displayedColumns;" (click)="ygopro.join_room(room)"></md-row>
+</md-table>
 
 <form (submit)="ygopro.join_private(joinPassword.value)" ngNativeValidate>
   <input #joinPassword placeholder="在这输入你朋友的私密房间密码就可以进去了哦!" required>
-  <button mat-raised-button color="primary">加入私密房间</button>
+  <button md-raised-button color="primary">加入私密房间</button>
 </form>

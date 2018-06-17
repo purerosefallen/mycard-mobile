@@ -1,60 +1,60 @@
 <app-toolbar>创建房间</app-toolbar>
 
 <form (submit)="ygopro.create_room(room, host_password)" ngNativeValidate>
-  <mat-input-container *ngIf="!room.private" class="full-width">
-    <input matInput placeholder="游戏标题" name="title" [(ngModel)]="room.title" minlength="1" maxlength="12" required>
-    <mat-hint align="end">{{room.title?.length || 0}} / 12</mat-hint>
-  </mat-input-container>
-  <mat-input-container *ngIf="room.private" class="full-width">
-    <mat-placeholder>
-      <mat-icon>&#xe0da;</mat-icon><!-- vpn_key -->
+  <md-input-container *ngIf="!room.private" class="full-width">
+    <input mdInput placeholder="游戏标题" name="title" [(ngModel)]="room.title" minlength="1" maxlength="12" required>
+    <md-hint align="end">{{room.title?.length || 0}} / 12</md-hint>
+  </md-input-container>
+  <md-input-container *ngIf="room.private" class="full-width">
+    <md-placeholder>
+      <md-icon>&#xe0da;</md-icon><!-- vpn_key -->
       <span>房间密码</span>
-    </mat-placeholder>
-    <input #hostPasswordInput matInput name="title" [(ngModel)]="host_password" readonly>
-    <button type="button" mat-icon-button matSuffix (click)="copy(host_password)">
-      <mat-icon>&#xe14d;</mat-icon><!-- content_copy -->
+    </md-placeholder>
+    <input #hostPasswordInput mdInput name="title" [(ngModel)]="host_password" readonly>
+    <button type="button" md-icon-button mdSuffix (click)="copy(host_password)">
+      <md-icon>&#xe14d;</md-icon><!-- content_copy -->
     </button>
-    <button type="button" mat-icon-button matSuffix (click)="share(host_password)">
-      <mat-icon>share</mat-icon>
+    <button type="button" md-icon-button mdSuffix (click)="share(host_password)">
+      <md-icon>share</md-icon>
     </button>
-    <mat-hint align="end">把这个分享给你的朋友</mat-hint>
-  </mat-input-container>
-  <mat-select class="full-width" placeholder="卡片允许" name="rule" [(ngModel)]="room.options.rule" required>
-    <mat-option [value]="0">OCG</mat-option>
-    <mat-option [value]="1">TCG</mat-option>
-    <mat-option [value]="2">OCG & TCG</mat-option>
-    <mat-option [value]="3">专有卡禁止</mat-option>
-  </mat-select>
-  <mat-select class="full-width" placeholder="决斗模式" name="mode" [(ngModel)]="room.options.mode" (ngModelChange)="set_start_lp()" required>
-    <mat-option [value]="0">单局模式</mat-option>
-    <mat-option [value]="1">比赛模式</mat-option>
-    <mat-option [value]="2">TAG</mat-option>
-  </mat-select>
+    <md-hint align="end">把这个分享给你的朋友</md-hint>
+  </md-input-container>
+  <md-select class="full-width" placeholder="卡片允许" name="rule" [(ngModel)]="room.options.rule" required>
+    <md-option [value]="0">OCG</md-option>
+    <md-option [value]="1">TCG</md-option>
+    <md-option [value]="2">OCG & TCG</md-option>
+    <md-option [value]="3">专有卡禁止</md-option>
+  </md-select>
+  <md-select class="full-width" placeholder="决斗模式" name="mode" [(ngModel)]="room.options.mode" (ngModelChange)="set_start_lp()" required>
+    <md-option [value]="0">单局模式</md-option>
+    <md-option [value]="1">比赛模式</md-option>
+    <md-option [value]="2">TAG</md-option>
+  </md-select>
 
   <!--<h2>额外选项</h2>-->
-  <!--<mat-slide-toggle #extra class="example-margin" color="primary">额外选项</mat-slide-toggle>-->
+  <!--<md-slide-toggle #extra class="example-margin" color="primary">额外选项</md-slide-toggle>-->
 
 
-  <mat-input-container class="full-width">
-    <input name="start_lp" [(ngModel)]="room.options.start_lp" matInput type="number" min="1" max="65536" placeholder="初始 LP" required>
-  </mat-input-container>
-  <mat-input-container class="full-width">
-    <input name="start_hand" [(ngModel)]="room.options.start_hand" matInput type="number" min="0" max="16" placeholder="初始手牌数" required>
-  </mat-input-container>
-  <mat-input-container class="full-width">
-    <input name="draw_count" [(ngModel)]="room.options.draw_count" matInput type="number" min="0" max="16" placeholder="每回合抽卡" required>
-  </mat-input-container>
+  <md-input-container class="full-width">
+    <input name="start_lp" [(ngModel)]="room.options.start_lp" mdInput type="number" min="1" max="65536" placeholder="初始 LP" required>
+  </md-input-container>
+  <md-input-container class="full-width">
+    <input name="start_hand" [(ngModel)]="room.options.start_hand" mdInput type="number" min="0" max="16" placeholder="初始手牌数" required>
+  </md-input-container>
+  <md-input-container class="full-width">
+    <input name="draw_count" [(ngModel)]="room.options.draw_count" mdInput type="number" min="0" max="16" placeholder="每回合抽卡" required>
+  </md-input-container>
 
-  <mat-checkbox class="full-width" name="room.private" [(ngModel)]="room.private">私密房间</mat-checkbox>
-  <mat-checkbox class="full-width" name="room.enable_priority" [(ngModel)]="room.options.enable_priority">旧规则
-  </mat-checkbox>
-  <mat-checkbox class="full-width" name="room.no_check_deck" [(ngModel)]="room.options.no_check_deck">不检查卡组</mat-checkbox>
-  <mat-checkbox class="full-width" name="room.no_shuffle_deck" [(ngModel)]="room.options.no_shuffle_deck">不洗切卡组
-  </mat-checkbox>
+  <md-checkbox class="full-width" name="room.private" [(ngModel)]="room.private">私密房间</md-checkbox>
+  <md-checkbox class="full-width" name="room.enable_priority" [(ngModel)]="room.options.enable_priority">旧规则
+  </md-checkbox>
+  <md-checkbox class="full-width" name="room.no_check_deck" [(ngModel)]="room.options.no_check_deck">不检查卡组</md-checkbox>
+  <md-checkbox class="full-width" name="room.no_shuffle_deck" [(ngModel)]="room.options.no_shuffle_deck">不洗切卡组
+  </md-checkbox>
 
 
   <div id="actions">
-    <!--<button routerLink="/ygopro/lobby" mat-raised-button>返回大厅</button>-->
-    <button type="submit" color="primary" mat-raised-button>创建游戏</button>
+    <!--<button routerLink="/ygopro/lobby" md-raised-button>返回大厅</button>-->
+    <button type="submit" color="primary" md-raised-button>创建游戏</button>
   </div>
 </form>

@@ -120,7 +120,7 @@ export class StorageService {
     this.working = true;
     // console.log('download', local_path, remote_path, index_path, time);
     const data: Uint8Array = await this.client.getFileContents(remote_path);
-    window.ygopro.writeFile(local_path, Buffer.from(<ArrayBuffer>data.buffer).toString('base64'));
+    window.ygopro.writeFile(local_path, Buffer.from(data.buffer).toString('base64'));
     window.ygopro.setFileLastModified(local_path, time);
     // console.log(local_path, time);
     localStorage.setItem(index_path, time.toString());

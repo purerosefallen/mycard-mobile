@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { Http } from '@angular/http';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
+import { MD_DIALOG_DATA, MdDialog, MdDialogRef } from '@angular/material';
 import { LoginService } from '../login.service';
 import { MatchDialogComponent } from '../match/match.component';
 
@@ -15,11 +15,11 @@ export class ResultDialogComponent {
   exp: string | undefined;
   firstWin: string | undefined;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public last: any,
+  constructor(@Inject(MD_DIALOG_DATA) public last: any,
               public login: LoginService,
               private http: Http,
-              public dialog: MatDialog,
-              private dialogRef: MatDialogRef<MatchDialogComponent>) {
+              public dialog: MdDialog,
+              private dialogRef: MdDialogRef<MatchDialogComponent>) {
     if (this.last.userscorea === this.last.userscoreb) {
       this.result = 'draw';
     } else if (this.last.winner === this.login.user.username) {

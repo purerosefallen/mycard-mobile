@@ -15,7 +15,6 @@
     "typeRoots": [
       "node_modules/@types"
     ],
-    "skipLibCheck": true,
     "lib": [
       "esnext",
       "dom.iterable"

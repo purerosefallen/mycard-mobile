@@ -1,5 +1,5 @@
 import { Component, ElementRef, HostBinding, ViewChild } from '@angular/core';
-import { MatSnackBar } from '@angular/material';
+import { MdSnackBar } from '@angular/material';
 import { LoginService } from '../login.service';
 import { routerTransition } from '../router.animations';
 import { YGOProService } from '../ygopro.service';
@@ -27,7 +27,7 @@ export class NewRoomComponent {
     options: {...this.ygopro.default_options}
   };
 
-  constructor(public ygopro: YGOProService, private login: LoginService, private snackBar: MatSnackBar) {
+  constructor(public ygopro: YGOProService, private login: LoginService, private snackBar: MdSnackBar) {
   }
 
   copy(host_password: string) {

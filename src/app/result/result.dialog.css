@@ -1,22 +1,22 @@
-mat-list-item /deep/ .mat-list-item-content {
+md-list-item /deep/ .mat-list-item-content {
   justify-content: space-between;
   height: 28px !important;
   padding: 0
 }
 
-mat-grid-list {
+md-grid-list {
   font-size: 14px;
 }
 
-mat-grid-tile dt, mat-grid-tile dd {
+md-grid-tile dt, md-grid-tile dd {
   width: 100%;
 }
 
-mat-grid-tile {
+md-grid-tile {
   text-align: left;
 }
 
-mat-grid-tile dd {
+md-grid-tile dd {
   margin: 0;
   text-align: left;
 }
