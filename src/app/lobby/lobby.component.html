@@ -4,8 +4,8 @@
   <button id="menu" mat-icon-button (click)="ygopro.openDrawer()">
     <mat-icon>menu</mat-icon>
   </button>
-  <form (submit)="search(key)">
-    <input type="search" placeholder="卡片搜索" name="key" [(ngModel)]="key" [matAutocomplete]="auto" [formControl]="searchCtrl">
+  <form (submit)="search(searchControl.value)">
+    <input type="search" placeholder="卡片搜索" name="key" [matAutocomplete]="auto" [formControl]="searchControl">
 
     <mat-autocomplete #auto="matAutocomplete">
       <mat-option *ngFor="let card of suggestion | async" [value]="card" (onSelectionChange)="search(card)">
@@ -173,7 +173,7 @@
 <mat-card *ngFor="let item of ygopro.topics | async">
   <a [href]="item.url" target="_blank">
     <mat-card-header>
-      <img *ngIf="item.image_url" mat-card-avatar [src]="item.image_url">
+      <img *ngIf="item.image_url" mat-card-avatar [src]="item.image_url" referrerpolicy="no-referrer">
       <mat-card-title>{{item.title}}</mat-card-title>
       <mat-card-subtitle>by {{item.last_poster_username}} / {{item.last_posted_at | date}}
       </mat-card-subtitle>

@@ -7,7 +7,7 @@ import { StorageService } from '../storage.service';
 import { YGOProService } from '../ygopro.service';
 
 import { HttpClient } from '@angular/common/http';
-import { filter, mergeMap } from 'rxjs/internal/operators';
+import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/internal/operators';
 
 @Component({
   selector: 'app-lobby',
@@ -21,10 +21,12 @@ export class LobbyComponent {
   version = environment.version;
   build: BuildConfig;
 
-  searchCtrl = new FormControl();
-  suggestion = this.searchCtrl.valueChanges.pipe(
+  searchControl = new FormControl();
+  suggestion = this.searchControl.valueChanges.pipe(
+    distinctUntilChanged(),
     filter(name => name),
-    mergeMap(name => this.http.get(`https://www.ourocg.cn/search/suggest/${name}`))
+    switchMap(name => this.http.get(`https://api.mycard.moe/ygopro/suggest/${name}`)),
+    map(data => data.map(item => item.value))
   );
 
   key: string;
