@@ -48,7 +48,7 @@ export class RavenErrorHandler implements ErrorHandler {
 }
 
 let sentry: Provider[] = [];
-if (!isDevMode()) {
+if (environment.production) {
   Raven.config('https://a43997ca0d3a4aee8640ab90af35144b@sentry.io/1227659', {
     release: environment.version
   }).install();
