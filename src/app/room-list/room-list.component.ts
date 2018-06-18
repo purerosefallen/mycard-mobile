@@ -4,28 +4,21 @@ import { LoginService } from '../login.service';
 import { routerTransition } from '../router.animations';
 import { RoomListDataSource, YGOProService } from '../ygopro.service';
 
-
 @Component({
   selector: 'app-room-list',
   styleUrls: ['room-list.component.css'],
   templateUrl: 'room-list.component.html',
-  animations: [routerTransition]
+  animations: routerTransition
 })
 export class RoomListComponent implements OnInit {
-
-  @HostBinding('@routerTransition')
-  animation: '';
-
+  @HostBinding('@routerTransition') animation;
 
   displayedColumns = ['title', 'users', 'mode', 'extra'];
-  dataSource = new RoomListDataSource(this.ygopro.servers.filter(server => server.custom));
+  dataSource = new RoomListDataSource(this.ygopro.servers.filter(server => server.custom!));
 
-  constructor(public login: LoginService, public ygopro: YGOProService, private changeDetector: ChangeDetectorRef) {
-  }
+  constructor(public login: LoginService, public ygopro: YGOProService, private changeDetector: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.changeDetector.detectChanges();
   }
-
 }
-

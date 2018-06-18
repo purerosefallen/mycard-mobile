@@ -80,8 +80,8 @@
     <button mat-raised-button (click)="ygopro.backHome()"><span class="icon">233</span><br>直连</button>
   </mat-grid-tile>
   <!--<mat-grid-tile><a mat-raised-button>-->
-    <!--<mat-icon>casino</mat-icon>-->
-    <!--<br>轮抽 (开发中)</a></mat-grid-tile>-->
+  <!--<mat-icon>casino</mat-icon>-->
+  <!--<br>轮抽 (开发中)</a></mat-grid-tile>-->
 </mat-grid-list>
 
 <mat-card *ngIf="ygopro.points">
@@ -173,7 +173,7 @@
 <mat-card *ngFor="let item of ygopro.topics | async">
   <a [href]="item.url" target="_blank">
     <mat-card-header>
-      <img *ngIf="item.image_url" mat-card-avatar [src]="item.image_url" referrerpolicy="no-referrer">
+      <img *ngIf="item.image_url" mat-card-avatar [src]="item.image_url">
       <mat-card-title>{{item.title}}</mat-card-title>
       <mat-card-subtitle>by {{item.last_poster_username}} / {{item.last_posted_at | date}}
       </mat-card-subtitle>

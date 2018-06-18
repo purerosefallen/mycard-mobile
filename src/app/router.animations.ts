@@ -1,30 +1,30 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
-export const routerTransition = trigger('routerTransition', [
-  state('void', style({ position: 'absolute', width: '100%' })),
-  state('*', style({ position: 'absolute', width: '100%' })),
-  transition(':enter', [
-    // before 2.1: transition('void => *', [
-    style({ transform: 'translateX(100%)' }),
-    animate('.4s', style({ transform: 'translateX(0%)' }))
+const enter = transition(':enter', animate('175ms cubic-bezier(0, 0, .2, 1)'));
+const leave = transition(':leave', animate('175ms cubic-bezier(.4, 0, 1, 1)'));
+
+export const routerTransition = [
+  trigger('routerTransition', [
+    state('void', style({ transform: 'translateY(164px)', opacity: 0 })),
+    state('*', style({ transform: 'translateY(0)', opacity: 1 })),
+    enter,
+    leave
   ]),
-  transition(':leave', [
-    // before 2.1: transition('* => void', [
-    style({ transform: 'translateX(0%)' }),
-    animate('.4s', style({ transform: 'translateX(100%)' }))
+  // trigger('toolbarTransition', [
+  //   transition(':enter', [
+  //     style({  opacity: 0 }),
+  //     animate('175ms cubic-bezier(0, 0, .2, 1)')
+  //   ]),
+  //   transition(':leave', [
+  //     style({ opacity: 1 }),
+  //     animate('175ms cubic-bezier(.4, 0, 1, 1)', style({ opacity: 0 }))
+  //   ])
+  // ]),
+
+  trigger('routerTransition2', [
+    state('void', style({ transform: 'translateY(-24px)' })),
+    state('*', style({ transform: 'translateY(0)' })),
+    enter,
+    leave
   ])
-]);
-export const routerTransition2 = trigger('routerTransition2', [
-  state('void', style({ position: 'absolute', width: '100%' })),
-  state('*', style({ position: 'absolute', width: '100%' })),
-  transition(':enter', [
-    // before 2.1: transition('void => *', [
-    style({ transform: 'translateX(-100%)' }),
-    animate('.4s', style({ transform: 'translateX(0%)' }))
-  ]),
-  transition(':leave', [
-    // before 2.1: transition('* => void', [
-    style({ transform: 'translateX(0%)' }),
-    animate('.4s', style({ transform: 'translateX(-100%)' }))
-  ])
-]);
+];

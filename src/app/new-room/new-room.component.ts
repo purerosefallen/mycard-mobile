@@ -8,11 +8,10 @@ import { YGOProService } from '../ygopro.service';
   selector: 'app-new-room',
   templateUrl: 'new-room.component.html',
   styleUrls: ['new-room.component.css'],
-  animations: [routerTransition]
+  animations: routerTransition
 })
 export class NewRoomComponent {
-  @HostBinding('@routerTransition') animation = '';
-
+  @HostBinding('@routerTransition') animation;
   @ViewChild('hostPasswordInput') hostPasswordInput: ElementRef;
 
   host_password = (this.login.user.external_id ^ 0x54321).toString();
@@ -23,8 +22,7 @@ export class NewRoomComponent {
     options: { ...this.ygopro.default_options }
   };
 
-  constructor(public ygopro: YGOProService, private login: LoginService, private snackBar: MatSnackBar) {
-  }
+  constructor(public ygopro: YGOProService, private login: LoginService, private snackBar: MatSnackBar) {}
 
   copy(host_password: string) {
     try {

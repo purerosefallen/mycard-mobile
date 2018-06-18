@@ -7,6 +7,7 @@ import { NewRoomComponent } from './new-room/new-room.component';
 import { RoomListComponent } from './room-list/room-list.component';
 import { WatchComponent } from './watch/watch.component';
 import { WindbotComponent } from './windbot/windbot.component';
+import { DecksComponent } from './decks/decks.component';
 
 const routes: Routes = [
   {
@@ -18,7 +19,8 @@ const routes: Routes = [
       { path: 'ygopro/rooms', component: RoomListComponent },
       { path: 'ygopro/lobby', component: LobbyComponent },
       { path: 'ygopro/windbot', component: WindbotComponent },
-      { path: 'ygopro/watch', component: WatchComponent }
+      { path: 'ygopro/watch', component: WatchComponent },
+      { path: 'ygopro/decks', component: DecksComponent }
     ]
   }
 ];

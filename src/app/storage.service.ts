@@ -24,20 +24,21 @@ type Stats = DirectoryStats | FileStats;
 
 @Injectable()
 export class StorageService {
-  client = webdav('https://api.mycard.moe/storage/', this.login.user.username, this.login.user.external_id.toString());
+  app_id = 'ygopro';
 
-  working: boolean;
+  client = webdav('https://api.mycard.moe/storage/', this.login.user.username, this.login.user.external_id.toString());
+  working = false;
 
   constructor(private login: LoginService) {}
 
-  async sync(app_id: string) {
+  async sync() {
     if (!window.ygopro || !window.ygopro.getFileLastModified) {
       return;
     }
 
     // console.log('sync', 'start');
 
-    const root = path.join('/', app_id);
+    const root = path.join('/', this.app_id);
 
     // 远程有 本地有
     //    远程=本地 更新记录
@@ -126,7 +127,7 @@ export class StorageService {
   async upload(local_path: string, remote_path: string, index_path: string) {
     this.working = true;
     // console.log('upload', local_path, remote_path, index_path);
-    const data = Buffer.from(window.ygopro.readFile(local_path), 'base64');
+    const data = this.read_local(local_path);
     await this.client.putFileContents(remote_path, data);
     const item: FileStats = await this.client.stat(remote_path);
     const time = Date.parse(item.lastmod);
@@ -135,8 +136,11 @@ export class StorageService {
     localStorage.setItem(index_path, time.toString());
   }
 
-  // 其实没必要 async，只是看着整齐一点
-  async remove_local(local_path: string, remote_path: string, index_path: string) {
+  read_local(local_path: string) {
+    return Buffer.from(window.ygopro.readFile(local_path), 'base64');
+  }
+
+  remove_local(local_path: string, remote_path: string, index_path: string) {
     this.working = true;
     window.ygopro.unlink(local_path);
     localStorage.removeItem(index_path);
@@ -148,12 +152,19 @@ export class StorageService {
     localStorage.removeItem(index_path);
   }
 
+  async remove(local_path: string) {
+    const root = path.join('/', this.app_id);
+    const remote_path = path.join(root, local_path);
+    const index_path = '_FILE_' + remote_path;
+
+    this.working = true;
+    window.ygopro.unlink(local_path);
+    await this.client.deleteFile(remote_path);
+    localStorage.removeItem(index_path);
+  }
+
   local_files() {
-    return [
-      ...this.local_files_do('deck', '.ydk'),
-      ...this.local_files_do('replay', '.yrp'),
-      ...this.local_files_do('single', '.lua'),
-    ];
+    return [...this.local_files_do('deck', '.ydk'), ...this.local_files_do('replay', '.yrp'), ...this.local_files_do('single', '.lua')];
   }
 
   local_files_do(directory, extname): string[] {

@@ -6,9 +6,12 @@
   width: 100%;
   z-index: 1;
 }
-.avatar {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  vertical-align: middle;
+
+mat-toolbar button {
+  margin-left: -8px;
+  margin-right: 24px;
+}
+
+mat-toolbar span {
+  flex: 1;
 }

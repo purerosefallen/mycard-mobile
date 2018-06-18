@@ -54,7 +54,7 @@ export interface Server {
   replay?: boolean;
 }
 
-class News {
+interface News {
   title: string;
   text: string;
   url: string;
@@ -152,7 +152,7 @@ export class YGOProService {
   ];
 
   constructor(private login: LoginService, private http: HttpClient, private dialog: MatDialog, private storage: StorageService) {
-    this.load().catch(alert);
+    this.load();
   }
 
   async load() {
@@ -170,7 +170,7 @@ export class YGOProService {
       )
     );
 
-    this.storage.sync('ygopro');
+    this.storage.sync();
     this.load_points();
 
     await this.load_result(false);
@@ -238,13 +238,13 @@ export class YGOProService {
       fromEvent(document, evtname).subscribe(() => {
         if (!document[hidden]) {
           this.load_result();
-          this.storage.sync('ygopro');
+          this.storage.sync();
         }
       });
     } else {
       fromEvent(window, 'focus').subscribe(() => {
         this.load_result();
-        this.storage.sync('ygopro');
+        this.storage.sync();
       });
     }
   }
@@ -352,12 +352,20 @@ export class YGOProService {
     }
   }
 
-  edit_deck() {
-    try {
-      window.ygopro.edit_deck();
-    } catch (error) {
-      console.error(error);
-      alert(JSON.stringify({ method: 'edit_deck', params: [] }));
+  edit_deck(deck?: string) {
+    if (deck) {
+      try {
+        window.ygopro.edit_deck(deck);
+      } catch {
+        this.edit_deck();
+      }
+    } else {
+      try {
+        window.ygopro.edit_deck();
+      } catch (error) {
+        console.error(error);
+        alert(JSON.stringify({ method: 'edit_deck', params: [] }));
+      }
     }
   }
 

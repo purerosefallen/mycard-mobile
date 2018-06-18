@@ -7,21 +7,17 @@ import { RoomListDataSource, YGOProService } from '../ygopro.service';
   selector: 'app-watch',
   templateUrl: './watch.component.html',
   styleUrls: ['./watch.component.css'],
-  animations: [routerTransition]
+  animations: routerTransition
 })
 export class WatchComponent implements OnInit {
-
-  @HostBinding('@routerTransition')
-  animation = '';
+  @HostBinding('@routerTransition') animation;
 
   displayedColumns = ['mode', 'title', 'users', 'extra'];
   dataSource = new RoomListDataSource(this.ygopro.servers, 'started');
 
-  constructor(public login: LoginService, public ygopro: YGOProService, private changeDetector: ChangeDetectorRef) {
-  }
+  constructor(public login: LoginService, public ygopro: YGOProService, private changeDetector: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.changeDetector.detectChanges();
   }
-
 }

@@ -7,12 +7,10 @@ import { YGOProService } from '../ygopro.service';
   selector: 'app-windbot',
   templateUrl: './windbot.component.html',
   styleUrls: ['./windbot.component.css'],
-  animations: [routerTransition]
+  animations: routerTransition
 })
 export class WindbotComponent {
-  @HostBinding('@routerTransition')
-  animation = '';
+  @HostBinding('@routerTransition') animation;
 
-  constructor(public login: LoginService, public ygopro: YGOProService) {
-  }
+  constructor(public login: LoginService, public ygopro: YGOProService) {}
 }

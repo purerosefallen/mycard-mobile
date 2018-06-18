@@ -1,10 +1,10 @@
 {
   "name": "mycard-mobile",
-  "version": "1.0.26",
+  "version": "1.0.27",
   "license": "UNLISENCED",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --aot",
+    "start": "ng serve --aot --host 0.0.0.0",
     "build": "ng build --i18n-locale zh-CN --base-href /mobile/ --prod && npm run fuck",
     "build:dev": "ng build --i18n-locale zh-CN --base-href /mobile2/ --prod && npm run fuck",
     "fuck": "patch -i service-worker.patch dist/ngsw-worker.js",

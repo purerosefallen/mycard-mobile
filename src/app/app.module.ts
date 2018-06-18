@@ -1,4 +1,4 @@
-import { ErrorHandler, NgModule } from '@angular/core';
+import { ErrorHandler, isDevMode, NgModule, Provider } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatAutocompleteModule,
@@ -38,15 +38,21 @@ import { WindbotComponent } from './windbot/windbot.component';
 import { YGOProService } from './ygopro.service';
 import { HttpClientModule } from '@angular/common/http';
 import * as Raven from 'raven-js';
-
-Raven.config('https://a43997ca0d3a4aee8640ab90af35144b@sentry.io/1227659', {
-  release: environment.version
-}).install();
+import { DecksComponent } from './decks/decks.component';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 
 export class RavenErrorHandler implements ErrorHandler {
   handleError(err: any): void {
     Raven.captureException(err);
   }
+}
+
+let sentry: Provider[] = [];
+if (!isDevMode()) {
+  Raven.config('https://a43997ca0d3a4aee8640ab90af35144b@sentry.io/1227659', {
+    release: environment.version
+  }).install();
+  sentry = [{ provide: ErrorHandler, useClass: RavenErrorHandler }];
 }
 
 @NgModule({
@@ -59,7 +65,9 @@ export class RavenErrorHandler implements ErrorHandler {
     WindbotComponent,
     WatchComponent,
     ToolbarComponent,
-    ResultDialogComponent
+    ResultDialogComponent,
+    DecksComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -86,8 +94,8 @@ export class RavenErrorHandler implements ErrorHandler {
     MatMenuModule,
     MatProgressSpinnerModule
   ],
-  providers: [YGOProService, StorageService, { provide: ErrorHandler, useClass: RavenErrorHandler }],
+  providers: [YGOProService, StorageService, ...sentry],
   bootstrap: [AppComponent],
-  entryComponents: [MatchDialogComponent, ResultDialogComponent]
+  entryComponents: [MatchDialogComponent, ResultDialogComponent, ConfirmDialogComponent]
 })
 export class AppModule {}

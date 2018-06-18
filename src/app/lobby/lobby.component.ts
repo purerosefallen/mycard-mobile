@@ -2,7 +2,7 @@ import { Component, HostBinding } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { environment } from '../../environments/environment';
 import { LoginService } from '../login.service';
-import { routerTransition2 } from '../router.animations';
+import { routerTransition } from '../router.animations';
 import { StorageService } from '../storage.service';
 import { YGOProService } from '../ygopro.service';
 
@@ -13,10 +13,10 @@ import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/internal/oper
   selector: 'app-lobby',
   templateUrl: 'lobby.component.html',
   styleUrls: ['lobby.component.css'],
-  animations: [routerTransition2]
+  animations: routerTransition
 })
 export class LobbyComponent {
-  @HostBinding('@routerTransition2') animation: '';
+  @HostBinding('@routerTransition2') animation;
 
   version = environment.version;
   build: BuildConfig;
