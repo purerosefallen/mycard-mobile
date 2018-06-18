@@ -20,12 +20,17 @@ body {
   flex-direction: column;
 }
 
-#loading > img {
+#loading > #logo {
   width: 300px;
   height: 300px;
 }
 
-#loading p {
+#loading #spinner {
+  height: 42px;
+  vertical-align: bottom;
+}
+
+#loading > p {
   position: relative;
   left: 10px;
   font-weight: 600;
