@@ -25,7 +25,7 @@ export class LobbyComponent {
   suggestion = this.searchControl.valueChanges.pipe(
     distinctUntilChanged(),
     filter(name => name),
-    switchMap(name => this.http.get(`https://api.mycard.moe/ygopro/suggest/${name}`)),
+    switchMap(name => this.http.get<{ value: string }[]>(`https://api.mycard.moe/ygopro/suggest/${name}`)),
     map(data => data.map(item => item.value))
   );
 
