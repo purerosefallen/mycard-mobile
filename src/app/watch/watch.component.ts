@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, HostBinding, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, OnInit } from '@angular/core';
 import { LoginService } from '../login.service';
 import { routerTransition } from '../router.animations';
 import { RoomListDataSource, YGOProService } from '../ygopro.service';
@@ -7,7 +7,8 @@ import { RoomListDataSource, YGOProService } from '../ygopro.service';
   selector: 'app-watch',
   templateUrl: './watch.component.html',
   styleUrls: ['./watch.component.css'],
-  animations: routerTransition
+  animations: routerTransition,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WatchComponent implements OnInit {
   @HostBinding('@routerTransition') animation;

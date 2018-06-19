@@ -13,7 +13,7 @@
       </mat-option>
     </mat-autocomplete>
   </form>
-  <button mat-icon-button *ngIf="storage.working">
+  <button mat-icon-button *ngIf="storage.working | async">
     <mat-icon class="fa-spin">sync</mat-icon>
   </button>
   <a href="https://accounts.moecube.com/profiles" target="_blank" mat-icon-button>
@@ -84,83 +84,83 @@
   <!--<br>轮抽 (开发中)</a></mat-grid-tile>-->
 </mat-grid-list>
 
-<mat-card *ngIf="ygopro.points">
+<mat-card *ngIf="ygopro.points | async as points">
   <mat-grid-list id="points" cols="4" rowHeight="20px">
     <mat-grid-tile>
       <dt>竞技排名</dt>
     </mat-grid-tile>
     <mat-grid-tile>
-      <dd>{{ygopro.points.arena_rank}}</dd>
+      <dd>{{points.arena_rank}}</dd>
     </mat-grid-tile>
     <mat-grid-tile>
       <dt>娱乐排名</dt>
     </mat-grid-tile>
     <mat-grid-tile>
-      <dd>{{ygopro.points.exp_rank}}</dd>
+      <dd>{{points.exp_rank}}</dd>
     </mat-grid-tile>
     <mat-grid-tile>
       <dt>竞技胜率</dt>
     </mat-grid-tile>
     <mat-grid-tile>
-      <dd>{{ygopro.points.athletic_wl_ratio}}%</dd>
+      <dd>{{points.athletic_wl_ratio}}%</dd>
     </mat-grid-tile>
     <mat-grid-tile>
       <dt>经验</dt>
     </mat-grid-tile>
     <mat-grid-tile>
-      <dd>{{ygopro.points.exp}}</dd>
+      <dd>{{points.exp}}</dd>
     </mat-grid-tile>
     <mat-grid-tile>
       <dt>胜场</dt>
     </mat-grid-tile>
     <mat-grid-tile>
-      <dd>{{ygopro.points.athletic_win}}</dd>
+      <dd>{{points.athletic_win}}</dd>
     </mat-grid-tile>
     <mat-grid-tile>
       <dt>胜场</dt>
     </mat-grid-tile>
     <mat-grid-tile>
-      <dd>{{ygopro.points.entertain_win}}</dd>
+      <dd>{{points.entertain_win}}</dd>
     </mat-grid-tile>
     <mat-grid-tile>
       <dt>负场</dt>
     </mat-grid-tile>
     <mat-grid-tile>
-      <dd>{{ygopro.points.athletic_lose}}</dd>
+      <dd>{{points.athletic_lose}}</dd>
     </mat-grid-tile>
     <mat-grid-tile>
       <dt>负场</dt>
     </mat-grid-tile>
     <mat-grid-tile>
-      <dd>{{ygopro.points.entertain_lose}}</dd>
+      <dd>{{points.entertain_lose}}</dd>
     </mat-grid-tile>
     <mat-grid-tile>
       <dt>平局</dt>
     </mat-grid-tile>
     <mat-grid-tile>
-      <dd>{{ygopro.points.athletic_draw}}</dd>
+      <dd>{{points.athletic_draw}}</dd>
     </mat-grid-tile>
     <mat-grid-tile>
       <dt>平局</dt>
     </mat-grid-tile>
     <mat-grid-tile>
-      <dd>{{ygopro.points.entertain_draw}}</dd>
+      <dd>{{points.entertain_draw}}</dd>
     </mat-grid-tile>
     <mat-grid-tile>
       <dt>总场</dt>
     </mat-grid-tile>
     <mat-grid-tile>
-      <dd>{{ygopro.points.athletic_all}}</dd>
+      <dd>{{points.athletic_all}}</dd>
     </mat-grid-tile>
     <mat-grid-tile>
       <dt>总场</dt>
     </mat-grid-tile>
     <mat-grid-tile>
-      <dd>{{ygopro.points.entertain_all}}</dd>
+      <dd>{{points.entertain_all}}</dd>
     </mat-grid-tile>
   </mat-grid-list>
 </mat-card>
-<mat-card *ngFor="let item of ygopro.news" class="example-card">
+<mat-card *ngFor="let item of ygopro.news | async" class="example-card">
   <a [href]="item.url" target="_blank">
     <mat-card-header>
       <img *ngIf="item.image" mat-card-avatar [src]="item.image">

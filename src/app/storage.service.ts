@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import * as path from 'path';
 import * as webdav from 'webdav';
 import { LoginService } from './login.service';
@@ -27,7 +27,7 @@ export class StorageService {
   app_id = 'ygopro';
 
   client = webdav('https://api.mycard.moe/storage/', this.login.user.username, this.login.user.external_id.toString());
-  working = false;
+  working = new EventEmitter();
 
   constructor(private login: LoginService) {}
 
@@ -111,11 +111,11 @@ export class StorageService {
     // fixme: 如果远端和本地同时没有，但是 localStorage 里有，要删除
 
     // console.log('sync', 'done');
-    this.working = false;
+    this.working.emit(false);
   }
 
   async download(local_path: string, remote_path: string, index_path: string, time: number) {
-    this.working = true;
+    this.working.emit(true);
     // console.log('download', local_path, remote_path, index_path, time);
     const data: ArrayBuffer = await this.client.getFileContents(remote_path);
     window.ygopro.writeFile(local_path, Buffer.from(data).toString('base64'));
@@ -125,7 +125,7 @@ export class StorageService {
   }
 
   async upload(local_path: string, remote_path: string, index_path: string) {
-    this.working = true;
+    this.working.emit(true);
     // console.log('upload', local_path, remote_path, index_path);
     const data = this.read_local(local_path);
     await this.client.putFileContents(remote_path, data);
@@ -141,13 +141,13 @@ export class StorageService {
   }
 
   remove_local(local_path: string, remote_path: string, index_path: string) {
-    this.working = true;
+    this.working.emit(true);
     window.ygopro.unlink(local_path);
     localStorage.removeItem(index_path);
   }
 
   async remove_remote(local_path: string, remote_path: string, index_path: string) {
-    this.working = true;
+    this.working.emit(true);
     await this.client.deleteFile(remote_path);
     localStorage.removeItem(index_path);
   }
@@ -157,7 +157,7 @@ export class StorageService {
     const remote_path = path.join(root, local_path);
     const index_path = '_FILE_' + remote_path;
 
-    this.working = true;
+    this.working.emit(true);
     window.ygopro.unlink(local_path);
     await this.client.deleteFile(remote_path);
     localStorage.removeItem(index_path);

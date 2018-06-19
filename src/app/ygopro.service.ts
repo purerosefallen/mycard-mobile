@@ -1,15 +1,15 @@
 import { DataSource } from '@angular/cdk/collections';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { sortBy } from 'lodash';
+import { sample, sortBy } from 'lodash';
 
-import { combineLatest, fromEvent, Observable, of } from 'rxjs';
+import { BehaviorSubject, combineLatest, fromEvent, Observable, of } from 'rxjs';
 import { LoginService } from './login.service';
-import { MatchDialogComponent } from './match/match.component';
-import { ResultDialogComponent } from './result/result.dialog';
+import { MatchDialogComponent } from './match-dialog/match-dialog.component';
+import { ResultDialogComponent } from './result-dialog/result-dialog.component';
 import { StorageService } from './storage.service';
 import { HttpClient } from '@angular/common/http';
-import { catchError, filter, map, scan } from 'rxjs/internal/operators';
+import { catchError, filter, map, mergeMap, scan, startWith } from 'rxjs/internal/operators';
 import { webSocket } from 'rxjs/webSocket';
 
 export interface User {
@@ -112,12 +112,10 @@ export interface Points {
 
 @Injectable()
 export class YGOProService {
-  news: News[];
-  windbot: string[];
-  topics: Observable<any>;
-  points: Points;
-
-  last_game_at: Date;
+  news: Promise<News[]>;
+  topics: Promise<any[]>;
+  windbot: Promise<string[]>;
+  points: BehaviorSubject<Points | undefined> = new BehaviorSubject(undefined);
 
   readonly default_options: Options = {
     mode: 1,
@@ -131,7 +129,6 @@ export class YGOProService {
     lflist: 0,
     time_limit: 180
   };
-
   readonly servers: Server[] = [
     {
       id: 'tiramisu',
@@ -152,70 +149,77 @@ export class YGOProService {
   ];
 
   constructor(private login: LoginService, private http: HttpClient, private dialog: MatDialog, private storage: StorageService) {
-    this.load();
-  }
+    const app = this.http.get<App[]>('https://api.mycard.moe/apps.json').pipe(map(apps => apps.find(_app => _app.id === 'ygopro')!));
+    this.news = app.pipe(map(_app => _app.news['zh-CN'])).toPromise();
+    this.windbot = app.pipe(map(_app => (<YGOProData>_app.data).windbot['zh-CN'])).toPromise();
 
-  async load() {
-    const apps = await this.http.get<App[]>('https://api.mycard.moe/apps.json').toPromise();
-    const app = apps.find(_app => _app.id === 'ygopro')!;
-    this.news = app.news['zh-CN'];
-    this.windbot = (<YGOProData>app.data).windbot['zh-CN'];
-    this.topics = this.http.get<TopResponse>('https://ygobbs.com/top/quarterly.json').pipe(
-      map(data =>
-        data.topic_list.topics.slice(0, 5).map((topic: any) => ({
-          ...topic,
-          url: new URL(`/t/${topic.slug}/${topic.id}`, 'https://ygobbs.com').toString(),
-          image_url: topic.image_url && new URL(topic.image_url, 'https://ygobbs.com').toString()
-        }))
+    this.topics = this.http
+      .get<TopResponse>('https://ygobbs.com/top/quarterly.json')
+      .pipe(
+        map(data =>
+          data.topic_list.topics.slice(0, 5).map((topic: any) => ({
+            ...topic,
+            url: new URL(`/t/${topic.slug}/${topic.id}`, 'https://ygobbs.com').toString(),
+            image_url: topic.image_url && new URL(topic.image_url, 'https://ygobbs.com').toString()
+          }))
+        )
       )
-    );
-
-    this.storage.sync();
-    this.load_points();
-
-    await this.load_result(false);
-    this.listen_result();
-  }
-
-  async load_result(load_points = true) {
-    const last = await this.http
-      .get<{ data: any[] }>('https://mycard.moe/ygopro/api/history', {
-        params: { username: this.login.user.username, type: '0', page_num: '1' }
-      })
-      .pipe(map(data => data.data[0]))
       .toPromise();
 
-    // 从来没打过
-    if (!last) {
-      return;
-    }
-    const last_game_at = localStorage.getItem('last_game_at');
-    localStorage.setItem('last_game_at', last.end_time);
+    const refresh = fromEvent(document, 'visibilitychange').pipe(
+      filter(() => document.visibilityState === 'visible'),
+      startWith(undefined)
+    );
+    refresh
+      .pipe(
+        mergeMap(() =>
+          this.http.get<Points>('https://api.mycard.moe/ygopro/arena/user', { params: { username: this.login.user.username } })
+        )
+      )
+      .subscribe(this.points);
 
-    // 初次运行
-    if (!last_game_at) {
-      return;
-    }
+    refresh
+      .pipe(
+        mergeMap(() =>
+          this.http.get<{ data: any[] }>('https://mycard.moe/ygopro/api/history', {
+            params: { username: this.login.user.username, type: '0', page_num: '1' }
+          })
+        ),
+        map(data => data.data[0])
+      )
+      .subscribe(async (last: any) => {
+        // 从来没打过
+        if (!last) {
+          return;
+        }
+        const last_game_at = localStorage.getItem('last_game_at');
+        localStorage.setItem('last_game_at', last.end_time);
 
-    // 无新对局
-    if (last_game_at === last.end_time) {
-      return;
-    }
+        // 初次运行
+        if (!last_game_at) {
+          return;
+        }
 
-    // 10分钟内有新对局
-    if (Date.now() - Date.parse(last.end_time) < 10 * 60 * 1000) {
-      // console.log(last);
-      if (load_points) {
-        this.load_points();
-      }
-      const again = await this.dialog
-        .open(ResultDialogComponent, { data: last })
-        .afterClosed()
-        .toPromise();
-      if (again) {
-        this.request_match(last.type);
-      }
-    }
+        // 无新对局
+        if (last_game_at === last.end_time) {
+          return;
+        }
+
+        // 10分钟内有新对局
+        if (Date.now() - Date.parse(last.end_time) < 10 * 60 * 1000) {
+          const again = await this.dialog
+            .open(ResultDialogComponent, { data: last })
+            .afterClosed()
+            .toPromise();
+          if (again) {
+            this.request_match(last.type);
+          }
+        }
+      });
+
+    refresh.subscribe(() => {
+      this.storage.sync();
+    });
   }
 
   async request_match(arena: string) {
@@ -226,33 +230,6 @@ export class YGOProService {
     if (data) {
       this.join(data['password'], { address: data['address'], port: data['port'] });
     }
-  }
-
-  listen_result() {
-    // 那些兼容性的垃圾事儿
-    // https://www.html5rocks.com/en/tutorials/pagevisibility/intro/
-
-    const hidden = ['hidden', 'webkitHidden', 'mozHidden', 'msHidden', 'oHidden'].find(prop => prop in document);
-    if (hidden) {
-      const evtname = hidden.replace(/[H|h]idden/, '') + 'visibilitychange';
-      fromEvent(document, evtname).subscribe(() => {
-        if (!document[hidden]) {
-          this.load_result();
-          this.storage.sync();
-        }
-      });
-    } else {
-      fromEvent(window, 'focus').subscribe(() => {
-        this.load_result();
-        this.storage.sync();
-      });
-    }
-  }
-
-  async load_points() {
-    this.points = await this.http
-      .get<Points>('https://api.mycard.moe/ygopro/arena/user', { params: { username: this.login.user.username } })
-      .toPromise();
   }
 
   create_room(room: Room, host_password: string) {
@@ -331,9 +308,9 @@ export class YGOProService {
     this.join(name, this.servers[0]);
   }
 
-  join_windbot(name?: string) {
+  async join_windbot(name?: string) {
     if (!name) {
-      name = this.windbot[Math.floor(Math.random() * this.windbot.length)];
+      name = sample(await this.windbot.toPromise());
     }
     return this.join('AI#' + name, this.servers[0]);
   }
@@ -422,9 +399,9 @@ type Message =
   | { event: 'delete'; data: string };
 
 export class RoomListDataSource extends DataSource<Room> {
-  loading = true;
-  empty = false;
-  error: any;
+  loading = new EventEmitter();
+  empty = new EventEmitter();
+  error = new EventEmitter();
 
   constructor(private servers: Server[], private type = 'waiting') {
     super();
@@ -432,6 +409,7 @@ export class RoomListDataSource extends DataSource<Room> {
 
   /** Connect function called by the table to retrieve one stream containing the data to render. */
   connect(): Observable<Room[]> {
+    this.loading.emit(true);
     return combineLatest(
       this.servers.map(server => {
         const url = new URL(server.url!);
@@ -473,13 +451,13 @@ export class RoomListDataSource extends DataSource<Room> {
       ),
       // loading、empty、error
       filter(rooms => {
-        this.loading = false;
-        this.empty = rooms.length === 0;
+        this.loading.emit(false);
+        this.empty.emit(rooms.length === 0);
         return true;
       }),
       catchError(error => {
-        this.loading = false;
-        this.error = error;
+        this.loading.emit(false);
+        this.error.emit(error);
         return of([]);
       })
     );

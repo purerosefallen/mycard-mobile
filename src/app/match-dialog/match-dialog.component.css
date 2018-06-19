@@ -6,6 +6,7 @@ mat-icon {
 
 mat-dialog-content {
   display: flex;
+  overflow: hidden;
 }
 mat-dialog-actions {
   justify-content: flex-end

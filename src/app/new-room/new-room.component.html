@@ -19,17 +19,21 @@
     </button>
     <mat-hint align="end">把这个分享给你的朋友</mat-hint>
   </mat-form-field>
-  <mat-select class="full-width" placeholder="卡片允许" name="rule" [(ngModel)]="room.options.rule" required>
-    <mat-option [value]="0">OCG</mat-option>
-    <mat-option [value]="1">TCG</mat-option>
-    <mat-option [value]="2">OCG & TCG</mat-option>
-    <mat-option [value]="3">专有卡禁止</mat-option>
-  </mat-select>
-  <mat-select class="full-width" placeholder="决斗模式" name="mode" [(ngModel)]="room.options.mode" (ngModelChange)="set_start_lp()" required>
-    <mat-option [value]="0">单局模式</mat-option>
-    <mat-option [value]="1">比赛模式</mat-option>
-    <mat-option [value]="2">TAG</mat-option>
-  </mat-select>
+  <mat-form-field class="full-width">
+    <mat-select placeholder="卡片允许" name="rule" [(ngModel)]="room.options.rule" required>
+      <mat-option [value]="0">OCG</mat-option>
+      <mat-option [value]="1">TCG</mat-option>
+      <mat-option [value]="2">OCG & TCG</mat-option>
+      <mat-option [value]="3">专有卡禁止</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class="full-width">
+    <mat-select placeholder="决斗模式" name="mode" [(ngModel)]="room.options.mode" (ngModelChange)="set_start_lp()" required>
+      <mat-option [value]="0">单局模式</mat-option>
+      <mat-option [value]="1">比赛模式</mat-option>
+      <mat-option [value]="2">TAG</mat-option>
+    </mat-select>
+  </mat-form-field>
 
   <!--<h2>额外选项</h2>-->
   <!--<mat-slide-toggle #extra class="example-margin" color="primary">额外选项</mat-slide-toggle>-->

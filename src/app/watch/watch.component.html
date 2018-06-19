@@ -1,11 +1,11 @@
 <app-toolbar>观战</app-toolbar>
 
 <div id="container">
-  <div class="hint" *ngIf="dataSource.loading">
+  <div class="hint" *ngIf="dataSource.loading | async">
     <mat-spinner></mat-spinner>
   </div>
-  <div class="hint" *ngIf="dataSource.empty">现在没有进行中的游戏</div>
-  <div class="hint" *ngIf="dataSource.error">网络错误</div>
+  <div class="hint" *ngIf="dataSource.empty | async">现在没有进行中的游戏</div>
+  <div class="hint" *ngIf="dataSource.error | async">网络错误</div>
 
   <mat-table #table [dataSource]="dataSource">
 

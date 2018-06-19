@@ -1,4 +1,4 @@
-import { Component, HostBinding } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { LoginService } from '../login.service';
 import { routerTransition } from '../router.animations';
 import { YGOProService } from '../ygopro.service';
@@ -7,7 +7,8 @@ import { YGOProService } from '../ygopro.service';
   selector: 'app-windbot',
   templateUrl: './windbot.component.html',
   styleUrls: ['./windbot.component.css'],
-  animations: routerTransition
+  animations: routerTransition,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WindbotComponent {
   @HostBinding('@routerTransition') animation;

@@ -1,4 +1,4 @@
-import { Component, HostBinding } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { environment } from '../../environments/environment';
 import { LoginService } from '../login.service';
@@ -13,7 +13,8 @@ import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/internal/oper
   selector: 'app-lobby',
   templateUrl: 'lobby.component.html',
   styleUrls: ['lobby.component.css'],
-  animations: routerTransition
+  animations: routerTransition,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LobbyComponent {
   @HostBinding('@routerTransition2') animation;

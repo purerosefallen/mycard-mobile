@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostBinding, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 import { LoginService } from '../login.service';
 import { routerTransition } from '../router.animations';
@@ -8,7 +8,8 @@ import { YGOProService } from '../ygopro.service';
   selector: 'app-new-room',
   templateUrl: 'new-room.component.html',
   styleUrls: ['new-room.component.css'],
-  animations: routerTransition
+  animations: routerTransition,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NewRoomComponent {
   @HostBinding('@routerTransition') animation;
@@ -25,16 +26,11 @@ export class NewRoomComponent {
   constructor(public ygopro: YGOProService, private login: LoginService, private snackBar: MatSnackBar) {}
 
   copy(host_password: string) {
-    try {
-      this.hostPasswordInput.nativeElement.select();
-
-      if (document.execCommand('copy')) {
-        this.snackBar.open(`房间密码 ${host_password} 已复制到剪贴板`, undefined, { duration: 3000 });
-      } else {
-        console.log('Oops, unable to copy');
-      }
-    } catch (error) {
-      console.log(error);
+    this.hostPasswordInput.nativeElement.select();
+    if (document.execCommand('copy')) {
+      this.snackBar.open(`房间密码 ${host_password} 已复制到剪贴板`, undefined, { duration: 3000 });
+    } else {
+      console.log('Oops, unable to copy');
     }
   }
 

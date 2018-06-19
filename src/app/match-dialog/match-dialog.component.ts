@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Subscription, timer } from 'rxjs';
 import { LoginService } from '../login.service';
@@ -11,8 +11,9 @@ const offset = new Date().getTimezoneOffset() * 60 * second;
 
 @Component({
   selector: 'app-match',
-  templateUrl: './match.component.html',
-  styleUrls: ['./match.component.css']
+  templateUrl: './match-dialog.component.html',
+  styleUrls: ['./match-dialog.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MatchDialogComponent implements OnInit, OnDestroy {
   expect_wait = this.http

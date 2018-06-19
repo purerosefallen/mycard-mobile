@@ -1,25 +1,22 @@
-import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material';
 import { LoginService } from '../login.service';
-import { MatchDialogComponent } from '../match/match.component';
 
 @Component({
   selector: 'app-result',
-  templateUrl: './result.dialog.html',
-  styleUrls: ['./result.dialog.css']
+  templateUrl: './result-dialog.component.html',
+  styleUrls: ['./result-dialog.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ResultDialogComponent {
+export class ResultDialogComponent implements OnInit {
   result: 'win' | 'lose' | 'draw';
   dp: string | undefined;
   exp: string | undefined;
   firstWin: string | undefined;
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public last: any,
-    public login: LoginService,
-    public dialog: MatDialog,
-    private dialogRef: MatDialogRef<MatchDialogComponent>
-  ) {
+  constructor(@Inject(MAT_DIALOG_DATA) public last: any, public login: LoginService) {}
+
+  ngOnInit() {
     if (this.last.userscorea === this.last.userscoreb) {
       this.result = 'draw';
     } else if (this.last.winner === this.login.user.username) {
@@ -42,9 +39,5 @@ export class ResultDialogComponent {
   format(current: number, ex: number = 0) {
     const result = Math.round(current) - Math.round(ex);
     return result ? `${result < 0 ? '' : '+'}${Math.round(result)}` : undefined;
-  }
-
-  again() {
-    this.dialogRef.close(true);
   }
 }
