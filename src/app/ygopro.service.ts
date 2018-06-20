@@ -115,7 +115,7 @@ export class YGOProService {
   news: Promise<News[]>;
   topics: Promise<any[]>;
   windbot: Promise<string[]>;
-  points: BehaviorSubject<Points | undefined> = new BehaviorSubject(undefined);
+  points = new BehaviorSubject<Points | undefined>(undefined);
 
   readonly default_options: Options = {
     mode: 1,
@@ -310,7 +310,7 @@ export class YGOProService {
 
   async join_windbot(name?: string) {
     if (!name) {
-      name = sample(await this.windbot.toPromise());
+      name = sample(await this.windbot);
     }
     return this.join('AI#' + name, this.servers[0]);
   }
