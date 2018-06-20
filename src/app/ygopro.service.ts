@@ -150,18 +150,35 @@ export class YGOProService {
 
   constructor(private login: LoginService, private http: HttpClient, private dialog: MatDialog, private storage: StorageService) {
     const app = this.http.get<App[]>('https://api.mycard.moe/apps.json').pipe(map(apps => apps.find(_app => _app.id === 'ygopro')!));
-    this.news = app.pipe(map(_app => _app.news['zh-CN'])).toPromise();
+    this.news = app
+      .pipe(
+        map(_app =>
+          _app.news['zh-CN'].map(item => {
+            const url = new URL(item.url);
+            if (url.origin === 'https://ygobbs.com') {
+              url.searchParams.set('login_required', 'true');
+            }
+            item.url = url.toString();
+            return item;
+          })
+        )
+      )
+      .toPromise();
     this.windbot = app.pipe(map(_app => (<YGOProData>_app.data).windbot['zh-CN'])).toPromise();
 
     this.topics = this.http
       .get<TopResponse>('https://ygobbs.com/top/quarterly.json')
       .pipe(
         map(data =>
-          data.topic_list.topics.slice(0, 5).map((topic: any) => ({
-            ...topic,
-            url: new URL(`/t/${topic.slug}/${topic.id}`, 'https://ygobbs.com').toString(),
-            image_url: topic.image_url && new URL(topic.image_url, 'https://ygobbs.com').toString()
-          }))
+          data.topic_list.topics.slice(0, 5).map((topic: any) => {
+            const url = new URL(`/t/${topic.slug}/${topic.id}`, 'https://ygobbs.com');
+            url.searchParams.set('login_required', 'true');
+            return {
+              ...topic,
+              url: url.toString(),
+              image_url: topic.image_url && new URL(topic.image_url, 'https://ygobbs.com').toString()
+            };
+          })
         )
       )
       .toPromise();
