@@ -8,6 +8,8 @@ import { YGOProService } from '../ygopro.service';
 
 import { HttpClient } from '@angular/common/http';
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/internal/operators';
+import { MatDialog } from '@angular/material';
+import { LogoutDialogComponent } from '../logout-dialog/logout-dialog.component';
 
 @Component({
   selector: 'app-lobby',
@@ -34,7 +36,13 @@ export class LobbyComponent {
 
   arena_url: string;
 
-  constructor(public login: LoginService, public ygopro: YGOProService, private http: HttpClient, public storage: StorageService) {
+  constructor(
+    public login: LoginService,
+    public ygopro: YGOProService,
+    private http: HttpClient,
+    public storage: StorageService,
+    private dialog: MatDialog
+  ) {
     const arena_url = new URL('https://mycard.moe/ygopro/arena');
     arena_url.searchParams.set('sso', login.token);
     this.arena_url = arena_url.toString();
@@ -53,6 +61,17 @@ export class LobbyComponent {
     const url = new URL('http://www.ourocg.cn/S.aspx');
     url.searchParams.set('key', key);
     open(url.toString());
+  }
+
+  async logout() {
+    if (
+      await this.dialog
+        .open(LogoutDialogComponent)
+        .afterClosed()
+        .toPromise()
+    ) {
+      location.href = this.login.logout();
+    }
   }
 }
 

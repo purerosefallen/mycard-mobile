@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>切换账号</h2>
+<mat-dialog-content>
+  您当前的卡组绑定着当前的帐号。切换帐号后，卡组列表将只会有您新帐号所绑定的卡组。
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>取消</button>
+  <button mat-button [mat-dialog-close]="true">切换账号</button>
+</mat-dialog-actions>

@@ -40,6 +40,7 @@ import { HttpClientModule } from '@angular/common/http';
 import * as Raven from 'raven-js';
 import { DecksComponent } from './decks/decks.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import { LogoutDialogComponent } from './logout-dialog/logout-dialog.component';
 
 export class RavenErrorHandler implements ErrorHandler {
   handleError(err: any): void {
@@ -67,7 +68,8 @@ if (environment.production) {
     ToolbarComponent,
     ResultDialogComponent,
     DecksComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    LogoutDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -96,6 +98,6 @@ if (environment.production) {
   ],
   providers: [YGOProService, StorageService, ...sentry],
   bootstrap: [AppComponent],
-  entryComponents: [MatchDialogComponent, ResultDialogComponent, ConfirmDialogComponent]
+  entryComponents: [MatchDialogComponent, ResultDialogComponent, ConfirmDialogComponent, LogoutDialogComponent]
 })
 export class AppModule {}
