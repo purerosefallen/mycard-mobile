@@ -13,4 +13,4 @@ deploy:
   skip_cleanup: true
   local-dir: dist
   upload-dir: mobile
-  endpoint: https://mycard.oss-cn-hangzhou.aliyuncs.com
+  endpoint: oss-cn-hangzhou.aliyuncs.com
