@@ -26,8 +26,6 @@
     "@angular/pwa": "^0.6.8",
     "@angular/router": "6.0.5",
     "@angular/service-worker": "6.0.5",
-    "aws-amplify": "^0.4.6",
-    "aws-sdk": "^2.263.1",
     "core-js": "^2.5.7",
     "font-awesome": "^4.7.0",
     "hammerjs": "^2.0.8",
