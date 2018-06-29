@@ -1,21 +1,15 @@
 language: node_js
 node_js: node
-env:
-  secure: BDiZA4i/3yy5tOeDAY/R1Lwv8BIV9u75kQRESvTq/ec8wHz5uHidfw2ov4qvhZdfiVnv78S034moipwT8GlShYm1ZVWANOITFKSYvniCdLG5u5Bfwuk6QsneVer1f3Ye5lfrJH8st1V6hyK8wzCNbT+gSsUkr6pvBrtN/o94Tw0uuVjae+UusWepkVFv6mTKMexWwB+89nyn6/Q2ThgREz+6X1Ka17SisrLlbhE/2RK9UJxXjaoIljsKw2cs2GFcUYnlvOLFSQdBNpQ0hC/1QVqYP9MKok4o9ZeHx+TscQ3VaseyqcyoORhm7efchkflNhMwYOZTXpF7KMuukfjir07+S2e+j1Wb2jkler9SAAjA/SJlOp323an3mD8SCiHNncUs0bs12u7BBWwvnLTRMNxEK6GM/De7lH5wrZ8e8yzWSFMaQ0C3uEes8omUTm6eFHAFMGd/dQRwKeEu6bm+vhFBvH2NJmVNaTU6ESBSPdH5AqsiLMFNa9AQFBV6FxJS4jSF56qpxX/7jv+FKsLO6iKv6qalLNO4J7M6KBKhcWfPl2UnI+SqEEef694SoG4KWUntk1LT7curOTc35gRjVrC9GigFr9UQMzy/9o4vGD1rzud8ElGtNRij4Xd8gkTttXevPcl2jBdA/f3ZLNSozXZ04RsKbLQ68LOpD3i1MHE=
 cache:
   directories:
     - "$HOME/.npm"
-
 script: npm run build
-
-before_deploy:
-  - curl --location --retry 5 --output ossutil "http://ossutil-version-update.oss-cn-hangzhou.aliyuncs.com/$(curl http://ossutil-version-update.oss-cn-hangzhou.aliyuncs.com/ossutilversion)/ossutil64"
-  - chmod +x ossutil
-  - ./ossutil config --endpoint oss-cn-hangzhou.aliyuncs.com --access-key-id $ALIYUN_ID
-    --access-key-secret $ALIYUN_SECRET
 deploy:
-  provider: script
-  script: ./ossutil cp -rf dist oss://mycard/mobile
-  skip_cleanup: true
-  on:
-    branch: master
+  provider: s3
+  access_key_id: ztDf0fCxr0eCgSIi
+  secret_access_key:
+    secure: HOt3170303mjtrL5nh0RESQ5shkmbLHJ9R+SB9NBfJYvDLRn/yJL/Mukjg04lCuq/rF6AuAQWtx684XIiaVePoXqO1tZPM518sC2TX3HDsIB2+9yavNTMJw6hoe+p4NzR7MeGBGjIYYdXqV8HeY+8DrI+zl+Pi9st4n58zR2U9F2L+/N2pBpYNxtkjHw0r79IX1YnbkFaLaDIwpDgnRdh1Bpvs838Ux/570E3+1+KF6mroNmf6GH5futjc5QD/7t8W83nvorSX/p3r7a7PbEblLDKoDLVrXoriMoSForyuZ2Ay6XNWY+6EzXzjyM0V2JCO3/VX5SSnxNg6WrZgLeW3crxsZmoA968Ybmik6eCQ9m4jcO03LdpK5KteQLL9IyPw79n6vKNnSEwp0R3G0+R0OT2cuqjcItLcLoRw4vAFL3NM555+mZN4xTzx1Z7k8KZWgTlVevi38bikJAPmDnrvnhrGpj2f5LzeeVAVVWvxk9FRQtOVDNEGk4NMwOtOg+ceeg/MlYj07XGARtUINf0YinLIGAd6jv1KOY/zmij1VfYlPo/nZYan1FdTYHM66mvo2+PLAjk0Q8z5FwYfJj4GNrtNAytxWMRBN0TiQ5E2sXivI+FBEKQOIiYpusgEGWnpmadDC8Dld/8a2v1zmNy1Pe9oRmDSfd6EtVdQ8I5TM=
+  bucket: mycard
+  local-dir: dist
+  upload-dir: mobile
+  endpoint: oss-cn-hangzhou.aliyuncs.com

@@ -1,12 +1,12 @@
 {
   "name": "mycard-mobile",
-  "version": "1.0.33",
+  "version": "1.0.34",
   "license": "UNLISENCED",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --aot --host 0.0.0.0",
-    "build": "ng build --i18n-locale zh-CN --base-href /mobile/ --prod && npm run fuck",
-    "build:dev": "ng build --i18n-locale zh-CN --base-href /mobile2/ --prod && npm run fuck",
+    "build": "ng build --i18n-locale zh-CN --prod --source-map --base-href /mobile/ --deploy-url https://cdn01.moecube.com/mobile/ && npm run fuck",
+    "build:dev": "ng build --i18n-locale zh-CN --prod --source-map --base-href /mobile2/ --deploy-url https://cdn01.moecube.com/mobile2/ && npm run fuck",
     "fuck": "patch -i service-worker.patch dist/ngsw-worker.js",
     "postinstall": "patch -i webpack.patch -p0 -t",
     "lint": "ng lint"
@@ -26,6 +26,8 @@
     "@angular/pwa": "^0.6.8",
     "@angular/router": "6.0.5",
     "@angular/service-worker": "6.0.5",
+    "aws-amplify": "^0.4.6",
+    "aws-sdk": "^2.263.1",
     "core-js": "^2.5.7",
     "font-awesome": "^4.7.0",
     "hammerjs": "^2.0.8",
