@@ -10,6 +10,7 @@ deploy:
   secret_access_key:
     secure: HOt3170303mjtrL5nh0RESQ5shkmbLHJ9R+SB9NBfJYvDLRn/yJL/Mukjg04lCuq/rF6AuAQWtx684XIiaVePoXqO1tZPM518sC2TX3HDsIB2+9yavNTMJw6hoe+p4NzR7MeGBGjIYYdXqV8HeY+8DrI+zl+Pi9st4n58zR2U9F2L+/N2pBpYNxtkjHw0r79IX1YnbkFaLaDIwpDgnRdh1Bpvs838Ux/570E3+1+KF6mroNmf6GH5futjc5QD/7t8W83nvorSX/p3r7a7PbEblLDKoDLVrXoriMoSForyuZ2Ay6XNWY+6EzXzjyM0V2JCO3/VX5SSnxNg6WrZgLeW3crxsZmoA968Ybmik6eCQ9m4jcO03LdpK5KteQLL9IyPw79n6vKNnSEwp0R3G0+R0OT2cuqjcItLcLoRw4vAFL3NM555+mZN4xTzx1Z7k8KZWgTlVevi38bikJAPmDnrvnhrGpj2f5LzeeVAVVWvxk9FRQtOVDNEGk4NMwOtOg+ceeg/MlYj07XGARtUINf0YinLIGAd6jv1KOY/zmij1VfYlPo/nZYan1FdTYHM66mvo2+PLAjk0Q8z5FwYfJj4GNrtNAytxWMRBN0TiQ5E2sXivI+FBEKQOIiYpusgEGWnpmadDC8Dld/8a2v1zmNy1Pe9oRmDSfd6EtVdQ8I5TM=
   bucket: mycard
+  skip_cleanup: true
   local-dir: dist
   upload-dir: mobile
   endpoint: oss-cn-hangzhou.aliyuncs.com
